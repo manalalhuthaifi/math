@@ -1,0 +1,2268 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>رحلة الرياضيات</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=STIX+Two+Text:ital,wght@0,500;0,700;1,500&display=swap">
+<style>
+/* تخطيط: خريطة جزر عائمة (شبكة من عمودين، وعمود واحد على الجوال) ثم بطاقات تعليمية مركزية */
+:root {
+  --bg: #fff8f5;
+  --bg-2: #fdeef0;
+  --card: #fffdfb;
+  --ink: #3a1230;
+  --ink-2: #6c4a62;
+  --plum: #6b1038;
+  --pink: #d12f6b;
+  --pink-2: #ef7ca5;
+  --pink-soft: #ffe3ec;
+  --gold: #e9a914;
+  --gold-soft: #fff0c2;
+  --line: #ecdbe2;
+  --ok: #17734c;
+  --ok-soft: #dff5ea;
+  --no: #b3261e;
+  --no-soft: #fde6e3;
+  --info-soft: #efe9fb;
+  --shadow: 0 10px 30px rgba(107, 16, 56, .12);
+  --shadow-s: 0 4px 12px rgba(107, 16, 56, .10);
+  --r: 20px;
+  --f-display: 'Tajawal', 'Segoe UI', Tahoma, sans-serif;
+  --f-body: 'Tajawal', 'Segoe UI', Tahoma, sans-serif;
+  --f-math: 'STIX Two Text', 'Cambria Math', 'Times New Roman', serif;
+  color-scheme: light;
+}
+[data-w="pink"]  { --c1: #ec6c9c; --c2: #c93f7a; --c3: #ffd1e0; --cs: #ffe9f0; --cd: #9d2458; }
+[data-w="teal"]  { --c1: #4cc3ce; --c2: #2a97a7; --c3: #c6f0f3; --cs: #e2f8fa; --cd: #17707e; }
+[data-w="lilac"] { --c1: #b49be6; --c2: #8a6bc8; --c3: #e8defb; --cs: #f0eafc; --cd: #5f43a3; }
+[data-w="amber"] { --c1: #f6cb5c; --c2: #e0a223; --c3: #fff0bd; --cs: #fff6d9; --cd: #8e6307; }
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  background-image: radial-gradient(1200px 500px at 85% -10%, #ffe9f1 0, transparent 60%), radial-gradient(900px 500px at 0% 100%, #fdf1da 0, transparent 60%);
+  background-attachment: fixed;
+  color: var(--ink);
+  font: 500 18px/1.75 var(--f-body);
+  direction: rtl;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 60; background: var(--bg); }
+#app { min-height: 100vh; padding-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px)); padding-block: 0 40px; max-width: 1180px; margin-inline: auto; }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 800; line-height: 1.3; margin: 0; color: var(--plum); text-wrap: balance; }
+p { margin: 0; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid #2f6bff; outline-offset: 3px; border-radius: 8px; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.ic { display: inline-flex; width: 1.25em; height: 1.25em; vertical-align: -0.2em; flex: none; }
+.ic svg { width: 100%; height: 100%; display: block; }
+.ic.gold { color: var(--gold); }
+.flip svg { transform: scaleX(-1); }
+
+/* رياضيات */
+.m { font-family: var(--f-math); font-size: 1.18em; font-weight: 500; unicode-bidi: isolate; white-space: nowrap; }
+.frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center; line-height: 1.15; margin: 0 .15em; }
+.frac .n { border-bottom: 1.5px solid currentColor; padding: 0 .2em .05em; }
+.frac .d { padding: .05em .2em 0; }
+.rad { display: inline-flex; align-items: flex-start; }
+.rad .rb { border-top: 1.5px solid currentColor; padding: 0 .15em; margin-top: .1em; }
+sup, sub { line-height: 0; }
+
+/* أزرار */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: .5em; min-height: 48px; padding: 10px 22px; border-radius: 999px; border: 2px solid transparent; font-weight: 600; font-size: 1rem; transition: transform .15s, box-shadow .15s, background .15s; text-decoration: none; }
+.btn:active { transform: translateY(1px); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn-primary { background: linear-gradient(180deg, #e8467f, var(--pink)); color: #fff; box-shadow: 0 6px 0 #9f1d4f, 0 12px 20px rgba(209, 47, 107, .28); border-color: #ffd3e1; }
+.btn-primary:hover:not(:disabled) { transform: translateY(-1px); }
+.btn-primary:active:not(:disabled) { transform: translateY(4px); box-shadow: 0 2px 0 #9f1d4f; }
+.btn-xl { font-family: var(--f-display); font-size: 1.25rem; padding: 12px 34px; min-height: 56px; }
+.btn-ghost { background: #fff; border-color: #e7c6d3; color: var(--plum); }
+.btn-ghost:hover { background: var(--pink-soft); }
+.btn-quiet { background: transparent; color: var(--ink-2); text-decoration: underline; text-underline-offset: 4px; }
+.btn-danger { background: var(--no); color: #fff; }
+.icon-btn { display: inline-flex; align-items: center; gap: .4em; min-height: 44px; min-width: 44px; padding: 6px 12px; border-radius: 999px; border: 2px solid #e7c6d3; background: #fff; color: var(--plum); font-weight: 600; font-size: .9rem; justify-content: center; }
+.icon-btn:hover { background: var(--pink-soft); }
+.pill { display: inline-flex; align-items: center; gap: .45em; padding: 5px 18px; border-radius: 999px; font-family: var(--f-display); font-weight: 600; font-size: 1.05rem; border: 2px solid transparent; }
+.pill-pink { background: linear-gradient(180deg, #ee5b90, #d12f6b); color: #fff; border-color: #ffd5e3; }
+.pill-gold { background: #fff; color: var(--plum); border-color: #e8c668; }
+.pill-w { background: var(--cs); color: var(--cd); border-color: var(--c1); }
+.kicker { font-weight: 600; color: var(--pink); font-size: 1rem; }
+
+/* الشريط العلوي */
+.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 40; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px; padding: 10px max(16px, calc(50vw - 590px)); margin-inline: calc(50% - 50vw); background: rgba(255, 248, 245, .92); backdrop-filter: blur(6px); }
+.tb-end { justify-self: end; display: flex; }
+.counters { display: flex; gap: 8px; flex-wrap: nowrap; }
+.counter { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 999px; background: #fff; border: 2px solid #efd9a2; box-shadow: var(--shadow-s); font-size: .92rem; white-space: nowrap; }
+.counter b { font-family: var(--f-math); font-size: 1.1em; }
+.counter .cl { color: var(--ink-2); }
+.counter .ic { color: var(--plum); } .counter .ic.gold { color: var(--gold); }
+@media (max-width: 560px) {
+  .topbar { grid-template-columns: auto 1fr auto; }
+  .lbl { display: none; }
+  .counter { padding: 5px 9px; font-size: .82rem; gap: 4px; }
+  .counter .cl { display: none; }
+  .counters { justify-self: center; }
+}
+
+/* شاشة البداية */
+.start { position: relative; min-height: 100vh; display: grid; place-items: center; padding-block: 28px; }
+.start-art { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.mini { position: absolute; width: min(34vw, 320px); opacity: .95; animation: bob 7s ease-in-out infinite; }
+.mini .island-svg { position: static; width: 100%; height: auto; aspect-ratio: 400 / 330; display: block; }
+.mini-0 { top: 4%; right: 2%; } .mini-1 { top: 6%; left: 2%; animation-delay: -2s; } .mini-2 { bottom: 4%; right: 3%; animation-delay: -4s; } .mini-3 { bottom: 5%; left: 2%; animation-delay: -1s; }
+.start-card { position: relative; z-index: 2; text-align: center; background: rgba(255, 253, 251, .94); border: 2px solid #f3d3df; border-radius: 32px; padding: clamp(24px, 5vw, 48px) clamp(20px, 5vw, 56px); max-width: 640px; box-shadow: var(--shadow); display: grid; gap: 16px; justify-items: center; }
+.start-card h1 { font-size: clamp(2.8rem, 9vw, 4.6rem); color: var(--plum); line-height: 1.15; }
+.start-card .kicker { background: #fff; border: 2px solid #e8c668; border-radius: 999px; padding: 3px 22px; color: var(--plum); font-family: var(--f-display); font-size: 1.2rem; }
+.lead { color: var(--ink-2); max-width: 46ch; }
+.start-actions { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 8px; }
+@media (max-width: 720px) { .mini { width: 52vw; opacity: .55; } .mini-0 { top: 1%; right: -10%; } .mini-1 { top: 9%; left: -14%; } .mini-2 { bottom: 1%; right: -14%; } .mini-3 { bottom: 9%; left: -10%; } }
+
+/* الخريطة */
+.map { display: grid; gap: 18px; }
+.map-head { display: grid; justify-items: center; gap: 8px; text-align: center; padding-top: 6px; }
+.map-head h1 { font-size: clamp(2.2rem, 6vw, 3.6rem); }
+.islands { position: relative; display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(8px, 3vw, 40px) clamp(8px, 4vw, 56px); padding: 8px 0; }
+.trail { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+.trail path { stroke: #b0457a; stroke-width: 3; stroke-dasharray: 2 11; stroke-linecap: round; vector-effect: non-scaling-stroke; opacity: .55; }
+.island { position: relative; z-index: 1; display: grid; place-items: center; }
+.float { position: relative; width: 100%; max-width: 520px; aspect-ratio: 400 / 330; animation: bob 6s ease-in-out infinite; animation-delay: var(--fd, 0s); filter: drop-shadow(0 14px 18px rgba(107, 16, 56, .14)); }
+.island-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.wbadge { position: absolute; top: 4%; inset-inline-start: 4%; width: 38px; height: 38px; border-radius: 50%; background: #fff; border: 3px solid var(--c1); color: var(--cd); display: grid; place-items: center; font-family: var(--f-display); font-weight: 700; font-size: 1.2rem; box-shadow: var(--shadow-s); }
+.wbadge svg { width: 22px; height: 22px; }
+.wname { position: absolute; top: 49%; left: 50%; transform: translateX(-50%); width: max-content; max-width: 88%; text-align: center; background: linear-gradient(180deg, #fffdf6, #fff3d6); border: 2.5px solid #e4b85a; border-radius: 999px; padding: 2px 20px; font-size: clamp(1rem, 2.5vw, 1.35rem); color: var(--plum); box-shadow: var(--shadow-s); }
+.nodes { position: absolute; left: 12%; right: 12%; top: 66%; display: flex; justify-content: space-between; align-items: flex-start; }
+.node-wrap { display: grid; justify-items: center; gap: 2px; }
+.node { position: relative; width: clamp(40px, 8.2vw, 54px); height: clamp(40px, 8.2vw, 54px); border-radius: 50%; border: 3px solid #fff; display: grid; place-items: center; background: #fff7e6; color: var(--cd); font-family: var(--f-display); font-weight: 700; font-size: 1.15rem; box-shadow: 0 4px 0 rgba(107, 16, 56, .18), 0 6px 12px rgba(107, 16, 56, .16); transition: transform .15s; }
+.node svg { width: 55%; height: 55%; }
+.node.locked { background: #efe6ea; color: #8b7a85; }
+.node.done { background: var(--gold-soft); color: #c78a00; border-color: #ffe39a; }
+.node.open { background: #fff; }
+.node:hover:not(.locked), .node:focus-visible { transform: translateY(-3px) scale(1.06); }
+.node.current { animation: glow 2s ease-in-out infinite; border-color: #ffe39a; }
+.node.current::after { content: ""; position: absolute; inset: -9px; border-radius: 50%; border: 2.5px dashed #ffc633; }
+.mstars { display: flex; gap: 1px; height: 12px; }
+.mstars i { width: 11px; height: 11px; color: #d9c6a8; display: block; } .mstars i.on { color: #f0a81c; }
+.mstars svg { width: 100%; height: 100%; display: block; }
+.map-actions { display: flex; gap: 14px; justify-content: center; align-items: center; flex-wrap: wrap; padding-top: 10px; }
+@media (max-width: 760px) {
+  .islands { grid-template-columns: 1fr; gap: 14px; }
+  .trail { display: none; }
+  .float { max-width: 460px; margin-inline: auto; }
+  .wname { font-size: 1.05rem; }
+}
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+@keyframes glow { 0%, 100% { box-shadow: 0 4px 0 rgba(107, 16, 56, .18), 0 0 0 0 rgba(255, 198, 51, .65); } 50% { box-shadow: 0 4px 0 rgba(107, 16, 56, .18), 0 0 0 12px rgba(255, 198, 51, 0); } }
+
+/* بوابة الانتقال */
+.iris { position: fixed; z-index: 200; width: 40px; height: 40px; margin: -20px 0 0 -20px; border-radius: 50%; background: radial-gradient(circle, #fff6d8 0, #ffd1e0 45%, #ef7ca5 100%); transform: scale(0); transition: transform .38s ease-in, opacity .4s; pointer-events: none; }
+.iris.go { transform: scale(90); } .iris.out { opacity: 0; transition: opacity .4s; }
+
+/* بطاقات */
+.card { background: var(--card); border: 2px solid #f1dbe3; border-radius: var(--r); padding: clamp(18px, 3vw, 30px); box-shadow: var(--shadow); }
+.intro, .quiz, .result, .achieve, .final { max-width: 820px; margin: 0 auto; display: grid; gap: 18px; padding-top: 6px; }
+.stage-head { display: grid; gap: 8px; justify-items: start; }
+.stage-head h1 { font-size: clamp(1.8rem, 5vw, 2.6rem); }
+.steps-dots { list-style: none; display: flex; gap: 8px; padding: 0; margin: 4px 0 0; flex-wrap: wrap; }
+.steps-dots li { padding: 2px 14px; border-radius: 999px; border: 2px solid var(--line); color: var(--ink-2); font-size: .9rem; background: #fff; }
+.steps-dots li.cur { background: var(--cd); color: #fff; border-color: var(--cd); font-weight: 600; }
+.steps-dots li.past { background: var(--cs); color: var(--cd); border-color: var(--c1); }
+.card h2 { font-size: 1.4rem; margin-bottom: 10px; }
+.points { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.points li { position: relative; padding-inline-start: 26px; }
+.points li::before { content: ""; position: absolute; inset-inline-start: 2px; top: .62em; width: 11px; height: 11px; border-radius: 3px; transform: rotate(45deg); background: var(--c1, var(--pink-2)); }
+.rule { margin-top: 16px; background: var(--gold-soft); border: 2px solid #efd27a; border-radius: 16px; padding: 12px 16px; display: grid; gap: 4px; }
+.rule-t { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; color: #7a5604; font-family: var(--f-display); }
+.actions { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; justify-content: flex-end; }
+.actions.center { justify-content: center; }
+.example .ex-q { font-weight: 500; margin-bottom: 8px; }
+.ex-steps { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 10px; }
+.ex-steps li { display: grid; grid-template-columns: 34px 1fr; gap: 10px; align-items: start; background: #fff; border: 1.5px solid var(--line); border-radius: 14px; padding: 10px 12px; }
+.sn { width: 30px; height: 30px; border-radius: 50%; background: var(--cd); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: .95rem; }
+.ex-a { margin-top: 14px; display: flex; gap: 8px; align-items: flex-start; background: var(--ok-soft); border: 2px solid #9bd6b8; border-radius: 14px; padding: 10px 14px; color: #0f4d33; font-weight: 600; }
+.ex-a .ic { color: var(--ok); margin-top: 6px; }
+
+/* الشكل */
+.figure { display: grid; place-items: center; margin: 12px 0; padding: 10px; background: #fff; border: 2px dashed #efd6df; border-radius: 16px; }
+.fig-svg { width: 100%; max-width: 440px; height: auto; direction: ltr; display: block; overflow: visible; }
+.fig-svg .ln { stroke: var(--ink); stroke-width: 2.4; fill: none; stroke-linecap: round; }
+.fig-svg .ln.thin { stroke-width: 1.8; }
+.fig-svg .ln2 { stroke: var(--pink); stroke-width: 2.6; fill: none; stroke-linecap: round; }
+.fig-svg .tri { fill: rgba(236, 108, 156, .08); stroke: var(--ink); stroke-width: 2.4; stroke-linejoin: round; }
+.fig-svg .arc { fill: none; stroke: var(--pink); stroke-width: 2; }
+.fig-svg .tk { stroke: var(--pink); stroke-width: 2.2; stroke-linecap: round; }
+.fig-svg .pt { fill: var(--ink); }
+.fig-svg .grid { stroke: #ecdbe2; stroke-width: 1; }
+.fig-svg .axis { stroke: #8a6b7d; stroke-width: 1.8; }
+.fig-svg .vl { fill: var(--ink); font: italic 500 17px var(--f-math); }
+.fig-svg .vl.big { font-size: 21px; font-weight: 700; }
+.fig-svg .vl.m { font-style: normal; font-size: 16px; }
+.fig-svg .an { fill: var(--plum); font: 700 14px var(--f-body); pointer-events: none; }
+.fig-svg .an.hl { fill: #fff; }
+.fig-svg .vn { fill: var(--plum); font: 700 22px var(--f-math); text-anchor: middle; }
+.fig-svg .venn-box { fill: #fffaf0; stroke: #d7b46a; stroke-width: 2; }
+.fig-svg .venn-c { fill: none; stroke-width: 3; }
+.fig-svg .vp { stroke: #d12f6b; } .fig-svg .vq { stroke: #e0a223; }
+.fig-svg .cc { fill: none; stroke: var(--pink); stroke-width: 2; stroke-dasharray: 4 3; }
+.fig-svg .wedge { fill: rgba(236, 108, 156, .12); stroke: rgba(209, 47, 107, .45); stroke-width: 1.4; }
+.fig-svg .wedge.static { pointer-events: none; }
+.fig-svg .wedge.hl, .fig-svg .hl.wedge { fill: rgba(209, 47, 107, .55); }
+.fig-svg .hot { cursor: pointer; }
+.fig-svg .hot .hit { stroke: transparent; stroke-width: 20; fill: none; pointer-events: stroke; }
+.fig-svg .hot .wedge { transition: fill .15s; }
+.fig-svg .hot.hl .wedge { fill: rgba(209, 47, 107, .5); }
+.fig-svg .hot.hl .an { fill: #fff; }
+.fig-svg .hot:hover .wedge { fill: rgba(209, 47, 107, .3); }
+.fig-svg .hot:hover .vis { stroke: var(--pink-2); }
+.fig-svg .hot.sel .wedge { fill: rgba(47, 107, 255, .3); stroke: #2f6bff; stroke-width: 3; stroke-dasharray: 6 3; }
+.fig-svg .hot.sel .vis { stroke: #2f6bff; stroke-width: 5; }
+.fig-svg .hot.ok .wedge { fill: rgba(23, 115, 76, .35); stroke: var(--ok); stroke-width: 3; stroke-dasharray: none; }
+.fig-svg .hot.ok .vis { stroke: var(--ok); stroke-width: 6; }
+.fig-svg .hot.no .wedge { fill: rgba(179, 38, 30, .22); stroke: var(--no); stroke-width: 3; stroke-dasharray: 2 4; }
+.fig-svg .hot.no .vis { stroke: var(--no); stroke-width: 5; stroke-dasharray: 3 6; }
+.fig-svg .hot:focus-visible { outline: none; }
+.fig-svg .hot:focus-visible .wedge, .fig-svg .hot:focus-visible .vis { stroke: #2f6bff; stroke-width: 5; }
+.fig-hot { border-style: solid; }
+.hintline { color: var(--ink-2); font-size: .95rem; margin-bottom: 6px; }
+
+/* التحدي */
+.quiz-head { display: grid; gap: 10px; justify-items: start; }
+.qdots { list-style: none; display: flex; gap: 10px; margin: 0; padding: 0; }
+.qdots .dot { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: #fff; border: 2.5px solid var(--line); font-weight: 700; color: var(--ink-2); }
+.qdots .dot svg { width: 20px; height: 20px; }
+.qdots li.cur .dot { border-color: var(--cd); color: var(--cd); box-shadow: 0 0 0 4px var(--cs); }
+.qdots li.good .dot { background: var(--gold-soft); border-color: #efc24a; color: #d49000; }
+.qdots li.miss .dot { background: var(--info-soft); border-color: #b9a5e8; color: #5f43a3; }
+.q-meta { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; font-size: .92rem; color: var(--ink-2); margin-bottom: 6px; }
+.qtype { background: var(--cs); color: var(--cd); padding: 1px 12px; border-radius: 999px; font-weight: 600; }
+.q-prompt { font-family: var(--f-body); font-weight: 600; font-size: clamp(1.25rem, 3.2vw, 1.5rem); line-height: 1.7; color: var(--ink); }
+.q-body { margin-top: 12px; }
+.q-actions { margin-top: 16px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: flex-end; }
+.q-side { display: flex; justify-content: center; }
+.opts { display: grid; gap: 10px; }
+.opt { position: relative; display: grid; grid-template-columns: 38px 1fr 28px; gap: 12px; align-items: center; text-align: start; min-height: 58px; padding: 10px 14px; border-radius: 16px; background: #fff; border: 2.5px solid var(--line); transition: border-color .15s, background .15s, transform .1s; }
+.opt:hover:not(:disabled) { border-color: var(--c1); background: var(--cs); }
+.ol { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--cs); color: var(--cd); font-weight: 700; font-family: var(--f-display); }
+.opt.sel { border-color: #2f6bff; background: #edf2ff; box-shadow: 0 0 0 3px rgba(47, 107, 255, .18); }
+.opt.sel .ol { background: #2f6bff; color: #fff; }
+.opt.ok { border-color: var(--ok); background: var(--ok-soft); border-width: 3px; }
+.opt.ok .ol { background: var(--ok); color: #fff; }
+.opt.no { border-color: var(--no); background: var(--no-soft); border-style: dashed; border-width: 3px; }
+.opt.no .ol { background: var(--no); color: #fff; }
+.opt:disabled { cursor: default; }
+.oi { width: 26px; height: 26px; display: inline-grid; place-items: center; }
+.oi svg { width: 100%; height: 100%; }
+.ok > .oi, .ok .oi { color: var(--ok); } .no > .oi, .no .oi { color: var(--no); }
+.match { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 18px; }
+.match .col { display: grid; gap: 10px; align-content: start; }
+.mi { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 56px; padding: 8px 14px; border-radius: 14px; background: #fff; border: 2.5px solid var(--line); text-align: start; }
+.mi:hover:not(:disabled) { border-color: var(--c1); background: var(--cs); }
+.mi.sel { border-color: #2f6bff; background: #edf2ff; box-shadow: 0 0 0 3px rgba(47, 107, 255, .2); }
+.mi.paired { border-color: var(--cd); background: var(--cs); }
+.mi .pn { flex: none; min-width: 26px; height: 26px; border-radius: 50%; background: var(--cd); color: #fff; font-weight: 700; display: grid; place-items: center; font-size: .85rem; }
+.mi.ok { border-color: var(--ok); background: var(--ok-soft); border-width: 3px; } .mi.no { border-color: var(--no); background: var(--no-soft); border-style: dashed; border-width: 3px; }
+@media (max-width: 520px) { .match { gap: 10px; } .mi { padding: 8px 10px; font-size: .95rem; } }
+.targets { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.tgt { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 6px 16px; border-radius: 999px; background: #fff; border: 2.5px solid var(--line); font-family: var(--f-math); }
+.tgt:hover:not(:disabled) { background: var(--cs); border-color: var(--c1); }
+.tgt.sel { border-color: #2f6bff; background: #edf2ff; }
+.tgt.ok { border-color: var(--ok); background: var(--ok-soft); } .tgt.no { border-color: var(--no); background: var(--no-soft); border-style: dashed; }
+.tgt .oi { width: 20px; height: 20px; }
+.ord { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.oi-row { display: grid; grid-template-columns: 34px 1fr 26px auto; gap: 10px; align-items: center; background: #fff; border: 2.5px solid var(--line); border-radius: 14px; padding: 8px 10px; cursor: grab; }
+.oi-row.drag { opacity: .5; }
+.oi-row.ok { border-color: var(--ok); background: var(--ok-soft); } .oi-row.no { border-color: var(--no); background: var(--no-soft); border-style: dashed; }
+.oi-row .pos { width: 30px; height: 30px; border-radius: 50%; background: var(--cd); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: .9rem; }
+.mv { display: inline-flex; gap: 4px; }
+.mvb { width: 40px; height: 40px; border-radius: 10px; border: 2px solid var(--line); background: #fff; color: var(--cd); display: grid; place-items: center; padding: 0; }
+.mvb svg { width: 22px; height: 22px; }
+.mvb:disabled { opacity: .3; cursor: default; }
+.mvb:hover:not(:disabled) { background: var(--cs); }
+.q-fb { display: none; margin-top: 14px; padding: 14px 16px; border-radius: 16px; position: relative; }
+.q-fb.show { display: block; animation: pop .3s ease-out; }
+.q-fb.good { background: var(--ok-soft); border: 2px solid #8fd1b0; }
+.q-fb.bad { background: #fff4e3; border: 2px solid #f2c46b; }
+.q-fb.reveal { background: var(--info-soft); border: 2px solid #bba8ea; }
+.fb-t { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 1.1rem; }
+.fb-i { width: 30px; height: 30px; padding: 5px; border-radius: 50%; background: #fff; }
+.good .fb-i { color: var(--ok); } .bad .fb-i { color: #b46b00; } .reveal .fb-i { color: #5f43a3; }
+.got-star, .no-star { margin-inline-start: auto; display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: .92rem; padding: 2px 12px; border-radius: 999px; background: #fff; }
+.got-star { color: #8a5d00; border: 2px solid #efc24a; } .no-star { color: var(--ink-2); border: 2px solid var(--line); }
+.fb-x { margin-top: 8px; }
+.tip-l { font-weight: 700; color: #8a5d00; }
+.burst { position: absolute; inset-inline-end: 70px; top: 12px; width: 0; height: 0; pointer-events: none; }
+.burst .b { position: absolute; width: 18px; height: 18px; margin: -9px; color: #f0a81c; animation: fly .9s ease-out forwards; }
+.burst .b svg { width: 100%; height: 100%; }
+@keyframes fly { from { transform: translate(0, 0) scale(.4); opacity: 1; } to { transform: translate(var(--dx), var(--dy)) scale(1.1) rotate(80deg); opacity: 0; } }
+@keyframes pop { from { transform: translateY(8px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+/* النتائج */
+.result-card, .achieve-card, .final-card { text-align: center; display: grid; gap: 14px; justify-items: center; }
+.big-stars { display: flex; gap: 10px; }
+.bs { width: clamp(64px, 16vw, 92px); height: clamp(64px, 16vw, 92px); display: block; animation: starIn .6s both; animation-delay: var(--d); }
+.bs.on { color: #f0a81c; filter: drop-shadow(0 6px 8px rgba(240, 168, 28, .35)); } .bs.off { color: #cdb9a4; }
+.bs svg { width: 100%; height: 100%; }
+@keyframes starIn { from { transform: scale(.2) rotate(-40deg); opacity: 0; } 60% { transform: scale(1.18) rotate(8deg); opacity: 1; } to { transform: none; } }
+.score b { font-family: var(--f-math); font-size: 1.1em; }
+.msg { max-width: 46ch; color: var(--ink-2); }
+.medal { width: 92px; height: 92px; border-radius: 50%; display: grid; place-items: center; background: radial-gradient(circle at 35% 30%, #fff6d0, #f6cb5c 70%); color: #8e6307; border: 4px solid #fff; box-shadow: 0 10px 24px rgba(224, 162, 35, .4); animation: starIn .7s both; }
+.medal .ic { width: 52px; height: 52px; } .medal.big { width: 120px; height: 120px; } .medal.big .ic { width: 70px; height: 70px; }
+.stage-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; width: 100%; max-width: 520px; }
+.stage-list li { display: flex; justify-content: space-between; align-items: center; gap: 10px; background: #fff; border: 2px solid var(--line); border-radius: 14px; padding: 8px 14px; text-align: start; }
+.stars { display: inline-flex; gap: 2px; } .stars .st { width: 22px; height: 22px; display: block; } .stars .st.on { color: #f0a81c; } .stars .st.off { color: #c5b2a0; } .stars svg { width: 100%; height: 100%; display: block; }
+.final-stats { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+.final-stats div { background: #fff; border: 2px solid #efd9a2; border-radius: 18px; padding: 10px 26px; display: grid; }
+.final-stats b { font-family: var(--f-math); font-size: 2rem; color: var(--plum); line-height: 1.2; } .final-stats span { color: var(--ink-2); }
+.review h2 { font-size: 1.5rem; margin-bottom: 10px; text-align: center; }
+.review-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+@media (max-width: 640px) { .review-grid { grid-template-columns: 1fr; } }
+.rv-world { background: var(--card); border: 2px solid var(--c1); border-radius: 18px; padding: 12px; display: grid; gap: 8px; align-content: start; }
+.rv-world h3 { color: var(--cd); font-size: 1.15rem; }
+.rv-stage { display: flex; justify-content: space-between; align-items: center; gap: 8px; text-align: start; background: #fff; border: 2px solid var(--line); border-radius: 12px; padding: 8px 12px; min-height: 48px; }
+.rv-stage:hover { background: var(--cs); border-color: var(--c1); }
+.rv-stage .rt { font-size: .95rem; }
+
+/* نافذة */
+.modal-back { position: fixed; inset: 0; z-index: 300; background: rgba(58, 18, 48, .5); display: grid; place-items: center; padding: 16px; overflow: auto; }
+.modal { background: #fffdfb; border-radius: 24px; padding: 22px; max-width: 560px; width: 100%; border: 2px solid #f1dbe3; box-shadow: 0 24px 60px rgba(58, 18, 48, .35); animation: pop .25s ease-out; }
+.modal h2 { font-size: 1.5rem; margin-bottom: 10px; }
+.modal-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+.howto { margin: 0; padding-inline-start: 22px; display: grid; gap: 8px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+.dl { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; margin-top: 16px; padding: 12px 16px; border: 2px dashed var(--c1); border-radius: 18px; background: #fff; }
+.dl-t { font-weight: 800; color: var(--cd); }
+.dl a.btn { text-decoration: none; min-height: 48px; }
+
+.dl-msg { flex-basis: 100%; text-align: center; font-weight: 700; color: var(--cd); min-height: 1.2em; }
+
+/* الأيقونة على اليسار (نهاية السطر في الواجهة العربية) */
+.btn, .icon-btn, .pill, .counter, .rule-t, .got-star, .no-star, .tgt { flex-direction: row-reverse; }
+.btn:has(.ic.flip), .btn:has(.ic.flip) { flex-direction: row; }
+
+/* كل أيقونات الأزرار في أقصى اليسار */
+.btn, .icon-btn, .pill, .counter, .rule-t, .got-star, .no-star, .tgt { flex-direction: row; }
+.btn .ic, .icon-btn .ic, .pill .ic, .counter .ic, .rule-t .ic, .got-star .ic, .no-star .ic, .tgt .ic { order: 99; }
+
+.recap { text-align: start; margin: 14px 0 6px; padding: 12px 16px; border: 2px solid var(--cs); border-radius: 18px; background: #fff; }
+.recap h2 { font-size: 1.15rem; color: var(--cd); margin-bottom: 4px; }
+.recap ul { margin: 0; padding-inline-start: 20px; } .recap li { margin: 3px 0; }
+.result .dl { margin-top: 12px; }
+.btn-xl { min-height: 58px; }
+.actions:not(.center), .q-actions { flex-direction: row-reverse; justify-content: flex-start; width: 100%; }
+.dl { width: 100%; box-sizing: border-box; }
+.dl-msg:empty { display: none; }
+/* عكس اتجاه الأسهم */
+.ic.flip svg { transform: none; }
+.icon-btn[data-act="map"] .ic svg { transform: scaleX(-1); }
+
+</style>
+</head>
+<body>
+<div id="app" aria-live="polite"></div>
+<noscript>تحتاج اللعبة إلى تفعيل JavaScript.</noscript>
+<script>window.PRINT_MODE=true;</script>
+<script>
+/* بيانات اللعبة: الإعدادات العامة والعوالم. الدروس والأسئلة في chapter1..4.js */
+window.GAME_DATA = {
+  meta: {
+    title: 'رحلة الرياضيات',
+    grade: 'أولى ثانوي',
+    questionsPerStage: 3
+  },
+  /* كل عالم يُملأ من ملف الفصل المقابل عبر GAME_DATA.worlds[i].stages = [...] */
+  worlds: [
+    { id: 1, key: 'pink',  name: 'التبرير والبرهان',  stages: [] },
+    { id: 2, key: 'teal',  name: 'التوازي والتعامد',  stages: [] },
+    { id: 3, key: 'lilac', name: 'المثلثات المتطابقة', stages: [] },
+    { id: 4, key: 'amber', name: 'العلاقات في المثلث', stages: [] }
+  ]
+};
+
+/* مساعدات تنسيق الرياضيات: النص العربي RTL والمعادلات LTR في عنصر مستقل */
+window.M = (s) => '<bdi class="m" dir="ltr">' + s + '</bdi>';                       // معادلة
+window.F = (a, b) => '<span class="frac"><span class="n">' + a + '</span><span class="d">' + b + '</span></span>'; // كسر
+window.SQ = (x) => '<span class="rad"><span class="sign">&radic;</span><span class="rb">' + x + '</span></span>';   // جذر تربيعي
+window.SUP = (x) => '<sup>' + x + '</sup>';                                         // أس
+window.SUB = (x) => '<sub>' + x + '</sub>';
+window.DEG = '&deg;';
+
+</script>
+<script>
+/* مكتبة الرسومات الهندسية (SVG). كل دالة تعيد نصّ SVG جاهزًا، والإحداثيات بوحدات viewBox. */
+(function () {
+  var D2R = Math.PI / 180;
+  function f(n) { return Math.round(n * 100) / 100; }
+  function svg(w, h, body, label) {
+    return '<svg class="fig-svg" viewBox="0 0 ' + w + ' ' + h + '" role="img" aria-label="' + label + '" xmlns="http://www.w3.org/2000/svg">' + body + '</svg>';
+  }
+  /* نقطة على دائرة: زاوية رياضية (عكس عقارب الساعة، المحور y للأعلى) */
+  function pp(cx, cy, r, a) { return [f(cx + r * Math.cos(a * D2R)), f(cy - r * Math.sin(a * D2R))]; }
+  function ln(x1, y1, x2, y2, c) { return '<line class="' + (c || 'ln') + '" x1="' + f(x1) + '" y1="' + f(y1) + '" x2="' + f(x2) + '" y2="' + f(y2) + '"/>'; }
+  function tx(x, y, s, c, anchor) { return '<text class="' + (c || 'vl') + '" x="' + f(x) + '" y="' + f(y) + '" text-anchor="' + (anchor || 'middle') + '">' + s + '</text>'; }
+  function dot(x, y, r) { return '<circle class="pt" cx="' + f(x) + '" cy="' + f(y) + '" r="' + (r || 3.6) + '"/>'; }
+  function poly(pts, c) { return '<polygon class="' + (c || 'tri') + '" points="' + pts.map(function (p) { return f(p[0]) + ',' + f(p[1]); }).join(' ') + '"/>'; }
+  function arc(cx, cy, r, a1, a2, c) {
+    var s = pp(cx, cy, r, a1), e = pp(cx, cy, r, a2), large = Math.abs(a2 - a1) > 180 ? 1 : 0;
+    return '<path class="' + (c || 'arc') + '" d="M' + s[0] + ' ' + s[1] + ' A' + r + ' ' + r + ' 0 ' + large + ' 0 ' + e[0] + ' ' + e[1] + '"/>';
+  }
+  function wedge(cx, cy, r, a1, a2) {
+    var s = pp(cx, cy, r, a1), e = pp(cx, cy, r, a2), large = Math.abs(a2 - a1) > 180 ? 1 : 0;
+    return 'M' + cx + ' ' + cy + ' L' + s[0] + ' ' + s[1] + ' A' + r + ' ' + r + ' 0 ' + large + ' 0 ' + e[0] + ' ' + e[1] + ' Z';
+  }
+  /* علامة زاوية قائمة عند الرأس (vx,vy) بين اتجاهين (زاويتان رياضيتان) */
+  function right(vx, vy, a1, a2, s) {
+    s = s || 12; var p1 = pp(vx, vy, s, a1), p2 = pp(vx, vy, s, a2), p3 = [f(p1[0] + p2[0] - vx), f(p1[1] + p2[1] - vy)];
+    return '<polyline class="arc" points="' + p1.join(',') + ' ' + p3.join(',') + ' ' + p2.join(',') + '"/>';
+  }
+  /* علامات تطابق على قطعة */
+  function tick(x1, y1, x2, y2, n) {
+    var mx = (x1 + x2) / 2, my = (y1 + y2) / 2, dx = x2 - x1, dy = y2 - y1, L = Math.sqrt(dx * dx + dy * dy), ux = dx / L, uy = dy / L, nx = -uy, ny = ux, out = '';
+    for (var i = 0; i < n; i++) {
+      var o = (i - (n - 1) / 2) * 6;
+      out += ln(mx + ux * o - nx * 6, my + uy * o - ny * 6, mx + ux * o + nx * 6, my + uy * o + ny * 6, 'tk');
+    }
+    return out;
+  }
+  /* قوس تطابق زوايا (عدد الأقواس n) داخل زاوية رأسها v من اتجاه a1 إلى a2 */
+  function amark(vx, vy, a1, a2, r, n) {
+    var o = ''; for (var i = 0; i < n; i++) o += arc(vx, vy, r + i * 5, a1, a2, 'arc'); return o;
+  }
+  function mang(f0, t) { var a = Math.atan2(-(t[1] - f0[1]), t[0] - f0[0]) / D2R; return a < 0 ? a + 360 : a; }
+  function chev(x, y) { return '<path class="ln thin" d="M' + (x - 7) + ' ' + (y - 6) + ' L' + x + ' ' + y + ' L' + (x - 7) + ' ' + (y + 6) + '"/>'; }
+  function lbl(x, y, s) { return tx(x, y, s, 'vl'); }
+  function vert(x, y, s, a) { return tx(x, y, s, 'vl', a); }
+  /* قطعة قابلة للنقر: خط ظاهر + خط شفاف عريض */
+  function hotLine(id, label, x1, y1, x2, y2) {
+    return '<g class="hot" data-hot="' + id + '" data-label="' + label + '"><line class="vis ln" x1="' + f(x1) + '" y1="' + f(y1) + '" x2="' + f(x2) + '" y2="' + f(y2) + '"/><line class="hit" x1="' + f(x1) + '" y1="' + f(y1) + '" x2="' + f(x2) + '" y2="' + f(y2) + '"/></g>';
+  }
+  function hotPath(id, label, d, inner) {
+    return '<g class="hot" data-hot="' + id + '" data-label="' + label + '"><path class="wedge" d="' + d + '"/>' + (inner || '') + '</g>';
+  }
+
+  var FG = {};
+
+  /* ---- الفصل ١ ---- */
+  /* دائرتان p (يمين) و q (يسار) مع مناطق قابلة للنقر. */
+  FG.venn = function (hot, nums) {
+    var cp = [215, 100], cq = [125, 100], r = 70, d = 90, ix = 170, iy = f(Math.sqrt(r * r - 45 * 45));
+    var top = [ix, f(100 - iy)], bot = [ix, f(100 + iy)];
+    var pOnly = 'M' + top[0] + ' ' + top[1] + ' A70 70 0 1 1 ' + bot[0] + ' ' + bot[1] + ' A70 70 0 0 0 ' + top[0] + ' ' + top[1] + ' Z';
+    var qOnly = 'M' + top[0] + ' ' + top[1] + ' A70 70 0 1 0 ' + bot[0] + ' ' + bot[1] + ' A70 70 0 0 1 ' + top[0] + ' ' + top[1] + ' Z';
+    var both = 'M' + top[0] + ' ' + top[1] + ' A70 70 0 0 1 ' + bot[0] + ' ' + bot[1] + ' A70 70 0 0 1 ' + top[0] + ' ' + top[1] + ' Z';
+    var none = 'M4 4 H336 V196 H4 Z M' + top[0] + ' ' + top[1] + ' A70 70 0 1 1 ' + bot[0] + ' ' + bot[1] + ' A70 70 0 0 1 ' + top[0] + ' ' + top[1] + ' Z M' + top[0] + ' ' + top[1] + ' A70 70 0 1 0 ' + bot[0] + ' ' + bot[1] + ' A70 70 0 0 0 ' + top[0] + ' ' + top[1] + ' Z';
+    var n = nums || {};
+    var body = '<rect class="venn-box" x="4" y="4" width="332" height="192" rx="10"/>';
+    if (hot) {
+      body += hotPath('none', 'خارج الدائرتين', none, '') + hotPath('ponly', 'p فقط', pOnly) + hotPath('qonly', 'q فقط', qOnly) + hotPath('both', 'p و q معًا', both);
+    }
+    body += '<circle class="venn-c vp" cx="215" cy="100" r="70"/><circle class="venn-c vq" cx="125" cy="100" r="70"/>' +
+      tx(250, 36, 'p', 'vl big') + tx(90, 36, 'q', 'vl big');
+    if (n.ponly !== undefined) body += tx(250, 106, n.ponly, 'vn') + tx(90, 106, n.qonly, 'vn') + tx(170, 106, n.both, 'vn') + tx(26, 30, n.none, 'vn');
+    return svg(340, 200, body, 'مخطط فن لعبارتين p و q');
+  };
+  FG.line4 = function () {
+    var b = ln(20, 60, 320, 60) + [60, 140, 220, 290].map(function (x) { return dot(x, 60); }).join('') +
+      [['W', 60], ['X', 140], ['Y', 220], ['Z', 290]].map(function (p) { return tx(p[1], 90, p[0], 'vl big'); }).join('');
+    return svg(340, 110, b, 'أربع نقاط W و X و Y و Z على مستقيم واحد بهذا الترتيب');
+  };
+  FG.angLine = function (left, right) {
+    var ox = 170, oy = 130, ra = pp(ox, oy, 100, 80);
+    var b = ln(20, oy, 320, oy) + ln(ox, oy, ra[0], ra[1]) + dot(ox, oy) +
+      arc(ox, oy, 34, 80, 180) + arc(ox, oy, 34, 0, 80) +
+      tx(ox - 62, oy - 24, '∠1', 'vl') + tx(ox + 58, oy - 20, '∠2', 'vl') +
+      tx(ox - 72, oy + 24, left, 'vl m') + tx(ox + 70, oy + 24, right, 'vl m');
+    return svg(340, 170, b, 'مستقيم يخرج منه شعاع فيكوّن الزاويتين 1 و 2 المتجاورتين على مستقيم');
+  };
+
+  /* ---- القاطع والمستقيمان (الفصل ٢) ---- */
+  FG.transv = function (o) {
+    o = o || {};
+    var th = o.theta || 65, names = o.names || ['ℓ', 'm'], dy = 80, y1 = 70, y2 = 150;
+    var dx = dy / Math.tan(th * D2R), x2 = 150, x1 = f(x2 + dx);
+    var ext = 52, ex = ext / Math.tan(th * D2R);
+    var body = ln(24, y1, 320, y1) + ln(24, y2, 320, y2) + ln(x2 - ex, y2 + ext, x1 + ex, y1 - ext) + chev(300, y1) + chev(300, y2);
+    if (o.perp) { /* قاطع عمودي */ }
+    body += tx(14, y1 - 8, names[0], 'vl big') + tx(14, y2 - 8, names[1], 'vl big');
+    var R = 36, sets = [[x1, y1, ['1', '2', '3', '4']], [x2, y2, ['5', '6', '7', '8']]], hl = o.hl || {};
+    sets.forEach(function (s) {
+      var angs = [[th, 180, s[2][0]], [0, th, s[2][1]], [180, 180 + th, s[2][2]], [180 + th, 360, s[2][3]]];
+      angs.forEach(function (a) {
+        var mid = (a[0] + a[1]) / 2, lp = pp(s[0], s[1], R * 0.64, mid), id = a[2];
+        var t = tx(lp[0], lp[1] + 5, id, 'an' + (hl[id] ? ' hl' : ''));
+        body += o.hot ? hotPath(id, '∠' + id, wedge(s[0], s[1], R, a[0], a[1]), t).replace('class="hot"', hl[id] ? 'class="hot hl"' : 'class="hot"') : '<path class="wedge static' + (hl[id] ? ' hl' : '') + '" d="' + wedge(s[0], s[1], R, a[0], a[1]) + '"/>' + t;
+        if (o.given && o.given[id]) { var gp = pp(s[0], s[1], R + 22, mid); body += tx(gp[0], gp[1] + 5, o.given[id], 'vl m'); }
+      });
+    });
+    return svg(340, 220, body, o.label || 'مستقيمان متوازيان يقطعهما قاطع، والزوايا مرقمة من 1 إلى 8');
+  };
+
+  /* مستوى إحداثي مع مستقيمات قابلة للنقر */
+  FG.coordLines = function () {
+    var ox = 180, oy = 150, u = 27;
+    function X(x) { return f(ox + u * x); } function Y(y) { return f(oy - u * y); }
+    var b = '';
+    for (var i = -5; i <= 5; i++) { b += ln(X(i), Y(-5), X(i), Y(5), 'grid') + ln(X(-5), Y(i), X(5), Y(i), 'grid'); }
+    b += ln(X(-5.3), Y(0), X(5.3), Y(0), 'axis') + ln(X(0), Y(-5.3), X(0), Y(5.3), 'axis') + tx(X(5.3) + 6, Y(0) + 5, 'x', 'vl') + tx(X(0) + 10, Y(5.3) - 2, 'y', 'vl');
+    var defs = [['l', 'ℓ', -2.5, -5, 2.5, 5, 2.85, 4.55], ['a', 'a', -4, 5, 5, 0.5, -4.3, 4.35], ['b', 'b', -0.5, -5, 4.5, 5, 4.95, 4.65], ['c', 'c', -2, 5, 3, -5, -2.45, 4.6]];
+    defs.forEach(function (d) {
+      b += hotLine(d[0], 'المستقيم ' + d[1], X(d[2]), Y(d[3]), X(d[4]), Y(d[5])) + tx(X(d[6]), Y(d[7]), d[1], 'vl big');
+    });
+    return svg(360, 300, b, 'مستوى إحداثي فيه أربعة مستقيمات ℓ و a و b و c');
+  };
+  /* نقطة ومستقيم وقطع منها إلى المستقيم */
+  FG.distFig = function () {
+    var A = [30, 120], B = [330, 170], dirx = 0.9864, diry = 0.1644, C = [200, 30];
+    function at(t) { return [f(A[0] + dirx * t), f(A[1] + diry * t)]; }
+    var D = at(40), E = at(152.9), F = at(250);
+    var b = ln(A[0], A[1], B[0], B[1]) + tx(26, 112, 'A', 'vl') + tx(336, 166, 'B', 'vl') + dot(C[0], C[1]) + tx(C[0], 20, 'C', 'vl big');
+    b += hotLine('d', 'القطعة CD', C[0], C[1], D[0], D[1]) + hotLine('e', 'القطعة CE', C[0], C[1], E[0], E[1]) + hotLine('f', 'القطعة CF', C[0], C[1], F[0], F[1]);
+    b += tx(D[0] - 4, D[1] + 22, 'D', 'vl') + tx(E[0], E[1] + 22, 'E', 'vl') + tx(F[0] + 4, F[1] + 22, 'F', 'vl');
+    return svg(360, 200, b, 'نقطة C ومستقيم AB، وثلاث قطع CD و CE و CF من C إلى المستقيم');
+  };
+  FG.slope = function () { /* مثال: مستقيم يمر بالنقطتين (0,3) و (-2,-1) */
+    var ox = 180, oy = 150, u = 24; function X(x) { return f(ox + u * x); } function Y(y) { return f(oy - u * y); }
+    var b = ''; for (var i = -6; i <= 6; i++) { b += ln(X(i), Y(-5), X(i), Y(5), 'grid') + ln(X(-6), Y(i > 5 ? 5 : i < -5 ? -5 : i), X(6), Y(i > 5 ? 5 : i < -5 ? -5 : i), 'grid'); }
+    b += ln(X(-6.3), Y(0), X(6.3), Y(0), 'axis') + ln(X(0), Y(-5.3), X(0), Y(5.3), 'axis');
+    b += ln(X(-3), Y(-3), X(1.5), Y(6), 'ln2') + dot(X(0), Y(3), 4.5) + dot(X(-2), Y(-1), 4.5) + tx(X(0) + 26, Y(3) - 6, '(0, 3)', 'vl m') + tx(X(-2) - 30, Y(-1) + 18, '(−2, −1)', 'vl m');
+    return svg(360, 300, b, 'مستقيم يمر بالنقطتين (0,3) و (−2,−1) في المستوى الإحداثي');
+  };
+
+  /* ---- الفصل ٣ ---- */
+  /* مثلث مع زاوية خارجية */
+  FG.triExt = function (a, b2, ext) {
+    var A = [60, 160], B = [220, 160], C = [150, 40], Dd = [310, 160];
+    var body = poly([A, B, C]) + ln(B[0], B[1], Dd[0], Dd[1]) +
+      tx(A[0] - 6, A[1] + 22, 'A', 'vl') + tx(B[0], B[1] + 22, 'B', 'vl') + tx(C[0], C[1] - 10, 'C', 'vl') +
+      arc(A[0], A[1], 30, 0, mang(A, C)) + tx(A[0] + 52, A[1] - 12, a, 'vl m') +
+      arc(C[0], C[1], 30, mang(C, A), mang(C, B)) + tx(C[0], C[1] + 62, b2, 'vl m') +
+      arc(B[0], B[1], 28, 0, mang(B, C)) + tx(B[0] + 60, B[1] - 40, ext, 'vl m');
+    return svg(340, 190, body, 'مثلث ABC فيه زاويتان داخليتان معلومتان وزاوية خارجية عند B');
+  };
+  /* مثلثان قائمان لنظرية الزاوية الثالثة */
+  FG.twoRight = function () {
+    var A = [40, 150], B = [40, 40], C = [150, 150], F = [210, 150], G = [210, 40], H = [320, 150];
+    var b = poly([A, B, C]) + poly([F, G, H]) +
+      right(A[0], A[1], 0, 90, 12) + right(F[0], F[1], 0, 90, 12) +
+      tx(A[0] - 14, A[1] + 6, 'A', 'vl') + tx(B[0] - 14, B[1] + 6, 'B', 'vl') + tx(C[0] + 14, C[1] + 6, 'C', 'vl') +
+      tx(F[0] - 14, F[1] + 6, 'F', 'vl') + tx(G[0] - 14, G[1] + 6, 'G', 'vl') + tx(H[0] + 14, H[1] + 6, 'H', 'vl') +
+      arc(B[0], B[1], 26, mang(B, A), mang(B, C)) + arc(H[0], H[1], 26, mang(H, G), mang(H, F)) +
+      tx(C[0] - 34, C[1] - 12, '80°', 'vl m') + tx(G[0] + 30, G[1] + 64, '(2x)°', 'vl m');
+    return svg(360, 190, b, 'مثلثان قائمان ABC (قائم في A) و GFH (قائم في F)، والزاويتان B و H متطابقتان');
+  };
+  /* مثلثان متطابقان بترتيب مختلف: لتحديد الضلع المناظر */
+  FG.twoTri = function () {
+    var P = [30, 150], Q = [140, 150], R = [70, 40];
+    /* XYZ: نسخة مدارة (مرآة/تدوير) */
+    var X = [215, 50], Y = [330, 60], Z = [275, 165];
+    var b = poly([P, Q, R]) + tx(P[0] - 8, P[1] + 20, 'P', 'vl') + tx(Q[0] + 8, Q[1] + 20, 'Q', 'vl') + tx(R[0], R[1] - 10, 'R', 'vl') +
+      poly([X, Y, Z]) + tx(X[0] - 10, X[1] - 4, 'X', 'vl') + tx(Y[0] + 10, Y[1] - 2, 'Y', 'vl') + tx(Z[0], Z[1] + 22, 'Z', 'vl');
+    b += hotLine('xy', 'الضلع XY', X[0], X[1], Y[0], Y[1]) + hotLine('yz', 'الضلع YZ', Y[0], Y[1], Z[0], Z[1]) + hotLine('xz', 'الضلع XZ', X[0], X[1], Z[0], Z[1]);
+    return svg(360, 190, b, 'مثلثان PQR و XYZ، ويتناظر الرأسان P و X ثم Q و Y ثم R و Z');
+  };
+  FG.twoTriStatic = function () { /* نفس الرسم بدون نقر (للمراجعة) */
+    return FG.twoTri().replace(/class="hot"/g, 'class="hot-static"');
+  };
+  /* مثلثان للتطابق SAS مع العلامات */
+  FG.sasFig = function () {
+    var A = [30, 150], B = [130, 150], C = [80, 40], D = [200, 150], E = [300, 150], F = [250, 40];
+    var b = poly([A, B, C]) + poly([D, E, F]) +
+      tx(A[0] - 6, A[1] + 20, 'A', 'vl') + tx(B[0] + 6, B[1] + 20, 'B', 'vl') + tx(C[0], C[1] - 10, 'C', 'vl') +
+      tx(D[0] - 6, D[1] + 20, 'D', 'vl') + tx(E[0] + 6, E[1] + 20, 'E', 'vl') + tx(F[0], F[1] - 10, 'F', 'vl') +
+      tick(A[0], A[1], B[0], B[1], 1) + tick(D[0], D[1], E[0], E[1], 1) +
+      tick(B[0], B[1], C[0], C[1], 2) + tick(E[0], E[1], F[0], F[1], 2) +
+      arc(B[0], B[1], 24, mang(B, C), mang(B, A)) + arc(E[0], E[1], 24, mang(E, F), mang(E, D));
+    return svg(340, 190, b, 'مثلثان ABC و DEF عليهما علامات تطابق');
+  };
+  /* رباعي QRST والقطر RT */
+  FG.sssFig = function () {
+    var Q = [50, 40], R = [230, 40], S = [260, 160], T = [80, 160];
+    var b = poly([Q, R, S, T]) + ln(T[0], T[1], R[0], R[1]) +
+      tx(Q[0] - 10, Q[1] - 4, 'Q', 'vl') + tx(R[0] + 10, R[1] - 4, 'R', 'vl') + tx(S[0] + 10, S[1] + 18, 'S', 'vl') + tx(T[0] - 10, T[1] + 18, 'T', 'vl') +
+      tick(Q[0], Q[1], R[0], R[1], 1) + tick(R[0], R[1], S[0], S[1], 1) + tick(S[0], S[1], T[0], T[1], 2) + tick(T[0], T[1], Q[0], Q[1], 2);
+    return svg(320, 190, b, 'الرباعي QRST والقطر TR، وعلامات تطابق QR مع RS وQT مع TS');
+  };
+  FG.aasFig = function () {
+    var J = [40, 100], L = [250, 100], K = [150, 30], M = [150, 170];
+    var b = poly([J, K, L, M]) + ln(J[0], J[1], L[0], L[1]) +
+      tx(J[0] - 12, J[1] + 6, 'J', 'vl') + tx(L[0] + 12, L[1] + 6, 'L', 'vl') + tx(K[0], K[1] - 10, 'K', 'vl') + tx(M[0], M[1] + 22, 'M', 'vl') +
+      arc(K[0], K[1], 24, mang(K, J), mang(K, L)) + arc(M[0], M[1], 24, mang(M, L), mang(M, J)) +
+      arc(L[0], L[1], 34, mang(L, K), mang(L, J)) + arc(L[0], L[1], 34, mang(L, J), mang(L, M)) +
+      arc(L[0], L[1], 40, mang(L, K), mang(L, J)) + arc(L[0], L[1], 40, mang(L, J), mang(L, M));
+    return svg(300, 200, b, 'الشكل JKLM والقطر JL الذي ينصف الزاوية KLM، والزاويتان K و M متطابقتان');
+  };
+  /* مثلث متطابق الضلعين للنقر */
+  FG.isoPoint = function () {
+    var A = [170, 30], B = [60, 160], C = [280, 160];
+    var b = '<polygon class="tri" points="170,30 60,160 280,160"/>' + tx(A[0], A[1] - 10, 'A', 'vl') + tx(B[0] - 10, B[1] + 14, 'B', 'vl') + tx(C[0] + 10, C[1] + 14, 'C', 'vl');
+    b += hotLine('ab', 'الضلع AB', A[0], A[1], B[0], B[1]) + hotLine('ac', 'الضلع AC', A[0], A[1], C[0], C[1]) + hotLine('bc', 'الضلع BC', B[0], B[1], C[0], C[1]) +
+      tick(A[0], A[1], B[0], B[1], 2) + tick(A[0], A[1], C[0], C[1], 2);
+    return svg(340, 190, b, 'مثلث ABC فيه AB يطابق AC');
+  };
+  FG.coordIso = function () {
+    var ox = 60, oy = 160, a = 200, h = 110;
+    var b = ln(30, oy, 330, oy, 'axis') + ln(ox, 190, ox, 20, 'axis') + tx(336, oy + 5, 'x', 'vl') + tx(ox + 8, 18, 'y', 'vl');
+    var X = [ox, oy], Z = [ox + a, oy], Y = [ox + a / 2, oy - h];
+    b += poly([X, Y, Z]) + dot(X[0], X[1]) + dot(Z[0], Z[1]) + dot(Y[0], Y[1]) +
+      tx(X[0] - 30, X[1] + 20, 'X(0, 0)', 'vl m') + tx(Z[0] + 8, Z[1] + 20, 'Z(a, 0)', 'vl m') + tx(Y[0], Y[1] - 12, 'Y ( ? , ? )', 'vl m') +
+      tick(X[0], X[1], Y[0], Y[1], 1) + tick(Y[0], Y[1], Z[0], Z[1], 1);
+    return svg(350, 200, b, 'مثلث XYZ متطابق الضلعين XY يطابق YZ، X عند الأصل وZ على المحور x');
+  };
+
+  /* ---- الفصل ٤ ---- */
+  FG.incenter = function () {
+    var X = [190, 30], Y = [40, 170], Z = [320, 170];
+    /* مركز الدائرة الداخلية */
+    var a = Math.hypot(Y[0] - Z[0], Y[1] - Z[1]), b2 = Math.hypot(X[0] - Z[0], X[1] - Z[1]), c = Math.hypot(X[0] - Y[0], X[1] - Y[1]);
+    var P = [f((a * X[0] + b2 * Y[0] + c * Z[0]) / (a + b2 + c)), f((a * X[1] + b2 * Y[1] + c * Z[1]) / (a + b2 + c))];
+    var body = poly([X, Y, Z]) + ln(X[0], X[1], P[0], P[1], 'ln2') + ln(Y[0], Y[1], P[0], P[1], 'ln2') + ln(Z[0], Z[1], P[0], P[1], 'ln2') + dot(P[0], P[1], 4.5) +
+      tx(X[0], X[1] - 10, 'X', 'vl') + tx(Y[0] - 10, Y[1] + 16, 'Y', 'vl') + tx(Z[0] + 10, Z[1] + 16, 'Z', 'vl') + tx(P[0] + 14, P[1] + 4, 'P', 'vl') +
+      tx(X[0] - 62, X[1] + 48, '31°', 'vl m') + tx(Y[0] + 74, Y[1] - 12, '27°', 'vl m');
+    return svg(360, 200, body, 'المثلث XYZ ومركز دائرته الداخلية P');
+  };
+  FG.perpBis = function () {
+    var A = [50, 150], B = [310, 150], M = [180, 150], C = [180, 40];
+    var b = ln(A[0], A[1], B[0], B[1]) + ln(C[0], C[1], M[0], M[1], 'ln2') + ln(C[0], C[1], A[0], A[1]) + ln(C[0], C[1], B[0], B[1]) +
+      right(M[0], M[1], 0, 90, 12) + tick(A[0], A[1], M[0], M[1], 1) + tick(M[0], M[1], B[0], B[1], 1) + dot(A[0], A[1]) + dot(B[0], B[1]) + dot(C[0], C[1]) +
+      tx(A[0] - 10, A[1] + 20, 'A', 'vl') + tx(B[0] + 10, B[1] + 20, 'B', 'vl') + tx(C[0], C[1] - 10, 'C', 'vl') + tx(M[0] + 14, M[1] + 20, 'D', 'vl') +
+      tx(115, 188, 'CA = (5x − 4)', 'vl m') + tx(245, 188, 'CB = (3x + 10)', 'vl m');
+    return svg(360, 200, b, 'القطعة AB والعمود المنصف لها المار بالنقطتين D و C');
+  };
+  /* ثلاثة مثلثات ومركز الدائرة الخارجية لكل منها */
+  FG.threeTri = function () {
+    function circ(A, B, C) {
+      var d = 2 * (A[0] * (B[1] - C[1]) + B[0] * (C[1] - A[1]) + C[0] * (A[1] - B[1]));
+      var ux = ((A[0] * A[0] + A[1] * A[1]) * (B[1] - C[1]) + (B[0] * B[0] + B[1] * B[1]) * (C[1] - A[1]) + (C[0] * C[0] + C[1] * C[1]) * (A[1] - B[1])) / d;
+      var uy = ((A[0] * A[0] + A[1] * A[1]) * (C[0] - B[0]) + (B[0] * B[0] + B[1] * B[1]) * (A[0] - C[0]) + (C[0] * C[0] + C[1] * C[1]) * (B[0] - A[0])) / d;
+      return [f(ux), f(uy)];
+    }
+    var T = [
+      ['acute', 'المثلث الأول', [[14, 140], [104, 140], [59, 60]], 0],
+      ['right', 'المثلث الثاني', [[140, 140], [230, 140], [140, 70]], 1],
+      ['obtuse', 'المثلث الثالث', [[266, 120], [356, 120], [290, 98]], 2]
+    ];
+    var b = '';
+    T.forEach(function (t, i) {
+      var p = t[2], c = circ(p[0], p[1], p[2]), x0 = i * 124 + 2;
+      var body = poly(p) + dot(c[0], c[1], 4) + '<circle class="cc" cx="' + c[0] + '" cy="' + c[1] + '" r="9"/>';
+      b += '<g class="hot" data-hot="' + t[0] + '" data-label="' + t[1] + '"><rect class="wedge" x="' + x0 + '" y="20" width="120" height="170" rx="10"/>' + body + tx(x0 + 60, 184, ['١', '٢', '٣'][i], 'vl') + '</g>';
+    });
+    return svg(372, 196, b, 'ثلاثة مثلثات يظهر في كل منها مركز دائرته الخارجية بنقطة');
+  };
+  FG.centroid = function () {
+    var S = [30, 160], U = [330, 160], Z = [140, 30];
+    var T = [(S[0] + U[0]) / 2, 160], Y = [(S[0] + Z[0]) / 2, (S[1] + Z[1]) / 2], V = [(Z[0] + U[0]) / 2, (Z[1] + U[1]) / 2];
+    var J = [f((S[0] + U[0] + Z[0]) / 3), f((S[1] + U[1] + Z[1]) / 3)];
+    var b = poly([S, U, Z]) + ln(Z[0], Z[1], T[0], T[1], 'ln2') + ln(S[0], S[1], V[0], V[1], 'ln2') + ln(U[0], U[1], Y[0], Y[1], 'ln2') + dot(J[0], J[1], 4.5) +
+      tx(S[0] - 10, S[1] + 18, 'S', 'vl') + tx(U[0] + 10, U[1] + 18, 'U', 'vl') + tx(Z[0], Z[1] - 10, 'Z', 'vl') + tx(T[0], T[1] + 20, 'T', 'vl') + tx(Y[0] - 12, Y[1] - 2, 'Y', 'vl') + tx(V[0] + 12, V[1] - 2, 'V', 'vl') + tx(J[0] + 12, J[1] - 6, 'J', 'vl');
+    return svg(360, 190, b, 'المثلث SZU وقطعه المتوسطة ZT و SV و UY التي تتقاطع في J');
+  };
+  /* مثلث وثلاث قطع من الرأس A */
+  FG.medianPoint = function () {
+    var B = [40, 165], C = [310, 165], A = [110, 25], D = [175, 165], E = [110, 165];
+    var ab = Math.hypot(A[0] - B[0], A[1] - B[1]), ac = Math.hypot(A[0] - C[0], A[1] - C[1]), bf = 270 * ab / (ab + ac), Fp = [f(40 + bf), 165];
+    var b = poly([A, B, C]) + tx(A[0], A[1] - 10, 'A', 'vl') + tx(B[0] - 10, B[1] + 18, 'B', 'vl') + tx(C[0] + 10, C[1] + 18, 'C', 'vl') +
+      tx(D[0] + 14, D[1] + 22, 'D', 'vl') + tx(E[0] - 12, E[1] + 22, 'E', 'vl') + tx(Fp[0] + 2, Fp[1] + 22, 'F', 'vl') +
+      hotLine('ad', 'القطعة AD', A[0], A[1], D[0], D[1]) + hotLine('ae', 'القطعة AE', A[0], A[1], E[0], E[1]) + hotLine('af', 'القطعة AF', A[0], A[1], Fp[0], Fp[1]) +
+      tick(B[0], B[1], D[0], D[1], 1) + tick(D[0], D[1], C[0], C[1], 1) + right(E[0], E[1], 0, 90, 10);
+    b += arc(A[0], A[1], 46, mang(A, B), mang(A, Fp)) + arc(A[0], A[1], 46, mang(A, Fp), mang(A, C)) + arc(A[0], A[1], 52, mang(A, B), mang(A, Fp)) + arc(A[0], A[1], 52, mang(A, Fp), mang(A, C));
+    return svg(360, 200, b, 'المثلث ABC وثلاث قطع AD و AE و AF من الرأس A');
+  };
+  FG.triSides = function () {
+    var A = [50, 160], B = [200, 40], C = [320, 160];
+    var b = poly([A, B, C]) + tx(A[0] - 12, A[1] + 18, 'A', 'vl') + tx(B[0], B[1] - 10, 'B', 'vl') + tx(C[0] + 12, C[1] + 18, 'C', 'vl') +
+      tx(A[0] + 46, A[1] - 8, '48°', 'vl m') + tx(B[0], B[1] + 44, '71°', 'vl m') + tx(C[0] - 52, C[1] - 8, '61°', 'vl m') +
+      hotLine('ab', 'الضلع AB', A[0], A[1], B[0], B[1]) + hotLine('bc', 'الضلع BC', B[0], B[1], C[0], C[1]) + hotLine('ac', 'الضلع AC', A[0], A[1], C[0], C[1]);
+    return svg(360, 200, b, 'مثلث ABC قياس زاوية A يساوي 48 وزاوية B يساوي 71 وزاوية C يساوي 61 درجة');
+  };
+  FG.hinge = function () {
+    var A = [20, 150], B = [140, 150], C = [A[0] + 90 * Math.cos(70 * D2R), 150 - 90 * Math.sin(70 * D2R)];
+    /* المثلث الأول: ضلعان 6 و 9 والزاوية 70° ؛ المثلث الثاني: الزاوية 55° */
+    var A2 = [210, 150], B2 = [330, 150], C2 = [A2[0] + 90 * Math.cos(55 * D2R), 150 - 90 * Math.sin(55 * D2R)];
+    var b = poly([A, B, C]) + poly([A2, B2, C2]) +
+      tx(A[0] - 6, A[1] + 20, 'A', 'vl') + tx(B[0] + 6, B[1] + 20, 'B', 'vl') + tx(C[0] - 4, C[1] - 10, 'C', 'vl') +
+      tx(A2[0] - 6, A2[1] + 20, 'D', 'vl') + tx(B2[0] + 6, B2[1] + 20, 'E', 'vl') + tx(C2[0] + 4, C2[1] - 10, 'G', 'vl') +
+      tx((A[0] + B[0]) / 2, 172, '9', 'vl m') + tx((A2[0] + B2[0]) / 2, 172, '9', 'vl m') +
+      tx(A[0] - 6, 112, '6', 'vl m') + tx(A2[0] + 14, 100, '6', 'vl m') +
+      arc(A[0], A[1], 24, 0, 70) + tx(A[0] + 46, A[1] - 14, '70°', 'vl m') + arc(A2[0], A2[1], 24, 0, 55) + tx(A2[0] + 50, A2[1] - 10, '55°', 'vl m');
+    return svg(360, 190, b, 'مثلثان ABC و DEG فيهما ضلعان طولاهما 6 و 9، والزاوية المحصورة 70 درجة في الأول و55 درجة في الثاني');
+  };
+
+  window.FG = FG;
+})();
+
+</script>
+<script>
+/* العالم ١: التبرير والبرهان — الفصل الأول (دروس 1-1 إلى 1-8) */
+GAME_DATA.worlds[0].stages = [
+  {
+    id: 'w1s1', title: 'الاستقراء والتخمين',
+    summary: {
+      points: [
+        '<b>التبرير الاستقرائي</b>: نصل إلى نتيجة من ملاحظة أمثلة وأنماط متكررة.',
+        '<b>التخمين</b>: هو النتيجة التي نصل إليها بالتبرير الاستقرائي، وقد يكون صحيحًا أو خاطئًا.',
+        '<b>المثال المضاد</b>: مثال واحد يحقق الفرض ولا يحقق النتيجة، ويكفي لإثبات خطأ التخمين.'
+      ],
+      rule: 'يكفي <b>مثال مضاد واحد</b> لإبطال تخمين، أما كثرة الأمثلة المؤيدة فلا تثبت صحته.'
+    },
+    example: {
+      prompt: 'خمّني الحد التالي في المتتابعة ' + M('4, 10, 18, 28, 40, …'),
+      steps: [
+        'نوجد الفروق بين الحدود المتتالية: ' + M('10 − 4 = 6') + '، ' + M('18 − 10 = 8') + '، ' + M('28 − 18 = 10') + '، ' + M('40 − 28 = 12') + '.',
+        'الفروق ' + M('6, 8, 10, 12') + ' تزداد بمقدار 2 في كل مرة، فالفرق التالي المتوقع ' + M('14') + '.',
+        'الحد التالي = ' + M('40 + 14 = 54') + '.'
+      ],
+      answer: 'التخمين: الحد التالي هو ' + M('54')
+    },
+    questions: [
+      {
+        type: 'mcq',
+        prompt: 'ما الحد التالي في المتتابعة ' + M('3, 8, 15, 24, 35, …') + ' ؟',
+        options: [M('46'), M('47'), M('48'), M('49')], answer: 2,
+        hint: 'احسبي الفروق بين كل حدّين متتاليين، ثم انظري كيف تتغير الفروق نفسها.',
+        explain: 'الفروق ' + M('5, 7, 9, 11') + ' تزداد 2 في كل مرة، فالفرق التالي ' + M('13') + ' والحد التالي ' + M('35 + 13 = 48') + '.'
+      },
+      {
+        type: 'mcq',
+        prompt: 'التخمين: «إذا كان ' + M('n') + ' عددًا أوليًا فإن ' + M('n + 1') + ' ليس أوليًا». أي قيمة لـ ' + M('n') + ' تمثل <b>مثالًا مضادًا</b>؟',
+        options: [M('n = 3'), M('n = 5'), M('n = 2'), M('n = 7')], answer: 2,
+        hint: 'المثال المضاد عدد أولي يكون العدد الذي بعده أوليًا أيضًا. جرّبي كل خيار.',
+        explain: M('3+1=4') + ' و ' + M('5+1=6') + ' و ' + M('7+1=8') + ' ليست أولية فهي تؤيد التخمين. أما ' + M('2 + 1 = 3') + ' فعدد أولي، فـ ' + M('n = 2') + ' يبطل التخمين.'
+      },
+      {
+        type: 'match',
+        prompt: 'وصّلي كل متتابعة بالحد التالي لها.',
+        pairs: [
+          [M('5, 8, 11, 14, …'), M('17')],
+          [M('40, 20, 10, 5, …'), M('2.5')],
+          [M('3, 6, 12, 24, …'), M('48')],
+          [M('100, 90, 80, 70, …'), M('60')]
+        ],
+        hint: 'حدّدي في كل متتابعة هل الانتقال بجمع (أو طرح) عدد ثابت، أم بضرب (أو قسمة) على عدد ثابت.',
+        explain: M('14 + 3 = 17') + ' (نجمع 3) · ' + M('5 ÷ 2 = 2.5') + ' (نقسم على 2) · ' + M('24 × 2 = 48') + ' (نضرب في 2) · ' + M('70 − 10 = 60') + ' (نطرح 10).'
+      }
+    ]
+  },
+  {
+    id: 'w1s2', title: 'المنطق والعبارات الشرطية',
+    summary: {
+      points: [
+        '<b>العبارة</b> جملة خبرية إما صائبة (T) أو خاطئة (F). نفي ' + M('p') + ' يكتب ' + M('~p') + ' وقيمة صوابه عكس قيمة ' + M('p') + '.',
+        '<b>الوصل</b> ' + M('p ∧ q') + ' (و): صائبة فقط إذا كانت ' + M('p') + ' و ' + M('q') + ' صائبتين معًا.',
+        '<b>الفصل</b> ' + M('p ∨ q') + ' (أو): خاطئة فقط إذا كانت ' + M('p') + ' و ' + M('q') + ' خاطئتين معًا.',
+        '<b>الشرطية</b> ' + M('p → q') + ': الفرض ' + M('p') + ' والنتيجة ' + M('q') + '، وتكون خاطئة فقط حين يكون الفرض صائبًا والنتيجة خاطئة.',
+        'العبارات المرتبطة: العكس ' + M('q → p') + '، المعكوس ' + M('~p → ~q') + '، المعاكس الإيجابي ' + M('~q → ~p') + '.'
+      ],
+      rule: 'الشرطية الأصلية <b>تكافئ</b> معاكسها الإيجابي، والعكس <b>يكافئ</b> المعكوس.'
+    },
+    example: {
+      prompt: M('p') + ': في الأسبوع الواحد سبعة أيام (صائبة). ' + M('q') + ': في اليوم الواحد 20 ساعة (خاطئة). أوجدي قيمة صواب ' + M('p ∧ q') + ' و ' + M('p ∨ q') + '.',
+      steps: [
+        'الوصل ' + M('p ∧ q') + ' يحتاج صواب العبارتين معًا، و ' + M('q') + ' خاطئة.',
+        'إذن ' + M('p ∧ q') + ' <b>خاطئة</b>.',
+        'الفصل ' + M('p ∨ q') + ' يكفي فيه صواب عبارة واحدة، و ' + M('p') + ' صائبة.',
+        'إذن ' + M('p ∨ q') + ' <b>صائبة</b>.'
+      ],
+      answer: M('p ∧ q = F') + ' و ' + M('p ∨ q = T')
+    },
+    questions: [
+      {
+        type: 'mcq',
+        prompt: 'إذا كانت ' + M('p') + ' صائبة و ' + M('q') + ' خاطئة، فأي العبارات التالية <b>صائبة</b>؟',
+        options: [M('p ∧ q'), M('~p ∨ q'), M('p ∨ q'), M('p → q')], answer: 2,
+        hint: 'عوّضي بالقيمتين في كل خيار: ' + M('~p') + ' خاطئة هنا، وتذكّري متى تكون الشرطية خاطئة.',
+        explain: M('p ∧ q') + ' خاطئة، و ' + M('~p ∨ q') + ' = خاطئة ∨ خاطئة = خاطئة، و ' + M('p → q') + ' فرضها صائب ونتيجتها خاطئة فهي خاطئة. أما ' + M('p ∨ q') + ' فصائبة لأن ' + M('p') + ' صائبة.'
+      },
+      {
+        type: 'match',
+        prompt: 'الشرطية: «إذا كانت ∠A قائمة فإن قياسها ' + M('90°') + '». وصّلي كل عبارة مرتبطة بصيغتها.',
+        pairs: [
+          ['العكس', 'إذا كان قياس ∠A يساوي ' + M('90°') + ' فإنها قائمة'],
+          ['المعكوس', 'إذا لم تكن ∠A قائمة فإن قياسها لا يساوي ' + M('90°')],
+          ['المعاكس الإيجابي', 'إذا كان قياس ∠A لا يساوي ' + M('90°') + ' فإنها ليست قائمة'],
+          ['النتيجة في الشرطية الأصلية', 'قياسها يساوي ' + M('90°')]
+        ],
+        hint: 'العكس يبدّل الفرض والنتيجة، والمعكوس ينفيهما، والمعاكس الإيجابي يفعل الأمرين معًا.',
+        explain: 'العكس: تبديل الفرض والنتيجة. المعكوس: نفي كل منهما. المعاكس الإيجابي: تبديل ونفي. أما النتيجة فهي ما بعد «فإن» أي «قياسها يساوي ' + M('90°') + '».'
+      },
+      {
+        type: 'point',
+        prompt: 'في الشكل ' + M('p') + ': نجحت الطالبة في الرياضيات، و ' + M('q') + ': نجحت في الكيمياء. حدّدي المنطقة التي تمثل ' + M('p ∧ ~q') + '.',
+        svg: FG.venn(true, { ponly: 4, qonly: 3, both: 46, none: 2 }),
+        targets: [{ id: 'ponly', label: 'الرياضيات فقط' }, { id: 'both', label: 'المادتان معًا' }, { id: 'qonly', label: 'الكيمياء فقط' }, { id: 'none', label: 'لا مادة منهما' }],
+        answer: 'ponly',
+        hint: M('p ∧ ~q') + ' تعني: نجحت في ' + M('p') + ' و <b>لم</b> تنجح في ' + M('q') + '. ابحثي عن المنطقة داخل دائرة ' + M('p') + ' وخارج دائرة ' + M('q') + '.',
+        explain: 'المنطقة داخل دائرة ' + M('p') + ' فقط (وعددها ' + M('4') + ') هي من نجحن في الرياضيات ولم ينجحن في الكيمياء. المجموع الكلي ' + M('4 + 46 + 3 + 2 = 55') + ' طالبة.'
+      }
+    ]
+  },
+  {
+    id: 'w1s3', title: 'التبرير الاستنتاجي والمسلمات',
+    summary: {
+      points: [
+        '<b>التبرير الاستقرائي</b> يعتمد على الملاحظة ويعطي تخمينًا، و<b>التبرير الاستنتاجي</b> يعتمد على حقائق وتعريفات وقواعد ويعطي نتيجة مؤكدة.',
+        '<b>قانون الفصل المنطقي</b>: إذا كانت ' + M('p → q') + ' صائبة و ' + M('p') + ' صائبة فإن ' + M('q') + ' صائبة.',
+        '<b>قانون القياس المنطقي</b>: إذا كانت ' + M('p → q') + ' و ' + M('q → r') + ' صائبتين فإن ' + M('p → r') + ' صائبة.',
+        '<b>المسلمة</b> عبارة تُقبل صحتها دون برهان: أي نقطتين يمر بهما مستقيم واحد فقط، وأي ثلاث نقاط ليست على استقامة واحدة يمر بها مستوى واحد فقط.',
+        'تقاطع مستقيمين نقطة واحدة، وتقاطع مستويين مستقيم.'
+      ],
+      rule: 'يُطبَّق قانون الفصل عند تحقق <b>الفرض</b>، ولا يصح عند تحقق <b>النتيجة</b> فقط.'
+    },
+    example: {
+      prompt: '«إذا حصلت على عمل فسوف تكسب نقودًا.» و «إذا كسبت نقودًا فسوف تتمكن من شراء سيارة.» ما النتيجة الصحيحة؟',
+      steps: [
+        'نرمز: ' + M('p') + ' = حصلت على عمل، ' + M('q') + ' = كسبت نقودًا، ' + M('r') + ' = تمكنت من شراء سيارة.',
+        'المعطيات: ' + M('p → q') + ' و ' + M('q → r') + '، فنطبّق قانون القياس المنطقي.',
+        'النتيجة: ' + M('p → r') + ' أي «إذا حصلت على عمل فسوف تتمكن من شراء سيارة».'
+      ],
+      answer: 'قانون القياس المنطقي ينتج ' + M('p → r')
+    },
+    questions: [
+      {
+        type: 'mcq',
+        prompt: 'المعطيات: «إذا هطل المطر فإن الشارع يبتل.» و «الشارع مبتل الآن.» أي عبارة تنتج <b>بالتبرير الاستنتاجي</b>؟',
+        options: ['هطل المطر', 'لم يهطل المطر', 'لا يمكن الجزم بأن المطر هطل', 'سيهطل المطر غدًا'], answer: 2,
+        hint: 'قانون الفصل يحتاج أن يتحقق <b>الفرض</b>. هنا تحققت النتيجة. هل ثمة أمر آخر قد يبلل الشارع؟',
+        explain: 'الشارع المبتل هو النتيجة لا الفرض، ويمكن أن يبتل لأسباب أخرى (غسله مثلًا)، فلا يصح الاستنتاج بأن المطر هطل. قانون الفصل يعمل من الفرض إلى النتيجة فقط.'
+      },
+      {
+        type: 'match',
+        prompt: 'وصّلي كل مسلمة أو نتيجة بما يكمّلها.',
+        pairs: [
+          ['أي نقطتين مختلفتين', 'يمر بهما مستقيم واحد فقط'],
+          ['ثلاث نقاط ليست على استقامة واحدة', 'يمر بها مستوى واحد فقط'],
+          ['إذا تقاطع مستقيمان', 'فتقاطعهما نقطة واحدة'],
+          ['إذا تقاطع مستويان', 'فتقاطعهما مستقيم']
+        ],
+        hint: 'تذكّري: النقطة تحدد بتقاطع مستقيمين، والمستقيم يحدد بتقاطع مستويين.',
+        explain: 'هذه مسلمات الهندسة: نقطتان تحددان مستقيمًا، وثلاث نقاط غير مستقيمة تحدد مستوى، وتقاطع مستقيمين نقطة، وتقاطع مستويين مستقيم.'
+      },
+      {
+        type: 'mcq',
+        prompt: 'العبارة: «يحوي المستقيم ' + M('r') + ' النقطة ' + M('P') + ' فقط». هذه العبارة:',
+        options: ['صائبة دائمًا', 'صائبة أحيانًا', 'غير صائبة أبدًا', 'لا يمكن الحكم عليها'], answer: 2,
+        hint: 'كم نقطة يحوي أي مستقيم على الأقل؟',
+        explain: 'من المسلمات: كل مستقيم يحوي نقطتين على الأقل، فلا يمكن أن يحوي نقطة واحدة فقط. العبارة غير صائبة أبدًا.'
+      }
+    ]
+  },
+  {
+    id: 'w1s4', title: 'البرهان الجبري وعلاقات القطع والزوايا',
+    summary: {
+      points: [
+        '<b>خصائص المساواة</b>: الجمع، الطرح، الضرب، القسمة (على عدد ' + M('≠ 0') + ')، الانعكاس ' + M('a = a') + '، التماثل (إذا ' + M('a = b') + ' فإن ' + M('b = a') + ')، التعدي، التعويض، التوزيع.',
+        '<b>مسلمة جمع الأطوال</b>: تقع ' + M('B') + ' بين ' + M('A') + ' و ' + M('C') + ' إذا وفقط إذا كان ' + M('AB + BC = AC') + '.',
+        'الزاويتان المتجاورتان على مستقيم <b>متكاملتان</b> (مجموعهما ' + M('180°') + ')، والزاويتان اللتان ضلعاهما غير المشتركين يشكلان زاوية قائمة <b>متتامتان</b> (مجموعهما ' + M('90°') + ').',
+        'الزاويتان المتقابلتان بالرأس <b>متطابقتان</b>.'
+      ],
+      rule: 'في البرهان تُبرَّر كل خطوة بمعطى أو تعريف أو مسلمة أو نظرية أو خاصية.'
+    },
+    example: {
+      prompt: 'الزاويتان ∠1 و ∠2 متجاورتان على مستقيم، ' + M('m∠1 = 4x − 19') + ' و ' + M('m∠2 = x + 4') + '. أوجدي قياس كل منهما.',
+      figure: FG.angLine('(4x − 19)°', '(x + 4)°'),
+      steps: [
+        'متكاملتان لأنهما متجاورتان على مستقيم: ' + M('(4x − 19) + (x + 4) = 180') + '.',
+        'نبسّط: ' + M('5x − 15 = 180') + '.',
+        'نجمع 15 للطرفين: ' + M('5x = 195') + '، ثم نقسم على 5: ' + M('x = 39') + '.',
+        M('m∠1 = 4(39) − 19 = 137°') + ' و ' + M('m∠2 = 39 + 4 = 43°') + '.'
+      ],
+      answer: M('137°') + ' و ' + M('43°') + ' (المجموع ' + M('180°') + ' ✓)'
+    },
+    questions: [
+      {
+        type: 'mcq',
+        prompt: 'الزاويتان ∠1 و ∠2 متجاورتان على مستقيم، ' + M('m∠1 = (3x + 10)°') + ' و ' + M('m∠2 = (2x + 20)°') + '. ما قياس ∠1؟',
+        figure: FG.angLine('(3x + 10)°', '(2x + 20)°'),
+        options: [M('30°'), M('46°'), M('80°'), M('100°')], answer: 3,
+        hint: 'مجموع الزاويتين ' + M('180°') + '. أوجدي ' + M('x') + ' أولًا ثم عوّضي في ∠1 (لا في ∠2).',
+        explain: M('3x + 10 + 2x + 20 = 180') + ' فـ ' + M('5x = 150') + ' و ' + M('x = 30') + '. إذن ' + M('m∠1 = 3(30) + 10 = 100°') + ' (و ' + M('m∠2 = 80°') + ').'
+      },
+      {
+        type: 'order',
+        prompt: 'المعطى: ' + M('WY ≅ XZ') + '، والنقاط ' + M('W, X, Y, Z') + ' على مستقيم بهذا الترتيب. المطلوب: ' + M('WX ≅ YZ') + '. رتّبي خطوات البرهان.',
+        figure: FG.line4(),
+        steps: [
+          'المعطى: ' + M('WY ≅ XZ'),
+          M('WY = XZ') + ' (تعريف تطابق القطع المستقيمة)',
+          M('WX + XY = WY') + ' و ' + M('XY + YZ = XZ') + ' (مسلمة جمع أطوال القطع)',
+          M('WX + XY = XY + YZ') + ' (بالتعويض)',
+          M('WX = YZ') + ' (بطرح ' + M('XY') + ' من الطرفين)',
+          M('WX ≅ YZ') + ' (تعريف تطابق القطع المستقيمة)'
+        ],
+        hint: 'ابدئي بالمعطى، ثم حوّلي التطابق إلى مساواة، ثم استعملي مسلمة الجمع، ثم الجبر، وأنهي بالعودة إلى التطابق.',
+        explain: 'نحوّل التطابق إلى مساواة أطوال، نكتب كل طول بجمع القطعتين، نعوّض ونطرح ' + M('XY') + ' من الطرفين فنحصل على ' + M('WX = YZ') + ' ثم نعيدها إلى تطابق.'
+      },
+      {
+        type: 'match',
+        prompt: 'وصّلي كل عبارة بالخاصية التي تبرّرها.',
+        pairs: [
+          ['إذا كان ' + M('a = b') + ' فإن ' + M('b = a'), 'خاصية التماثل'],
+          ['إذا كان ' + M('2x + 19 = 27') + ' فإن ' + M('2x = 8'), 'خاصية الطرح'],
+          [M('5(3x + 1) = 15x + 5'), 'خاصية التوزيع'],
+          ['إذا كان ' + M('a = b') + ' و ' + M('b = c') + ' فإن ' + M('a = c'), 'خاصية التعدي']
+        ],
+        hint: 'في الخيار الثاني، ما العملية التي أجريت على الطرفين للانتقال من ' + M('27') + ' إلى ' + M('8') + '؟',
+        explain: 'تبديل طرفي المساواة هو التماثل؛ طرح ' + M('19') + ' من الطرفين هو خاصية الطرح؛ ضرب ' + M('5') + ' في كل حد داخل القوس هو التوزيع؛ و ' + M('a = b = c') + ' هو التعدي.'
+      }
+    ]
+  }
+];
+
+</script>
+<script>
+/* العالم ٢: التوازي والتعامد — الفصل الثاني (دروس 2-1 إلى 2-6) */
+(function () {
+  var angTargets = [1, 2, 3, 4, 5, 6, 7, 8].map(function (n) { return { id: String(n), label: '∠' + n }; });
+  GAME_DATA.worlds[1].stages = [
+    {
+      id: 'w2s1', title: 'المستقيمات والقاطع وعلاقات الزوايا',
+      summary: {
+        points: [
+          '<b>المستقيمان المتوازيان</b> لا يتقاطعان أبدًا ويقعان في مستوى واحد، و<b>المتخالفان</b> لا يتقاطعان ولا يقعان في مستوى واحد.',
+          '<b>القاطع</b> مستقيم يقطع مستقيمين أو أكثر في نقاط مختلفة من المستوى نفسه.',
+          'أزواج الزوايا: <b>متناظرتان</b> (شكل F)، <b>متبادلتان داخليًا</b> (شكل Z)، <b>متبادلتان خارجيًا</b>، <b>متحالفتان</b> (داخليتان في جهة واحدة من القاطع).',
+          'إذا قطع قاطع مستقيمين <b>متوازيين</b> فإن المتناظرتين والمتبادلتين متطابقتان، والمتحالفتين متكاملتان.'
+        ],
+        rule: 'متوازيان ⇒ المتناظرتان والمتبادلتان <b>متطابقتان</b>، والمتحالفتان <b>مجموعهما ' + M('180°') + '</b>.'
+      },
+      example: {
+        prompt: 'ℓ ∥ m والقاطع يقطعهما، و ' + M('m∠3 = 65°') + '. أوجدي قياس ∠6 و ∠5 و ∠7.',
+        figure: FG.transv({ given: { 3: '65°' }, hl: { 3: 1 } }),
+        steps: [
+          '∠3 و ∠6 <b>متبادلتان داخليًا</b> والمستقيمان متوازيان، فهما متطابقتان: ' + M('m∠6 = 65°') + '.',
+          '∠3 و ∠5 <b>متحالفتان</b> فهما متكاملتان: ' + M('m∠5 = 180° − 65° = 115°') + '.',
+          '∠3 و ∠7 <b>متناظرتان</b> فهما متطابقتان: ' + M('m∠7 = 65°') + '.'
+        ],
+        answer: M('m∠6 = 65°') + '، ' + M('m∠5 = 115°') + '، ' + M('m∠7 = 65°')
+      },
+      questions: [
+        {
+          type: 'point',
+          prompt: 'في الشكل ℓ ∥ m. حدّدي الزاوية <b>المتبادلة داخليًا</b> مع ∠3 (المظلّلة).',
+          svg: FG.transv({ hot: true, hl: { 3: 1 } }), targets: angTargets, answer: '6',
+          hint: 'الزاويتان المتبادلتان داخليًا بينهما المستقيمان وعلى جهتين مختلفتين من القاطع (شكل Z).',
+          explain: '∠3 تقع تحت ℓ على يسار القاطع، فمتبادلتها الداخلية هي ∠6 فوق m على يمين القاطع. بما أن ℓ ∥ m فإن ' + M('∠3 ≅ ∠6') + '.'
+        },
+        {
+          type: 'mcq',
+          prompt: 'ℓ ∥ m، و ' + M('m∠2 = (3x + 5)°') + ' و ' + M('m∠6 = (5x − 25)°') + '. ما قياس ∠2؟',
+          figure: FG.transv({ given: { 2: '(3x+5)°', 6: '(5x−25)°' } }),
+          options: [M('15°'), M('50°'), M('80°'), M('130°')], answer: 1,
+          hint: '∠2 و ∠6 متناظرتان. فهل هما متطابقتان أم متكاملتان؟',
+          explain: 'المتناظرتان متطابقتان: ' + M('3x + 5 = 5x − 25') + ' فـ ' + M('x = 15') + ' و ' + M('m∠2 = 3(15) + 5 = 50°') + '. (لو افترضنا التكامل لحصلنا على ' + M('80°') + ' خطأً.)'
+        },
+        {
+          type: 'match',
+          prompt: 'اعتمادًا على الشكل، وصّلي كل زوجين من الزوايا بنوع علاقتهما.',
+          figure: FG.transv(),
+          pairs: [
+            ['∠3 و ∠6', 'متبادلتان داخليًا'],
+            ['∠1 و ∠8', 'متبادلتان خارجيًا'],
+            ['∠4 و ∠6', 'متحالفتان'],
+            ['∠1 و ∠5', 'متناظرتان']
+          ],
+          hint: 'حدّدي هل الزاويتان داخل المنطقة بين المستقيمين أم خارجها، وهل هما في جهة واحدة من القاطع.',
+          explain: '∠3 و ∠6 داخليتان على جهتين (Z). ∠1 و ∠8 خارجيتان على جهتين. ∠4 و ∠6 داخليتان في الجهة نفسها (متحالفتان). ∠1 و ∠5 في الموقع نفسه عند كل مستقيم (متناظرتان).'
+        }
+      ]
+    },
+    {
+      id: 'w2s2', title: 'إثبات توازي مستقيمين',
+      summary: {
+        points: [
+          'إذا قطع قاطع مستقيمين في مستوى وكانت <b>متناظرتان متطابقتين</b> فالمستقيمان متوازيان.',
+          'كذلك إذا كانت <b>متبادلتان</b> (داخليًا أو خارجيًا) <b>متطابقتين</b>، أو <b>متحالفتان متكاملتين</b>.',
+          'إذا كان القاطع <b>عموديًا على كل</b> من المستقيمين فهما متوازيان.',
+          '<b>مسلمة التوازي</b>: إذا علم مستقيم ونقطة لا تقع عليه فيوجد مستقيم <b>واحد فقط</b> يمر بالنقطة ويوازي المستقيم المعلوم.'
+        ],
+        rule: 'عكس النظريات السابقة: <b>تطابق</b> المتناظرتين أو المتبادلتين، أو <b>تكامل</b> المتحالفتين، يضمن التوازي.'
+      },
+      example: {
+        prompt: 'قطع قاطع المستقيمين ℓ و m، و ' + M('m∠4 = 115°') + ' و ' + M('m∠6 = 65°') + '. هل ℓ ∥ m؟',
+        figure: FG.transv({ given: { 4: '115°', 6: '65°' }, hl: { 4: 1, 6: 1 } }),
+        steps: [
+          '∠4 و ∠6 داخليتان في جهة واحدة من القاطع، فهما <b>متحالفتان</b>.',
+          'نجمع: ' + M('115° + 65° = 180°') + '، فهما متكاملتان.',
+          'حسب عكس نظرية الزاويتين المتحالفتين: المستقيمان متوازيان.'
+        ],
+        answer: M('ℓ ∥ m')
+      },
+      questions: [
+        {
+          type: 'mcq',
+          prompt: 'قطع قاطع مستقيمين فكانت ∠3 و ∠6 (متبادلتان داخليًا) كل منهما ' + M('72°') + '. ماذا نستنتج عن المستقيمين؟',
+          options: ['متوازيان', 'متعامدان', 'متقاطعان خارج القاطع', 'لا يمكن الحكم دون معرفة بقية الزوايا'], answer: 0,
+          hint: 'تطابق الزاويتين المتبادلتين داخليًا هو شرط من شروط التوازي.',
+          explain: 'عكس نظرية الزاويتين المتبادلتين داخليًا: إذا تطابقتا فالمستقيمان متوازيان. لا نحتاج إلى بقية الزوايا.'
+        },
+        {
+          type: 'mcq',
+          prompt: 'قطع قاطع مستقيمين، و ' + M('m∠4 = (4x + 8)°') + ' و ' + M('m∠6 = (2x + 40)°') + ' (متحالفتان). ما قيمة ' + M('x') + ' التي تجعل المستقيمين متوازيين؟',
+          figure: FG.transv({ given: { 4: '(4x+8)°', 6: '(2x+40)°' }, hl: { 4: 1, 6: 1 } }),
+          options: [M('x = 16'), M('x = 22'), M('x = 30'), M('x = 44')], answer: 1,
+          hint: 'المتحالفتان تجعلان التوازي عندما يكون مجموعهما ' + M('180°') + ' لا عندما تتساويان.',
+          explain: M('(4x + 8) + (2x + 40) = 180') + ' فـ ' + M('6x = 132') + ' و ' + M('x = 22') + '. (القيمة ' + M('16') + ' تنتج من مساواة الزاويتين وهي خطأ هنا.)'
+        },
+        {
+          type: 'order',
+          prompt: 'المعطى: ' + M('m∠1 = 115°') + ' و ' + M('m∠6 = 65°') + '. المطلوب: ℓ ∥ m. رتّبي خطوات البرهان.',
+          figure: FG.transv({ given: { 1: '115°', 6: '65°' } }),
+          steps: [
+            'المعطى: ' + M('m∠1 = 115°') + ' و ' + M('m∠6 = 65°'),
+            '∠1 ≅ ∠4 لأنهما متقابلتان بالرأس، فـ ' + M('m∠4 = 115°'),
+            M('m∠4 + m∠6 = 115° + 65° = 180°'),
+            '∠4 و ∠6 متحالفتان ومتكاملتان',
+            'ℓ ∥ m (عكس نظرية الزاويتين المتحالفتين)'
+          ],
+          hint: 'لا يوجد زوج متحالفتين معطى مباشرة. ابدئي بإيجاد قياس زاوية جديدة من المعطيات.',
+          explain: 'ننقل القياس ' + M('115°') + ' إلى ∠4 بالتقابل بالرأس، فيصبح مجموع المتحالفتين ∠4 و ∠6 يساوي ' + M('180°') + '، ثم نطبّق العكس.'
+        }
+      ]
+    },
+    {
+      id: 'w2s3', title: 'الميل ومعادلات المستقيم',
+      summary: {
+        points: [
+          '<b>الميل</b> ' + M('m') + ' = التغير الرأسي ÷ التغير الأفقي = ' + F(M('y₂ − y₁'), M('x₂ − x₁')) + ' (حيث ' + M('x₁ ≠ x₂') + ').',
+          'ميل موجب: مستقيم صاعد. سالب: هابط. صفر: أفقي. غير معرّف: رأسي.',
+          '<b>المتوازيان</b> غير الرأسيين لهما الميل نفسه. و<b>المتعامدان</b> حاصل ضرب ميليهما ' + M('−1') + '.',
+          'صيغة الميل والمقطع: ' + M('y = mx + b') + '. صيغة الميل ونقطة: ' + M('y − y₁ = m(x − x₁)') + '.',
+          'المستقيم الأفقي ' + M('y = b') + '، والرأسي ' + M('x = a') + '.'
+        ],
+        rule: 'متوازيان: ' + M('m₁ = m₂') + ' · متعامدان: ' + M('m₁ · m₂ = −1')
+      },
+      example: {
+        prompt: 'اكتبي معادلة المستقيم المار بالنقطتين ' + M('(0, 3)') + ' و ' + M('(−2, −1)') + '.',
+        figure: FG.slope(),
+        steps: [
+          'الميل: ' + M('m = (−1 − 3) ÷ (−2 − 0) = (−4) ÷ (−2) = 2') + '.',
+          'المقطع ' + M('b = 3') + ' لأن المستقيم يمر بالنقطة ' + M('(0, 3)') + '.',
+          'المعادلة: ' + M('y = 2x + 3') + '.'
+        ],
+        answer: M('y = 2x + 3')
+      },
+      questions: [
+        {
+          type: 'mcq',
+          prompt: 'ما ميل المستقيم المار بالنقطتين ' + M('(2, 1)') + ' و ' + M('(8, 5)') + ' ؟',
+          options: [F('2', '3'), F('3', '2'), '−' + F('2', '3'), M('6')], answer: 0,
+          hint: 'الميل = التغير في ' + M('y') + ' ÷ التغير في ' + M('x') + ' (لا العكس).',
+          explain: M('m = (5 − 1) ÷ (8 − 2) = 4 ÷ 6 = 2/3') + '. (القيمة ' + M('3/2') + ' تنتج من قلب النسبة.)'
+        },
+        {
+          type: 'point',
+          prompt: 'المستقيم ℓ يمر بالنقطتين ' + M('(0, 0)') + ' و ' + M('(2, 4)') + '. حدّدي المستقيم <b>العمودي</b> على ℓ.',
+          svg: FG.coordLines(),
+          targets: [{ id: 'l', label: 'ℓ' }, { id: 'a', label: 'a' }, { id: 'b', label: 'b' }, { id: 'c', label: 'c' }],
+          answer: 'a',
+          hint: 'ميل ℓ يساوي ' + M('2') + '. أوجدي ميل كل مستقيم من نقطتين على الشبكة، ثم ابحثي عمّا يجعل حاصل الضرب ' + M('−1') + '.',
+          explain: 'ميل ℓ = 2، وميل a = ' + F('−1', '2') + ' فحاصل الضرب ' + M('2 × (−1/2) = −1') + ' فهما متعامدان. المستقيم b ميله 2 (يوازي ℓ)، و c ميله ' + M('−2') + ' (حاصل الضرب ' + M('−4') + ').'
+        },
+        {
+          type: 'match',
+          prompt: 'وصّلي كل وصف بمعادلته.',
+          pairs: [
+            ['ميله ' + M('4') + ' ومقطع ' + M('y') + ' يساوي ' + M('−3'), M('y = 4x − 3')],
+            ['ميله ' + M('2') + ' ويمر بالنقطة ' + M('(3, 11)'), M('y − 11 = 2(x − 3)')],
+            ['أفقي ويمر بالنقطة ' + M('(5, −2)'), M('y = −2')],
+            ['رأسي ويمر بالنقطة ' + M('(−2, 6)'), M('x = −2')]
+          ],
+          hint: 'المستقيم الأفقي كل نقاطه لها الإحداثي ' + M('y') + ' نفسه، والرأسي كل نقاطه لها الإحداثي ' + M('x') + ' نفسه.',
+          explain: 'الميل والمقطع: ' + M('y = mx + b') + '. الميل ونقطة: ' + M('y − y₁ = m(x − x₁)') + '. الأفقي ' + M('y = ') + ' الإحداثي الصادي المشترك، والرأسي ' + M('x = ') + ' الإحداثي السيني المشترك.'
+        }
+      ]
+    },
+    {
+      id: 'w2s4', title: 'الأعمدة والمسافة',
+      summary: {
+        points: [
+          '<b>البعد بين نقطة ومستقيم</b> هو طول القطعة <b>العمودية</b> من النقطة إلى المستقيم (وهو أقصر مسافة).',
+          '<b>مسلمة التعامد</b>: لأي مستقيم ونقطة لا تقع عليه يوجد مستقيم واحد فقط يمر بالنقطة ويكون عموديًا على المستقيم.',
+          'نقطة ومستقيم ' + M('ax + by + c = 0') + ': ' + M('d = |ax₁ + by₁ + c| ÷ √(a² + b²)') + '.',
+          'مستقيمان متوازيان ' + M('y = mx + b₁') + ' و ' + M('y = mx + b₂') + ': ' + M('d = |b₂ − b₁| ÷ √(m² + 1)') + '.',
+          'أفقيان ' + M('y = y₁') + ' و ' + M('y = y₂') + ': ' + M('d = |y₁ − y₂|') + '. ورأسيان ' + M('x = x₁') + ' و ' + M('x = x₂') + ': ' + M('d = |x₁ − x₂|') + '.'
+        ],
+        rule: 'المسافة تُقاس دائمًا على القطعة <b>العمودية</b>.'
+      },
+      example: {
+        prompt: 'أوجدي البعد بين المستقيمين ' + M('y = −2x + 4') + ' و ' + M('y = −2x + 14') + '.',
+        steps: [
+          'الميلان متساويان ' + M('(−2)') + '، فالمستقيمان متوازيان ونستعمل ' + M('d = |b₂ − b₁| ÷ √(m² + 1)') + '.',
+          M('b₁ = 4') + ' و ' + M('b₂ = 14') + ' و ' + M('m² + 1 = 4 + 1 = 5') + '.',
+          M('d = |14 − 4| ÷ √5 = 10 ÷ √5 = 2√5') + ' وحدة.'
+        ],
+        answer: M('d = 2√5') + ' وحدة'
+      },
+      questions: [
+        {
+          type: 'mcq',
+          prompt: 'ما البعد بين المستقيمين الأفقيين ' + M('y = 7') + ' و ' + M('y = −3') + ' ؟',
+          options: ['4 وحدات', '10 وحدات', '7 وحدات', '3 وحدات'], answer: 1,
+          hint: 'للأفقيين: ' + M('d = |y₁ − y₂|') + '. انتبهي لإشارة العدد السالب.',
+          explain: M('d = |7 − (−3)| = |10| = 10') + ' وحدات. (الناتج ' + M('4') + ' يأتي من الخطأ في إشارة ' + M('−3') + '.)'
+        },
+        {
+          type: 'mcq',
+          prompt: 'ما بعد النقطة ' + M('(3, 4)') + ' عن المستقيم ' + M('3x + 4y − 5 = 0') + ' ؟',
+          options: ['4 وحدات', '5 وحدات', '6 وحدات', '20 وحدة'], answer: 0,
+          hint: 'عوّضي في ' + M('|ax₁ + by₁ + c|') + ' ثم اقسمي على ' + M('√(a² + b²)') + '.',
+          explain: M('|3(3) + 4(4) − 5| = |20| = 20') + ' و ' + M('√(9 + 16) = 5') + ' فـ ' + M('d = 20 ÷ 5 = 4') + '. (الخيار ' + M('5') + ' ينتج إذا أهملنا ' + M('c') + '، و ' + M('20') + ' إذا نسينا القسمة.)'
+        },
+        {
+          type: 'point',
+          prompt: 'رُسمت من النقطة C ثلاث قطع إلى المستقيم AB. حدّدي القطعة التي تمثل <b>البعد</b> بين C والمستقيم.',
+          svg: FG.distFig(),
+          targets: [{ id: 'd', label: 'CD' }, { id: 'e', label: 'CE' }, { id: 'f', label: 'CF' }],
+          answer: 'e',
+          hint: 'البعد يقاس على القطعة العمودية، وهي أقصر القطع الثلاث.',
+          explain: 'القطعة CE هي العمودية على المستقيم AB، وطولها هو البعد بين C والمستقيم، وهي أقصر من CD و CF.'
+        }
+      ]
+    }
+  ];
+})();
+
+</script>
+<script>
+/* العالم ٣: المثلثات المتطابقة — الفصل الثالث (دروس 3-1 إلى 3-7) */
+GAME_DATA.worlds[2].stages = [
+  {
+    id: 'w3s1', title: 'تصنيف المثلثات وزواياها',
+    summary: {
+      points: [
+        'بحسب <b>الزوايا</b>: حاد الزوايا (ثلاث زوايا حادة)، قائم الزاوية (زاوية قائمة)، منفرج الزاوية (زاوية منفرجة).',
+        'بحسب <b>الأضلاع</b>: متطابق الأضلاع (ثلاثة أضلاع متطابقة)، متطابق الضلعين (ضلعان على الأقل متطابقان)، مختلف الأضلاع (لا أضلاع متطابقة).',
+        'مجموع قياسات زوايا المثلث الداخلية ' + M('180°') + '.',
+        '<b>نظرية الزاوية الخارجية</b>: قياسها = مجموع قياسي الزاويتين الداخليتين البعيدتين عنها.',
+        'الزاويتان الحادتان في المثلث القائم <b>متتامتان</b>.'
+      ],
+      rule: 'زاوية خارجية = مجموع الداخليتين البعيدتين · مجموع الزوايا الداخلية = ' + M('180°')
+    },
+    example: {
+      prompt: 'المثلث RST متطابق الأضلاع، ' + M('RS = x + 9') + ' و ' + M('ST = 2x') + ' و ' + M('RT = 3x − 9') + '. أوجدي ' + M('x') + ' وطول كل ضلع.',
+      steps: [
+        'الأضلاع متساوية: ' + M('x + 9 = 2x') + ' فـ ' + M('x = 9') + '.',
+        'نتحقق: ' + M('RS = 9 + 9 = 18') + ' و ' + M('ST = 2(9) = 18') + ' و ' + M('RT = 3(9) − 9 = 18') + '.'
+      ],
+      answer: M('x = 9') + ' وكل ضلع ' + M('18')
+    },
+    questions: [
+      {
+        type: 'mcq',
+        prompt: 'مثلث قياسا زاويتين فيه ' + M('38°') + ' و ' + M('52°') + '. ما تصنيفه بحسب زواياه؟',
+        options: ['حاد الزوايا', 'قائم الزاوية', 'منفرج الزاوية', 'متطابق الأضلاع'], answer: 1,
+        hint: 'لا تكتفي بأن الزاويتين المعطاتين حادتان. أوجدي قياس الزاوية الثالثة أولًا.',
+        explain: 'الزاوية الثالثة ' + M('180° − 38° − 52° = 90°') + '، فالمثلث قائم الزاوية.'
+      },
+      {
+        type: 'mcq',
+        prompt: 'في المثلث ABC: ' + M('m∠A = 44°') + ' و ' + M('m∠C = 61°') + '، والزاوية ∠1 خارجية عند B. ما قياس ∠1؟',
+        figure: FG.triExt('44°', '61°', '∠1'),
+        options: [M('75°'), M('105°'), M('119°'), M('136°')], answer: 1,
+        hint: 'الزاوية الخارجية تساوي مجموع زاويتين داخليتين. أيّ زاويتين؟',
+        explain: 'الداخليتان البعيدتان عن ∠1 هما ∠A و ∠C: ' + M('44° + 61° = 105°') + '. (القيمة ' + M('75°') + ' هي الزاوية الداخلية عند B.)'
+      },
+      {
+        type: 'match',
+        prompt: 'وصّلي كل وصف بتصنيف المثلث.',
+        pairs: [
+          ['ثلاثة أضلاع متطابقة', 'متطابق الأضلاع'],
+          ['إحدى زواياه ' + M('90°'), 'قائم الزاوية'],
+          ['ضلعان على الأقل متطابقان', 'متطابق الضلعين'],
+          ['لا توجد فيه أضلاع متطابقة', 'مختلف الأضلاع']
+        ],
+        hint: 'ما كان تصنيفه بحسب الأضلاع يتعلق بالتطابق، وما كان بحسب الزوايا يتعلق بنوع الزاوية.',
+        explain: 'التصنيف بحسب الأضلاع: متطابق الأضلاع، متطابق الضلعين، مختلف الأضلاع. والتصنيف بحسب الزوايا: حاد، قائم، منفرج.'
+      }
+    ]
+  },
+  {
+    id: 'w3s2', title: 'التناظر ومعنى التطابق',
+    summary: {
+      points: [
+        'يتطابق المضلعان إذا وفقط إذا تطابقت <b>جميع عناصرهما المتناظرة</b> (أضلاع وزوايا).',
+        'في عبارة التطابق ' + M('△ABC ≅ △HJK') + ' يدل ترتيب الرؤوس على التناظر: ' + M('AB ≅ HJ') + '، ' + M('BC ≅ JK') + '، ' + M('CA ≅ KH') + '، و ' + M('∠A ≅ ∠H') + '، ' + M('∠B ≅ ∠J') + '، ' + M('∠C ≅ ∠K') + '.',
+        '<b>نظرية الزاوية الثالثة</b>: إذا تطابقت زاويتان في مثلث مع زاويتين في مثلث آخر فالزاويتان الثالثتان متطابقتان.',
+        'خصائص التطابق: الانعكاس، التماثل، التعدي.'
+      ],
+      rule: 'الحرف الأول يقابل الحرف الأول، والثاني الثاني، والثالث الثالث في عبارة التطابق.'
+    },
+    example: {
+      prompt: 'المثلثان ABC (قائم في A) و GFH (قائم في F)، ' + M('∠B ≅ ∠H') + ' و ' + M('m∠C = 80°') + ' و ' + M('m∠G = (2x)°') + '. أوجدي ' + M('x') + '.',
+      figure: FG.twoRight(),
+      steps: [
+        '∠A ≅ ∠F (كلتاهما قائمة) و ∠B ≅ ∠H (معطى).',
+        'بنظرية الزاوية الثالثة: ' + M('∠C ≅ ∠G') + '.',
+        M('2x = 80') + ' فـ ' + M('x = 40') + '.'
+      ],
+      answer: M('x = 40')
+    },
+    questions: [
+      {
+        type: 'match',
+        prompt: 'إذا كان ' + M('△RTS ≅ △JKL') + '، فوصّلي كل عنصر بمناظره.',
+        pairs: [[M('RT'), M('JK')], [M('TS'), M('KL')], [M('RS'), M('JL')], [M('∠T'), M('∠K')]],
+        hint: 'R تقابل J، و T تقابل K، و S تقابل L بحسب ترتيب الرؤوس.',
+        explain: 'من ترتيب الرؤوس: ' + M('R↔J') + '، ' + M('T↔K') + '، ' + M('S↔L') + '. فالضلع ' + M('RT') + ' يناظر ' + M('JK') + '، و ' + M('TS') + ' يناظر ' + M('KL') + '، و ' + M('RS') + ' يناظر ' + M('JL') + '، والزاوية ∠T تناظر ∠K.'
+      },
+      {
+        type: 'mcq',
+        prompt: 'المثلثان ABC (قائم في A) و GFH (قائم في F)، ' + M('∠B ≅ ∠H') + '، و ' + M('m∠C = 80°') + '، و ' + M('m∠G = (2x)°') + '. ما قيمة ' + M('x') + '؟',
+        figure: FG.twoRight(),
+        options: [M('x = 10'), M('x = 40'), M('x = 80'), M('x = 160')], answer: 1,
+        hint: 'زاويتان متطابقتان في كل مثلث (القائمتان و ∠B ≅ ∠H). ماذا ينتج عن الزاويتين الثالثتين؟',
+        explain: 'بنظرية الزاوية الثالثة ' + M('∠C ≅ ∠G') + ' فـ ' + M('2x = 80') + ' و ' + M('x = 40') + '.'
+      },
+      {
+        type: 'point',
+        prompt: M('△PQR ≅ △XYZ') + '. حدّدي في المثلث XYZ الضلع <b>المناظر</b> للضلع ' + M('QR') + '.',
+        svg: FG.twoTri(),
+        targets: [{ id: 'xy', label: 'XY' }, { id: 'yz', label: 'YZ' }, { id: 'xz', label: 'XZ' }],
+        answer: 'yz',
+        hint: 'اكتبي عبارة التطابق تحت بعضها: P مع X، و Q مع Y، و R مع Z. ثم ابحثي عن مقابلة الضلع QR.',
+        explain: 'Q تقابل Y و R تقابل Z، فالضلع ' + M('QR') + ' يناظر ' + M('YZ') + '. لا يهم موضع المثلث أو دورانه، المهم ترتيب الرؤوس.'
+      }
+    ]
+  },
+  {
+    id: 'w3s3', title: 'طرق إثبات التطابق',
+    summary: {
+      points: [
+        '<b>SSS</b> (مسلمة): ثلاثة أضلاع في مثلث تطابق نظائرها في آخر.',
+        '<b>SAS</b> (مسلمة): ضلعان والزاوية <b>المحصورة</b> بينهما.',
+        '<b>ASA</b> (مسلمة): زاويتان والضلع <b>المحصور</b> بينهما.',
+        '<b>AAS</b> (نظرية): زاويتان وضلع <b>غير محصور</b> بينهما.',
+        'الضلع المشترك بين مثلثين يتطابق مع نفسه بخاصية <b>الانعكاس</b>.'
+      ],
+      rule: 'حدّدي موقع الضلع أو الزاوية: بين ماذا؟ <b>محصور</b> (SAS و ASA) أم <b>غير محصور</b> (AAS)؟'
+    },
+    example: {
+      prompt: 'المعطى: ' + M('QR ≅ SR') + ' و ' + M('ST ≅ QT') + '. أثبتي أن ' + M('△QRT ≅ △SRT') + '.',
+      figure: FG.sssFig(),
+      steps: [
+        M('QR ≅ SR') + ' و ' + M('ST ≅ QT') + ' (معطيات).',
+        M('RT ≅ RT') + ' (خاصية الانعكاس، ضلع مشترك).',
+        'ثلاثة أضلاع في المثلث الأول تطابق نظائرها في الثاني، فـ ' + M('△QRT ≅ △SRT') + ' (SSS).'
+      ],
+      answer: 'التطابق بمسلمة SSS'
+    },
+    questions: [
+      {
+        type: 'mcq',
+        prompt: 'العلامات في الشكل تدل على تطابق ضلعين وزاوية بين المثلثين ABC و DEF. بأي مسلمة يتطابقان؟',
+        figure: FG.sasFig(),
+        options: ['SSS', 'SAS', 'ASA', 'AAS'], answer: 1,
+        hint: 'الزاوية المعلّمة تقع عند B وهي بين الضلعين AB و BC المعلّمين.',
+        explain: 'ضلعان ' + M('AB ≅ DE') + ' و ' + M('BC ≅ EF') + ' والزاوية ' + M('∠B ≅ ∠E') + ' محصورة بينهما، فالتطابق بمسلمة SAS.'
+      },
+      {
+        type: 'order',
+        prompt: 'المعطى: ' + M('∠K ≅ ∠M') + ' و ' + M('JL') + ' تنصف ∠KLM. أثبتي أن ' + M('△JKL ≅ △JML') + '. رتّبي خطوات البرهان.',
+        figure: FG.aasFig(),
+        steps: [
+          'المعطى: ' + M('∠K ≅ ∠M') + ' و ' + M('JL') + ' تنصف ∠KLM',
+          M('∠KLJ ≅ ∠MLJ') + ' (تعريف منصف الزاوية)',
+          M('JL ≅ JL') + ' (خاصية الانعكاس)',
+          M('△JKL ≅ △JML') + ' (AAS)'
+        ],
+        hint: 'بعد المعطيات نحتاج زاوية ثانية متطابقة ثم ضلعًا، وبعدها نذكر المسلمة أو النظرية.',
+        explain: 'المنصف يعطي زاويتين متطابقتين عند L، والضلع JL مشترك، وهو غير محصور بين الزاويتين المتطابقتين، فنستعمل AAS.'
+      },
+      {
+        type: 'mcq',
+        prompt: 'في المثلثين ABC و DEF: ' + M('∠A ≅ ∠D') + ' و ' + M('∠B ≅ ∠E') + '. أي معطى إضافي يكفي لإثبات التطابق بمسلمة <b>ASA</b>؟',
+        options: [M('AB ≅ DE'), M('BC ≅ EF'), M('AC ≅ DF'), M('∠C ≅ ∠F')], answer: 0,
+        hint: 'في ASA يجب أن يكون الضلع محصورًا بين الزاويتين A و B.',
+        explain: 'الضلع الواقع بين الزاويتين A و B هو ' + M('AB') + '. أما ' + M('BC ≅ EF') + ' أو ' + M('AC ≅ DF') + ' فتعطيان AAS، و ' + M('∠C ≅ ∠F') + ' لا تضيف معلومة جديدة لأنها تنتج من نظرية الزاوية الثالثة.'
+      }
+    ]
+  },
+  {
+    id: 'w3s4', title: 'المثلثات الخاصة والبرهان الإحداثي',
+    summary: {
+      points: [
+        'في المثلث المتطابق الضلعين: الضلعان المتطابقان <b>ساقان</b>، والزاوية بينهما <b>زاوية الرأس</b>، والضلع المقابل لها <b>القاعدة</b>، وزاويتا القاعدة متطابقتان.',
+        'إذا تطابق ضلعان في مثلث تطابقت الزاويتان المقابلتان لهما، والعكس صحيح.',
+        'المثلث متطابق الأضلاع إذا وفقط إذا كان متطابق الزوايا، وقياس كل زاوية فيه ' + M('60°') + '.',
+        '<b>البرهان الإحداثي</b>: نضع رأسًا عند الأصل وضلعًا على أحد المحورين، ونستعمل قوانين المسافة والميل ونقطة المنتصف.',
+        'رأس المثلث المتطابق الضلعين يقع فوق منتصف القاعدة.'
+      ],
+      rule: 'زاويتا القاعدة متساويتان، وزاوية الرأس = ' + M('180° −') + ' مجموع زاويتي القاعدة.'
+    },
+    example: {
+      prompt: 'مثلث متطابق الضلعين قياس كل من زاويتي قاعدته ' + M('77°') + '. ما قياس زاوية الرأس؟',
+      steps: [
+        'زاويتا القاعدة متطابقتان: ' + M('77° + 77° = 154°') + '.',
+        'زاوية الرأس ' + M('180° − 154° = 26°') + '.'
+      ],
+      answer: M('26°')
+    },
+    questions: [
+      {
+        type: 'mcq',
+        prompt: 'مثلث متطابق الضلعين قياس زاوية رأسه ' + M('40°') + '. ما قياس كل من زاويتي قاعدته؟',
+        options: [M('35°'), M('70°'), M('100°'), M('140°')], answer: 1,
+        hint: 'مجموع الزوايا ' + M('180°') + ' وزاويتا القاعدة متساويتان.',
+        explain: M('(180° − 40°) ÷ 2 = 70°') + '. (الخيار ' + M('140°') + ' هو مجموع الزاويتين لا كل واحدة.)'
+      },
+      {
+        type: 'point',
+        prompt: 'في المثلث ABC المتطابق الضلعين ' + M('AB ≅ AC') + '. حدّدي <b>القاعدة</b>.',
+        svg: FG.isoPoint(),
+        targets: [{ id: 'ab', label: 'AB' }, { id: 'ac', label: 'AC' }, { id: 'bc', label: 'BC' }],
+        answer: 'bc',
+        hint: 'الساقان هما الضلعان المتطابقان (المعلّمان). فما الضلع الثالث؟',
+        explain: 'الساقان ' + M('AB') + ' و ' + M('AC') + '، والقاعدة هي الضلع الثالث ' + M('BC') + ' المقابل لزاوية الرأس A.'
+      },
+      {
+        type: 'mcq',
+        prompt: 'المثلث XYZ متطابق الضلعين ' + M('XY ≅ YZ') + '، ' + M('X(0, 0)') + ' و ' + M('Z(a, 0)') + '. ما إحداثيا الرأس Y؟',
+        figure: FG.coordIso(),
+        options: [M('(a, b)'), M('(a/2, b)'), M('(0, b)'), M('(b, a/2)')], answer: 1,
+        hint: 'لأن Y يبعد عن X و Z المسافة نفسها فهو يقع فوق منتصف القاعدة XZ.',
+        explain: 'منتصف XZ هو ' + M('(a/2, 0)') + '، والرأس Y فوقه مباشرة بارتفاع ' + M('b') + ' فإحداثياه ' + M('(a/2, b)') + '.'
+      }
+    ]
+  }
+];
+
+</script>
+<script>
+/* العالم ٤: العلاقات في المثلث — الفصل الرابع (دروس 4-1 إلى 4-6) */
+GAME_DATA.worlds[3].stages = [
+  {
+    id: 'w4s1', title: 'المنصفات والمراكز',
+    summary: {
+      points: [
+        '<b>نظرية العمود المنصف</b>: كل نقطة عليه تبعد البعد نفسه عن طرفي القطعة، والعكس صحيح.',
+        '<b>نظرية منصف الزاوية</b>: كل نقطة عليه تبعد البعد نفسه عن ضلعي الزاوية، والعكس صحيح.',
+        'تلاقي الأعمدة المنصفة الثلاثة: <b>مركز الدائرة الخارجية</b>، يبعد البعد نفسه عن <b>الرؤوس</b>، ويقع داخل المثلث الحاد، وعلى وتر القائم، وخارج المنفرج.',
+        'تلاقي منصفات الزوايا الثلاثة: <b>مركز الدائرة الداخلية</b>، يبعد البعد نفسه عن <b>الأضلاع</b>، ويقع داخل المثلث دائمًا.'
+      ],
+      rule: 'العمود المنصف ← مركز الدائرة الخارجية (الرؤوس) · منصف الزاوية ← مركز الدائرة الداخلية (الأضلاع)'
+    },
+    example: {
+      prompt: 'P مركز الدائرة الداخلية للمثلث XYZ. الزاوية بين XP والضلع ' + M('31°') + '، وبين YP والضلع ' + M('27°') + '. أوجدي ' + M('m∠LZP') + '.',
+      figure: FG.incenter(),
+      steps: [
+        'XP ينصف ∠X فـ ' + M('m∠X = 2(31°) = 62°') + '، و YP ينصف ∠Y فـ ' + M('m∠Y = 2(27°) = 54°') + '.',
+        M('m∠Z = 180° − (62° + 54°) = 64°') + '.',
+        'ZP ينصف ∠Z فـ ' + M('m∠LZP = 64° ÷ 2 = 32°') + '.'
+      ],
+      answer: M('m∠LZP = 32°')
+    },
+    questions: [
+      {
+        type: 'match',
+        prompt: 'وصّلي كل عبارة بما يكمّلها.',
+        pairs: [
+          ['نقطة تلاقي الأعمدة المنصفة', 'مركز الدائرة الخارجية'],
+          ['نقطة تلاقي منصفات الزوايا', 'مركز الدائرة الداخلية'],
+          ['مركز الدائرة الخارجية يبعد البعد نفسه عن', 'رؤوس المثلث'],
+          ['مركز الدائرة الداخلية يبعد البعد نفسه عن', 'أضلاع المثلث']
+        ],
+        hint: 'الدائرة الخارجية تمر بالرؤوس، والدائرة الداخلية تمس الأضلاع.',
+        explain: 'الأعمدة المنصفة تلتقي في مركز الدائرة الخارجية الذي يبعد عن الرؤوس بعدًا متساويًا، ومنصفات الزوايا تلتقي في مركز الدائرة الداخلية الذي يبعد عن الأضلاع بعدًا متساويًا.'
+      },
+      {
+        type: 'mcq',
+        prompt: 'النقطة C على العمود المنصف للقطعة AB، و ' + M('CA = 5x − 4') + ' و ' + M('CB = 3x + 10') + '. ما طول CA؟',
+        figure: FG.perpBis(),
+        options: [M('7'), M('31'), M('62'), M('14')], answer: 1,
+        hint: 'النقطة على العمود المنصف تبعد البعد نفسه عن A وعن B، أي ' + M('CA = CB') + '.',
+        explain: M('5x − 4 = 3x + 10') + ' فـ ' + M('x = 7') + ' و ' + M('CA = 5(7) − 4 = 31') + '. (القيمة ' + M('7') + ' هي ' + M('x') + ' لا الطول.)'
+      },
+      {
+        type: 'point',
+        prompt: 'يظهر في كل مثلث مركز دائرته الخارجية (النقطة داخل الدائرة المتقطعة). حدّدي المثلث الذي يقع مركز دائرته الخارجية <b>خارجه</b>.',
+        svg: FG.threeTri(),
+        targets: [{ id: 'acute', label: 'المثلث الأول' }, { id: 'right', label: 'المثلث الثاني' }, { id: 'obtuse', label: 'المثلث الثالث' }],
+        answer: 'obtuse',
+        hint: 'المركز داخل المثلث الحاد، وعلى وتر القائم. فأي مثلث يخرج مركزه عن حدوده؟',
+        explain: 'مركز الدائرة الخارجية يقع داخل المثلث الحاد الزوايا، وعلى منتصف وتر القائم، وخارج المثلث المنفرج الزاوية، وهو الثالث.'
+      }
+    ]
+  },
+  {
+    id: 'w4s2', title: 'القطع المتوسطة والارتفاعات',
+    summary: {
+      points: [
+        '<b>القطعة المتوسطة</b>: طرفاها رأس ومنتصف الضلع المقابل. تلاقي القطع المتوسطة الثلاث <b>مركز المثلث</b>.',
+        '<b>نظرية مركز المثلث</b>: يبعد المركز عن كل رأس ثلثي طول القطعة المتوسطة الواصلة بين ذلك الرأس ومنتصف الضلع المقابل.',
+        '<b>الارتفاع</b>: قطعة عمودية من رأس إلى الضلع المقابل (أو امتداده). تلاقي المستقيمات الحاملة للارتفاعات <b>ملتقى الارتفاعات</b>.'
+      ],
+      rule: 'إذا كان P مركز المثلث و AK قطعة متوسطة فإن ' + M('AP = ⅔ AK') + '.'
+    },
+    example: {
+      prompt: 'في المثلث SZU: J مركز المثلث و ' + M('ZT = 18') + '، حيث T منتصف SU. أوجدي ' + M('ZJ') + ' و ' + M('JT') + '.',
+      figure: FG.centroid(),
+      steps: [
+        'ZT قطعة متوسطة والمركز J يبعد عن الرأس Z ثلثي طولها.',
+        M('ZJ = ⅔ × 18 = 12') + '.',
+        M('JT = 18 − 12 = 6') + '.'
+      ],
+      answer: M('ZJ = 12') + ' و ' + M('JT = 6')
+    },
+    questions: [
+      {
+        type: 'mcq',
+        prompt: 'AK قطعة متوسطة في المثلث ABC طولها ' + M('30') + '، والنقطة P مركز المثلث. ما طول AP؟',
+        options: [M('10'), M('15'), M('20'), M('30')], answer: 2,
+        hint: 'المركز يبعد عن الرأس ثلثي طول القطعة المتوسطة.',
+        explain: M('AP = ⅔ × 30 = 20') + '. (الجزء ' + M('PK = 10') + ' هو الثلث المتبقي.)'
+      },
+      {
+        type: 'match',
+        prompt: 'وصّلي كل قطعة خاصة بالنقطة التي تلتقي عندها.',
+        pairs: [
+          ['القطع المتوسطة', 'مركز المثلث'],
+          ['الارتفاعات', 'ملتقى الارتفاعات'],
+          ['الأعمدة المنصفة', 'مركز الدائرة الخارجية'],
+          ['منصفات الزوايا', 'مركز الدائرة الداخلية']
+        ],
+        hint: 'القطعة المتوسطة تصل بمنتصف الضلع، والارتفاع عمودي، والعمود المنصف عمودي من المنتصف.',
+        explain: 'كل أربعة خطوط خاصة في المثلث تلتقي في نقطة لها اسمها: مركز المثلث، ملتقى الارتفاعات، مركز الدائرة الخارجية، مركز الدائرة الداخلية.'
+      },
+      {
+        type: 'point',
+        prompt: 'رُسمت من الرأس A ثلاث قطع إلى الضلع BC. حدّدي <b>القطعة المتوسطة</b>.',
+        svg: FG.medianPoint(),
+        targets: [{ id: 'ad', label: 'AD' }, { id: 'ae', label: 'AE' }, { id: 'af', label: 'AF' }],
+        answer: 'ad',
+        hint: 'القطعة المتوسطة تنتهي عند <b>منتصف</b> الضلع المقابل. ابحثي عن علامتي التطابق على BC.',
+        explain: 'علامتا التطابق على BD و DC تدلان على أن D منتصف BC، فالقطعة AD متوسطة. أما AE فعمودية فهي ارتفاع، و AF تنصف الزاوية A.'
+      }
+    ]
+  },
+  {
+    id: 'w4s3', title: 'متباينات المثلث',
+    summary: {
+      points: [
+        '<b>متباينة الزاوية الخارجية</b>: الزاوية الخارجية أكبر من أي من الداخليتين البعيدتين عنها.',
+        '<b>ضلع–زاوية</b>: الضلع الأطول يقابل الزاوية الأكبر. و<b>زاوية–ضلع</b>: الزاوية الأكبر يقابلها الضلع الأطول.',
+        '<b>متباينة المثلث</b>: مجموع طولي أي ضلعين أكبر من طول الضلع الثالث.',
+        'إذا كان ضلعان ' + M('a') + ' و ' + M('b') + ' فالضلع الثالث ' + M('x') + ' يحقق ' + M('|a − b| < x < a + b') + '.'
+      ],
+      rule: 'ثلاثة أطوال تكوّن مثلثًا إذا كان <b>مجموع الأصغرين أكبر من الأكبر</b> (لا يساويه).'
+    },
+    example: {
+      prompt: 'هل الأطوال ' + M('17') + ' و ' + M('15') + ' و ' + M('8') + ' تكوّن مثلثًا؟',
+      steps: [
+        M('8 + 15 = 23 > 17') + ' ✓',
+        M('8 + 17 = 25 > 15') + ' ✓',
+        M('15 + 17 = 32 > 8') + ' ✓',
+        'الشروط الثلاثة محققة.'
+      ],
+      answer: 'نعم، تكوّن مثلثًا'
+    },
+    questions: [
+      {
+        type: 'mcq',
+        prompt: 'أي مجموعات الأطوال التالية تكوّن أضلاع مثلث؟',
+        options: [M('4, 6, 11'), M('5, 8, 12'), M('3, 3, 6'), M('2, 9, 12')], answer: 1,
+        hint: 'اجمعي الطولين الأصغرين وقارني مجموعهما بالأكبر. انتبهي للحالة التي يتساويان فيها.',
+        explain: M('5 + 8 = 13 > 12') + ' فهي مثلث. أما ' + M('4 + 6 = 10 < 11') + ' و ' + M('3 + 3 = 6') + ' (يساوي الثالث لا يزيد عليه) و ' + M('2 + 9 = 11 < 12') + ' فلا تكوّن مثلثًا.'
+      },
+      {
+        type: 'mcq',
+        prompt: 'ضلعان في مثلث طولاهما ' + M('6') + ' و ' + M('10') + '. ما <b>أكبر</b> عدد صحيح يمكن أن يكون طول الضلع الثالث؟',
+        options: [M('4'), M('14'), M('15'), M('16')], answer: 2,
+        hint: 'مدى الضلع الثالث ' + M('|a − b| < x < a + b') + '. وهو أقل <b>تمامًا</b> من المجموع.',
+        explain: M('10 − 6 < x < 10 + 6') + ' أي ' + M('4 < x < 16') + '، وأكبر عدد صحيح أقل من 16 هو ' + M('15') + '.'
+      },
+      {
+        type: 'point',
+        prompt: 'في المثلث ABC: ' + M('m∠A = 48°') + ' و ' + M('m∠B = 71°') + ' و ' + M('m∠C = 61°') + '. حدّدي الضلع <b>الأطول</b>.',
+        svg: FG.triSides(),
+        targets: [{ id: 'ab', label: 'AB' }, { id: 'bc', label: 'BC' }, { id: 'ac', label: 'AC' }],
+        answer: 'ac',
+        hint: 'الضلع الأطول يقابل الزاوية الأكبر. أي زاوية هي الأكبر، وأي ضلع يقابلها؟',
+        explain: 'أكبر زاوية ' + M('B = 71°') + ' والضلع المقابل لها هو ' + M('AC') + '، فهو الأطول. ' + M('AB') + ' يقابل ' + M('C = 61°') + ' و ' + M('BC') + ' يقابل ' + M('A = 48°') + '.'
+      }
+    ]
+  },
+  {
+    id: 'w4s4', title: 'البرهان غير المباشر والمتباينات في مثلثين',
+    summary: {
+      points: [
+        '<b>البرهان غير المباشر</b>: نفترض أن النتيجة <b>خاطئة</b> (نفيها صحيح)، ثم نبيّن أن ذلك يؤدي إلى تناقض مع معطى أو تعريف أو مسلمة أو نظرية، فتكون النتيجة الأصلية صحيحة.',
+        '<b>متباينة SAS</b>: إذا طابق ضلعان في مثلث ضلعين في آخر، وكانت الزاوية المحصورة في الأول <b>أكبر</b>، فالضلع الثالث في الأول <b>أطول</b>.',
+        '<b>عكسها</b>: إذا كان الضلع الثالث في الأول <b>أطول</b> فالزاوية المحصورة فيه <b>أكبر</b>.'
+      ],
+      rule: 'زاوية أكبر بين الضلعين نفسيهما ⇒ ضلع ثالث أطول، والعكس.'
+    },
+    example: {
+      prompt: 'برهني بالبرهان غير المباشر: إذا كان ' + M('2x + 3 < 7') + ' فإن ' + M('x < 2') + '.',
+      steps: [
+        'نفترض أن النتيجة خاطئة: ' + M('x ≥ 2') + '.',
+        'بضرب الطرفين في 2: ' + M('2x ≥ 4') + '، وبإضافة 3: ' + M('2x + 3 ≥ 7') + '.',
+        'هذا يناقض المعطى ' + M('2x + 3 < 7') + '.',
+        'إذن الافتراض خاطئ، والنتيجة ' + M('x < 2') + ' صحيحة.'
+      ],
+      answer: 'النتيجة ' + M('x < 2') + ' صحيحة'
+    },
+    questions: [
+      {
+        type: 'mcq',
+        prompt: 'لإثبات «إذا كان ' + M('2x > 16') + ' فإن ' + M('x > 8') + '» بالبرهان غير المباشر، ما الافتراض الذي نبدأ به؟',
+        options: [M('x < 8'), M('x ≤ 8'), M('x ≥ 8'), M('x > 8')], answer: 1,
+        hint: 'نفي «أكبر من 8» يشمل أيضًا حالة المساواة.',
+        explain: 'نفي ' + M('x > 8') + ' هو ' + M('x ≤ 8') + ' (أصغر من 8 أو يساويه)، ولا نكتفي بـ ' + M('x < 8') + '.'
+      },
+      {
+        type: 'order',
+        prompt: 'رتّبي خطوات البرهان غير المباشر لإثبات: إذا كان ' + M('2x + 3 < 7') + ' فإن ' + M('x < 2') + '.',
+        steps: [
+          'نفترض أن ' + M('x ≥ 2'),
+          'بضرب الطرفين في 2 ينتج ' + M('2x ≥ 4'),
+          'بإضافة 3 للطرفين ينتج ' + M('2x + 3 ≥ 7'),
+          'هذا يناقض المعطى ' + M('2x + 3 < 7'),
+          'إذن الافتراض خاطئ، والنتيجة ' + M('x < 2') + ' صحيحة'
+        ],
+        hint: 'ابدئي بالافتراض (نفي النتيجة)، ثم الجبر، ثم التناقض، وأنهي بالنتيجة.',
+        explain: 'نبدأ بنفي النتيجة، نشتق منه عبارة جبرية تناقض المعطى، فنستنتج أن الافتراض خاطئ وأن النتيجة الأصلية صحيحة.'
+      },
+      {
+        type: 'mcq',
+        prompt: 'في المثلثين ABC و DEG ضلعان متطابقان طولاهما ' + M('6') + ' و ' + M('9') + '. الزاوية المحصورة ' + M('70°') + ' في الأول و ' + M('55°') + ' في الثاني. قارني بين الضلعين الثالثين ' + M('BC') + ' و ' + M('EG') + '.',
+        figure: FG.hinge(),
+        options: [M('BC < EG'), M('BC > EG'), M('BC = EG'), 'لا يمكن المقارنة'], answer: 1,
+        hint: 'الضلعان متطابقان في المثلثين، فما أثر اختلاف الزاوية المحصورة بينهما؟',
+        explain: 'حسب متباينة SAS: الزاوية المحصورة الأكبر ' + M('70° > 55°') + ' تقابلها ضلع ثالث أطول، فـ ' + M('BC > EG') + '. (التساوي يحدث فقط عند تساوي الزاويتين.)'
+      }
+    ]
+  }
+];
+
+</script>
+<script>
+/* عرض الطباعة للمراجعة وأسئلة الفصل (يُستخدم عند عدم توفر ملفات PDF الجاهزة) */
+window.PRINT_CSS = "\n@page{size:A4;margin:14mm 14mm 16mm}\nhtml,body{background:#fff!important}body{font:500 14.5px/1.8 Tajawal,sans-serif;color:#2b0f1e;margin:0;padding:0;min-height:0}\n.pg{max-width:none}\n.hd{border-bottom:4px solid var(--c1);padding-bottom:8px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:flex-end;gap:10px}\n.hd h1{font-size:25px;margin:0;color:var(--cd)}.hd .k{font-weight:700;color:#7a5604;font-size:13px}\n.sec{border:2px solid var(--cs);border-radius:14px;padding:10px 16px;margin:0 0 12px;break-inside:avoid;background:#fff}\n.sec h2{font-size:17px;margin:0 0 4px;color:var(--cd)}\n.sec ul{margin:0;padding-inline-start:20px}.sec li{margin:3px 0}\n.rl{background:#fff5d6;border-color:#e9a914}\n.fig{text-align:center;margin:6px 0}.fig svg{max-width:300px;height:auto;max-height:210px}\n.q{break-inside:avoid;border:2px solid var(--cs);border-radius:14px;padding:10px 16px;margin:0 0 12px}\n.q .n{display:inline-block;background:var(--cd);color:#fff;border-radius:999px;padding:0 12px;font-weight:800;margin-inline-end:8px}\n.opts{display:grid;grid-template-columns:1fr 1fr;gap:6px 18px;margin-top:6px}.opts div{padding:2px 0}\n.bx{display:inline-block;width:15px;height:15px;border:2px solid var(--cd);border-radius:50%;vertical-align:-3px;margin-inline-end:8px}\n.mt{display:grid;grid-template-columns:1fr 1fr;gap:8px 60px;margin-top:6px}.mt div{border:1.5px dashed var(--cd);border-radius:10px;padding:3px 12px}\n.sol{margin-top:8px;border-top:1.5px dashed #bbb;padding-top:4px;color:#777;font-size:12px}\n.ans{break-before:page}.ans .q{background:#fbf7ff}.ok{font-weight:800;color:#0b6b4f}\n.tg{display:inline-block;background:var(--cs);color:var(--cd);border-radius:999px;padding:0 10px;font-size:12px;font-weight:800;margin-inline-end:6px}\n.ft{margin-top:10px;text-align:center;color:#8a6b7d;font-size:11px}\n.line{height:26px;border-bottom:1px solid #ccc}\n.m{unicode-bidi:isolate}\n.fig-svg .hot .hit{stroke:transparent}.fig-svg .hot .vis{stroke:#6b1038}\n";
+
+(() => {
+ const esc=s=>s;
+ function head(w,st,kind){return '<div class="hd"><div><div class="k">'+w.name+' — المرحلة '+(st.si+1)+'</div><h1>'+st.title+'</h1></div><div class="k">رحلة الرياضيات · أولى ثانوي · '+kind+'</div></div>';}
+ function headW(w,title,kind){return '<div class="hd"><div><div class="k">'+w.name+'</div><h1>'+title+'</h1></div><div class="k">رحلة الرياضيات · أولى ثانوي · '+kind+'</div></div>';}
+ window.sumHTML=(w,st)=>{
+  let h='<div class="pg" data-w="'+w.key+'">'+head(w,st,'ملخص المرحلة');
+  h+='<div class="sec"><h2>ملخص الدرس</h2><ul>'+st.summary.points.map(p=>'<li>'+p+'</li>').join('')+'</ul></div>';
+  h+='<div class="sec rl"><h2>القاعدة</h2>'+st.summary.rule+'</div>';
+  const ex=st.example;
+  h+='<div class="sec"><h2>مثال محلول</h2><p style="margin:0 0 4px"><b>'+ex.prompt+'</b></p>'+(ex.figure?'<div class="fig">'+ex.figure+'</div>':'')+'<ol style="margin:0;padding-inline-start:22px">'+ex.steps.map(s=>'<li>'+s+'</li>').join('')+'</ol><p class="ok" style="margin:6px 0 0">'+ex.answer+'</p></div>';
+  return h+'<div class="ft">مادة مراجعة مبنية على الفصل الدراسي — رحلة الرياضيات</div></div>';};
+ const L=['أ','ب','ج','د'];
+ function shuf(a){const r=a.map((x,i)=>[x,i]);const o=[];let s=7;const idx=a.map((_,i)=>i);for(let i=idx.length-1;i>0;i--){s=(s*31+11)%97;const j=s%(i+1);[idx[i],idx[j]]=[idx[j],idx[i]];}
+   if(idx.every((v,i)=>v===i)&&idx.length>1){idx.push(idx.shift());}return idx;}
+ window.wsGen=(w,hd,items)=>{
+  let h='<div class="pg" data-w="'+w.key+'">'+hd('نموذج أسئلة')+'<p style="margin:0 0 10px">الاسم: ................................................ &nbsp;&nbsp; الصف: ............... &nbsp;&nbsp; التاريخ: ...............</p>';
+  let a='<div class="ans">'+hd('نموذج الإجابة');
+  items.forEach((it,i)=>{const q=it.q;
+   let body='',key='';
+   const fig=q.figure?'<div class="fig">'+q.figure+'</div>':'';
+   if(q.type==='mcq'){body='<div class="opts">'+q.options.map((o,j)=>'<div><span class="bx"></span>'+L[j]+') '+o+'</div>').join('')+'</div>';key='الإجابة الصحيحة: <span class="ok">'+L[q.answer]+') '+q.options[q.answer]+'</span>';}
+   else if(q.type==='match'){const ri=shuf(q.pairs.map(p=>p[1]));body='<div class="mt"><div style="border:0;padding:0"><b>العمود الأول</b></div><div style="border:0;padding:0"><b>العمود الثاني</b></div>'+q.pairs.map((p,k)=>'<div>'+(k+1)+') '+p[0]+'</div><div>'+L[k]+') '+q.pairs[ri[k]][1]+'</div>').join('')+'</div><p style="margin:6px 0 0">الإجابة: 1 ⟵ ....  2 ⟵ ....  3 ⟵ ....'+(q.pairs.length>3?'  4 ⟵ ....':'')+'</p>';
+     key='الإجابة: '+q.pairs.map((p,k)=>(k+1)+'⟵'+L[ri.indexOf(k)]).join('، ');}
+   else if(q.type==='point'){body='<div class="fig">'+q.svg+'</div><p style="margin:0">ظلّلي أو ضعي دائرة حول: .........................................</p>';key='المطلوب: <span class="ok">'+q.targets.find(t=>t.id===q.answer).label+'</span>';}
+   else if(q.type==='order'){const si=shuf(q.steps);body=fig+'<ol style="margin:4px 0 0;padding-inline-start:22px">'+si.map(k=>'<li>(&nbsp;&nbsp;&nbsp;) '+q.steps[k]+'</li>').join('')+'</ol><p style="margin:6px 0 0">رتّبي الخطوات بكتابة الأرقام 1، 2، 3 … في الأقواس.</p>';
+     key='الترتيب الصحيح: <ol style="margin:2px 0 0;padding-inline-start:22px">'+q.steps.map(s=>'<li>'+s+'</li>').join('')+'</ol>';}
+   if(q.type==='mcq'||q.type==='match')body=fig+body;
+   h+='<div class="q"><div><span class="n">'+(i+1)+'</span>'+(it.tag?'<span class="tg">'+it.tag+'</span> ':'')+'<b>'+q.prompt+'</b></div>'+body+'<div class="sol">مساحة الحل:<div class="line"></div></div></div>';
+   a+='<div class="q"><div><span class="n">'+(i+1)+'</span>'+(it.tag?'<span class="tg">'+it.tag+'</span> ':'')+key+'</div><div style="margin-top:4px">'+q.explain+'</div></div>';
+  });
+  return h+'<div class="ft">نموذج أسئلة — رحلة الرياضيات · أولى ثانوي</div></div>'+a+'</div>';};
+ window.wsHTML=(w,st)=>window.wsGen(w,k=>head(w,st,k),st.questions.map(q=>({q})));
+ window.chWS=(w)=>window.wsGen(w,k=>headW(w,'أسئلة نهاية الفصل',k),w.stages.flatMap((st,si)=>st.questions.map(q=>({q,tag:'المرحلة '+(si+1)}))));
+ window.chRev=(w)=>{let h='<div class="pg" data-w="'+w.key+'">'+headW(w,'مراجعة نهاية الفصل','مراجعة');
+  h+='<div class="sec rl"><h2>خريطة الفصل</h2><ol style="margin:0;padding-inline-start:22px">'+w.stages.map(st=>'<li><b>'+st.title+'</b></li>').join('')+'</ol></div>';
+  w.stages.forEach((st,si)=>{h+='<div class="sec"><h2>المرحلة '+(si+1)+': '+st.title+'</h2><ul>'+st.summary.points.map(p=>'<li>'+p+'</li>').join('')+'</ul><div style="margin-top:6px;background:#fff5d6;border-radius:8px;padding:4px 10px"><b>القاعدة:</b> '+st.summary.rule+'</div><div style="margin-top:6px"><b>مثال:</b> '+st.example.prompt+' <span class="ok">← '+st.example.answer+'</span></div></div>';});
+  return h+'<div class="ft">مراجعة نهاية الفصل — رحلة الرياضيات · أولى ثانوي</div></div>';};
+})();
+
+</script>
+<script>
+/* منطق العرض: الشاشات، التقدم، الأسئلة، الصوت. البيانات في data/ */
+(function () {
+  'use strict';
+  var D = window.GAME_DATA;
+  var KEY = 'mathjourney.v1';
+  var QN = D.meta.questionsPerStage;
+  var root = document.getElementById('app');
+  var RM = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
+
+  /* ---------- الحالة المحفوظة ---------- */
+  function defState() { return { stars: {}, done: {}, seenWorld: {}, seenFinal: false, muted: false }; }
+  function load() {
+    try {
+      var r = localStorage.getItem(KEY);
+      if (r) { var o = JSON.parse(r); var d = defState(); for (var k in d) if (o && o[k] !== undefined) d[k] = o[k]; return d; }
+    } catch (e) {}
+    return defState();
+  }
+  var S = load();
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+
+  /* ---------- قائمة المراحل ---------- */
+  var STAGES = [];
+  D.worlds.forEach(function (w, wi) {
+    w.stages.forEach(function (st, si) {
+      st.w = w; st.wi = wi; st.si = si; st.idx = STAGES.length; STAGES.push(st);
+    });
+  });
+  var TOTAL_STAGES = STAGES.length;
+  var TOTAL_STARS = TOTAL_STAGES * QN;
+  function doneCount() { return STAGES.filter(function (s) { return S.done[s.id]; }).length; }
+  function starCount() { return STAGES.reduce(function (a, s) { return a + (S.stars[s.id] || 0); }, 0); }
+  function unlocked(st) { return st.idx === 0 || !!S.done[STAGES[st.idx - 1].id]; }
+  function currentStage() { for (var i = 0; i < STAGES.length; i++) if (!S.done[STAGES[i].id]) return STAGES[i]; return null; }
+  function worldDone(w) { return w.stages.every(function (s) { return S.done[s.id]; }); }
+  function worldStars(w) { return w.stages.reduce(function (a, s) { return a + (S.stars[s.id] || 0); }, 0); }
+
+  /* ---------- أيقونات SVG ---------- */
+  var IC = {
+    lock: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5" fill="currentColor"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>',
+    star: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.6l1.2-6.5L2.5 9.5l6.6-.9z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>',
+    starO: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.6l1.2-6.5L2.5 9.5l6.6-.9z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>',
+    trophy: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10v6a5 5 0 0 1-10 0z" fill="currentColor"/><path d="M7 5H3.5c0 3 1.2 4.6 3.7 5M17 5h3.5c0 3-1.2 4.6-3.7 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M12 14v4M8 21h8M9 18h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>',
+    check: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12.8l4.6 4.6L19.5 6.8" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    x: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>',
+    sound: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.6L12.5 5v14l-4.9-4.5H4z" fill="currentColor"/><path d="M16 8.6a5 5 0 0 1 0 6.8M18.6 6a8.6 8.6 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+    mute: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.6L12.5 5v14l-4.9-4.5H4z" fill="currentColor"/><path d="M16 9.5l5 5M21 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>',
+    help: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9.2 9.6a2.9 2.9 0 1 1 4.4 2.5c-.9.6-1.6 1.1-1.6 2.3" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="17.4" r="1.2" fill="currentColor"/></svg>',
+    map: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z" fill="currentColor"/><circle cx="12" cy="10" r="2.4" fill="#fff"/></svg>',
+    redo: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 12a7.5 7.5 0 1 1-2.4-5.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M19.8 3.5v4.3h-4.3" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    up: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    down: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    book: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5C7 4.5 9.6 4.8 12 6.5c2.4-1.7 5-2 8-1v13c-3-1-5.6-.7-8 1-2.4-1.7-5-2-8-1z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 6.5V19.5" stroke="currentColor" stroke-width="2"/></svg>',
+    arrow: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    pin: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z" fill="currentColor"/><circle cx="12" cy="10" r="2.4" fill="#fff"/></svg>'
+  };
+  function ic(n, cls) { return '<span class="ic ' + (cls || '') + '">' + IC[n] + '</span>'; }
+
+  /* ---------- الصوت ---------- */
+  var AC = null;
+  function tone(f, t0, dur, type, vol) {
+    var o = AC.createOscillator(), g = AC.createGain();
+    o.type = type || 'sine'; o.frequency.value = f;
+    var t = AC.currentTime + t0;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(vol || 0.07, t + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(AC.destination); o.start(t); o.stop(t + dur + 0.05);
+  }
+  function sfx(name) {
+    if (S.muted) return;
+    try {
+      AC = AC || new (window.AudioContext || window.webkitAudioContext)();
+      if (AC.state === 'suspended') AC.resume();
+      if (name === 'tap') tone(520, 0, 0.07, 'triangle', 0.04);
+      else if (name === 'ok') { tone(660, 0, 0.14, 'sine'); tone(880, 0.11, 0.2, 'sine'); }
+      else if (name === 'no') { tone(300, 0, 0.18, 'triangle', 0.06); tone(240, 0.12, 0.22, 'triangle', 0.05); }
+      else if (name === 'star') { tone(784, 0, 0.12); tone(988, 0.1, 0.12); tone(1319, 0.2, 0.28); }
+      else if (name === 'win') { [523, 659, 784, 1047].forEach(function (f, i) { tone(f, i * 0.12, 0.3, 'sine', 0.06); }); }
+      else if (name === 'gate') { tone(392, 0, 0.18, 'sine', 0.05); tone(587, 0.14, 0.26, 'sine', 0.05); }
+    } catch (e) {}
+  }
+
+  /* ---------- أدوات ---------- */
+  function h(s) { var d = document.createElement('div'); d.innerHTML = s; return d.firstElementChild; }
+  function shuffle(a, avoidSame) {
+    var b = a.slice(), n = 0;
+    do {
+      for (var i = b.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = b[i]; b[i] = b[j]; b[j] = t; }
+      n++;
+    } while (avoidSame && n < 8 && b.every(function (x, i) { return x === a[i]; }) && b.length > 1);
+    return b;
+  }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  var LETTERS = ['أ', 'ب', 'ج', 'د', 'هـ'];
+  function starsRow(n, total, cls) {
+    var s = '';
+    for (var i = 0; i < total; i++) s += '<span class="st ' + (i < n ? 'on' : 'off') + '">' + (i < n ? IC.star : IC.starO) + '</span>';
+    return '<span class="stars ' + (cls || '') + '" role="img" aria-label="' + n + ' من ' + total + ' نجوم">' + s + '</span>';
+  }
+
+  /* ---------- نافذة منبثقة ---------- */
+  var modalEl = null, lastFocus = null;
+  function closeModal() {
+    if (modalEl) { modalEl.remove(); modalEl = null; document.removeEventListener('keydown', modalKey); if (lastFocus && lastFocus.focus) lastFocus.focus(); }
+  }
+  function modalKey(e) { if (e.key === 'Escape') closeModal(); }
+  function openModal(title, body, actions) {
+    closeModal();
+    lastFocus = document.activeElement;
+    modalEl = h('<div class="modal-back" data-act="modal-bg"><div class="modal" role="dialog" aria-modal="true" aria-label="' + esc(title.replace(/<[^>]+>/g, '')) + '"><h2>' + title + '</h2><div class="modal-body">' + body + '</div><div class="modal-actions"></div></div></div>');
+    var box = modalEl.querySelector('.modal-actions');
+    (actions || [{ label: 'حسنًا', cls: 'btn-primary' }]).forEach(function (a) {
+      var b = h('<button type="button" class="btn ' + (a.cls || 'btn-ghost') + '">' + a.label + '</button>');
+      b.addEventListener('click', function () { sfx('tap'); closeModal(); if (a.fn) a.fn(); });
+      box.appendChild(b);
+    });
+    document.body.appendChild(modalEl);
+    modalEl.addEventListener('click', function (e) { if (e.target === modalEl) closeModal(); });
+    document.addEventListener('keydown', modalKey);
+    var f = modalEl.querySelector('.btn'); if (f) f.focus();
+  }
+
+  /* ---------- انتقال البوابة ---------- */
+  function gate(originEl, cb) {
+    if (RM.matches || !originEl) { cb(); return; }
+    var r = originEl.getBoundingClientRect();
+    var d = h('<div class="iris" aria-hidden="true"></div>');
+    d.style.left = (r.left + r.width / 2) + 'px'; d.style.top = (r.top + r.height / 2) + 'px';
+    document.body.appendChild(d);
+    sfx('gate');
+    requestAnimationFrame(function () { d.classList.add('go'); });
+    setTimeout(function () { cb(); d.classList.add('out'); setTimeout(function () { d.remove(); }, 420); }, 380);
+  }
+
+  /* ---------- رسوم الجزر ---------- */
+  function islandArt(key) {
+    var deco = {
+      pink: '<g class="deco"><path d="M118 150V96a64 64 0 0 1 128 0v54z" fill="var(--c1)"/><path d="M134 150V100a48 48 0 0 1 96 0v50z" fill="var(--c3)"/><path d="M150 150v-44a32 32 0 0 1 64 0v44z" fill="#fff6d8"/><path d="M158 150v-40a24 24 0 0 1 48 0v40z" fill="#ffd978" opacity=".85"/><g fill="#fff" opacity=".9"><circle cx="182" cy="112" r="2.4"/><circle cx="172" cy="128" r="1.8"/><circle cx="194" cy="130" r="2"/><circle cx="182" cy="140" r="1.6"/></g><g fill="#fff" opacity=".55"><circle cx="150" cy="82" r="3"/><circle cx="214" cy="82" r="3"/><circle cx="182" cy="62" r="3"/></g><rect x="262" y="104" width="46" height="44" rx="6" fill="#f7dfe6"/><rect x="292" y="84" width="40" height="40" rx="6" fill="#f3b6c9"/><rect x="276" y="118" width="46" height="34" rx="6" fill="#7fd0d6"/></g>',
+      teal: '<g class="deco"><rect x="84" y="62" width="26" height="88" rx="3" fill="#44b7c3"/><rect x="114" y="46" width="12" height="104" rx="2" fill="#ead9b8"/><path d="M130 62h58v14h-58z" fill="#ead9b8"/><rect x="130" y="62" width="14" height="88" fill="#ead9b8"/><rect x="174" y="62" width="14" height="88" fill="#ead9b8"/><rect x="194" y="40" width="30" height="110" rx="3" fill="#44b7c3"/><path d="M230 40h40v18h-40z" fill="#ead9b8"/><rect x="230" y="40" width="14" height="110" fill="#ead9b8"/><rect x="256" y="40" width="14" height="110" fill="#ead9b8"/><path d="M286 150V104l52 46z" fill="#f5c453"/><path d="M296 144v-26l30 26z" fill="#fff3c8"/></g>',
+      lilac: '<g class="deco"><path d="M70 152l50-86 50 86z" fill="none" stroke="#ead9b8" stroke-width="13" stroke-linejoin="round"/><path d="M112 152l60-100 60 100z" fill="none" stroke="#a78bdc" stroke-width="15" stroke-linejoin="round"/><path d="M142 152l44-72 44 72z" fill="none" stroke="#f4ecff" stroke-width="9" stroke-linejoin="round"/><path d="M236 152l36-58 36 58z" fill="none" stroke="#e9dfc9" stroke-width="11" stroke-linejoin="round"/></g>',
+      amber: '<g class="deco"><path d="M62 152l54-92 54 92z" fill="none" stroke="#ead9b8" stroke-width="12" stroke-linejoin="round"/><path d="M132 152l56-96 56 96z" fill="none" stroke="#e8639a" stroke-width="14" stroke-linejoin="round"/><path d="M104 120l44 0-22 32z" fill="#ead9b8"/><path d="M226 152l48-82 48 82z" fill="none" stroke="#f3e5bb" stroke-width="11" stroke-linejoin="round"/></g>'
+    }[key];
+    return '<svg class="island-svg" viewBox="0 0 400 330" aria-hidden="true" focusable="false">' +
+      '<defs><linearGradient id="top-' + key + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c3)"/><stop offset="1" stop-color="var(--c1)"/></linearGradient>' +
+      '<linearGradient id="body-' + key + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c1)"/><stop offset="1" stop-color="var(--c2)"/></linearGradient></defs>' +
+      '<ellipse cx="200" cy="318" rx="130" ry="9" fill="#6b1038" opacity=".10"/>' +
+      deco +
+      '<path d="M10 168c30-22 120-30 190-30s160 8 190 30c2 26-6 52-34 78-30 28-60 52-96 66-22 8-30 8-52 0-36-14-66-38-96-66C16 220 8 194 10 168z" fill="url(#body-' + key + ')"/>' +
+      '<path d="M10 168c30 22 120 34 190 34s160-12 190-34c-30-22-120-30-190-30S40 146 10 168z" fill="url(#top-' + key + ')"/>' +
+      '<g fill="#fff" opacity=".18"><path d="M60 214c20 14 40 24 54 44-26-8-48-24-54-44zM300 220c-12 16-26 30-44 46 30-8 46-26 44-46z"/></g>' +
+      '<g class="flowers"><circle cx="30" cy="150" r="9" fill="#e23d8a"/><circle cx="46" cy="140" r="7" fill="#f06aa5"/><circle cx="22" cy="134" r="6" fill="#c42b76"/><circle cx="372" cy="148" r="8" fill="#e23d8a"/><circle cx="358" cy="138" r="6" fill="#f06aa5"/><path d="M12 150c6-8 14-12 22-12M388 150c-6-8-14-12-22-12" stroke="#5b8a4a" stroke-width="3" fill="none" stroke-linecap="round"/></g>' +
+      '</svg>';
+  }
+
+  /* ---------- الهيكل العام ---------- */
+  var view = { name: 'start' };
+  function topbar(opts) {
+    opts = opts || {};
+    return '<header class="topbar">' +
+      '<div class="tb-side">' + (opts.back ? '<button type="button" class="icon-btn" data-act="map" aria-label="العودة إلى الخريطة">' + ic('arrow') + '<span class="lbl">الخريطة</span></button>' : '') + '</div>' +
+      '<div class="counters">' +
+      '<div class="counter" aria-label="المراحل المكتملة ' + doneCount() + ' من ' + TOTAL_STAGES + '">' + ic('trophy') + '<span class="cl">المراحل</span><b dir="ltr">' + doneCount() + ' / ' + TOTAL_STAGES + '</b></div>' +
+      '<div class="counter" aria-label="النجوم ' + starCount() + ' من ' + TOTAL_STARS + '">' + ic('star', 'gold') + '<span class="cl">النجوم</span><b dir="ltr">' + starCount() + ' / ' + TOTAL_STARS + '</b></div>' +
+      '</div>' +
+      '<div class="tb-side tb-end"><button type="button" class="icon-btn" data-act="sound" aria-pressed="' + (!S.muted) + '" aria-label="' + (S.muted ? 'تشغيل الصوت' : 'كتم الصوت') + '">' + ic(S.muted ? 'mute' : 'sound') + '<span class="lbl">' + (S.muted ? 'الصوت مكتوم' : 'الصوت') + '</span></button></div>' +
+      '</header>';
+  }
+  function setScreen(html, cls) {
+    root.className = 'screen ' + (cls || '');
+    root.innerHTML = html;
+    window.scrollTo(0, 0);
+    var hd = root.querySelector('h1, h2');
+    if (hd) { hd.setAttribute('tabindex', '-1'); }
+  }
+
+  /* ---------- شاشة البداية ---------- */
+  function screenStart() {
+    view = { name: 'start' };
+    var mini = D.worlds.map(function (w, i) { return '<div class="mini mini-' + i + '" data-w="' + w.key + '">' + islandArt(w.key).replace(/id="(top|body)-/g, 'id="s$1-').replace(/url\(#(top|body)-/g, 'url(#s$1-') + '</div>'; }).join('');
+    setScreen(
+      '<section class="start">' +
+      '<div class="start-art" aria-hidden="true">' + mini + '</div>' +
+      '<div class="start-card">' +
+      '<p class="kicker">' + D.meta.grade + '</p>' +
+      '<h1>' + D.meta.title + '</h1>' +
+      '<p class="lead">أربعة عوالم، ست عشرة مرحلة، وثمانٍ وأربعون نجمة تنتظرك. أجيبي عن الأسئلة وافتحي بوابات التبرير والتوازي والتطابق والعلاقات في المثلث.</p>' +
+      '<div class="start-actions"><button type="button" class="btn btn-primary btn-xl" data-act="begin">ابدئي الرحلة' + ic('arrow', 'flip') + '</button>' +
+      '<button type="button" class="btn btn-ghost" data-act="howto">' + ic('help') + 'كيف ألعب؟</button></div>' +
+      '</div></section>', 'is-start');
+  }
+
+  /* ---------- الخريطة ---------- */
+  function screenMap() {
+    view = { name: 'map' };
+    var cur = currentStage();
+    var islands = D.worlds.map(function (w, wi) {
+      var nodes = w.stages.map(function (st) {
+        var open = unlocked(st), done = !!S.done[st.id], isCur = cur && cur.id === st.id;
+        var n = S.stars[st.id] || 0;
+        var inner = !open ? IC.lock : done ? IC.star : '<span class="num">' + (st.si + 1) + '</span>';
+        var state = !open ? 'locked' : done ? 'done' : 'open';
+        var label = 'المرحلة ' + (st.si + 1) + '، ' + st.title + (!open ? '، مقفلة' : done ? '، مكتملة بـ ' + n + ' نجوم' : isCur ? '، المرحلة الحالية' : '، مفتوحة');
+        return '<div class="node-wrap"><button type="button" class="node ' + state + (isCur ? ' current' : '') + '" data-act="stage" data-i="' + st.idx + '" ' + (open ? '' : 'aria-disabled="true"') + ' aria-label="' + esc(label) + '" title="' + esc(st.title) + '">' + inner + '</button>' +
+          '<span class="mstars" aria-hidden="true">' + [0, 1, 2].map(function (k) { return '<i class="' + (k < n ? 'on' : '') + '">' + IC.star + '</i>'; }).join('') + '</span></div>';
+      }).join('');
+      return '<article class="island" data-w="' + w.key + '" style="--fd:' + (wi * 0.7) + 's">' +
+        '<div class="float">' + islandArt(w.key) +
+        '<div class="wbadge" aria-label="العالم ' + (wi + 1) + (worldDone(w) ? ' مكتمل' : '') + '">' + (worldDone(w) ? IC.check : wi + 1) + '</div>' +
+        '<h2 class="wname">' + w.name + '</h2>' +
+        '<div class="nodes">' + nodes + '</div></div></article>';
+    }).join('');
+    var all = doneCount() === TOTAL_STAGES;
+    setScreen(topbar() +
+      '<main class="map">' +
+      '<div class="map-head"><span class="pill pill-pink">' + ic('pin') + 'خريطة الرحلة</span>' +
+      '<h1>' + D.meta.title + '</h1><span class="pill pill-gold">' + D.meta.grade + '</span></div>' +
+      '<div class="islands">' +
+      '<svg class="trail" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M70 22 C50 18 50 30 30 24 M30 52 C46 60 60 44 68 62 M72 72 C90 74 90 90 64 88 C48 86 42 78 30 82" fill="none"/></svg>' +
+      islands + '</div>' +
+      '<div class="map-actions">' +
+      '<button type="button" class="btn btn-ghost" data-act="howto">' + ic('help') + 'كيف ألعب؟</button>' +
+      (all ? '<button type="button" class="btn btn-primary btn-xl" data-act="final">' + 'نتيجة الرحلة' + ic('trophy') + '</button>' :
+        '<button type="button" class="btn btn-primary btn-xl" data-act="continue" data-i="' + (cur ? cur.idx : 0) + '">' + (doneCount() ? 'تابعي الرحلة' : 'ابدئي المرحلة الأولى') + ic('arrow', 'flip') + '</button>') +
+      '<button type="button" class="btn btn-quiet" data-act="reset">' + 'ابدئي من جديد' + ic('redo') + '</button>' +
+      '</div></main>', 'is-map');
+  }
+
+  /* ---------- مقدمة المرحلة: ملخص ثم مثال ---------- */
+  function screenIntro(idx, step, review) {
+    var st = STAGES[idx];
+    view = { name: 'intro', idx: idx, step: step, review: !!review };
+    var head = '<div class="stage-head" data-w="' + st.w.key + '"><span class="pill pill-w">' + st.w.name + '</span><h1>' + st.title + '</h1>' +
+      '<ol class="steps-dots" aria-label="خطوات الدرس"><li class="' + (step === 0 ? 'cur' : 'past') + '">ملخص</li><li class="' + (step === 1 ? 'cur' : '') + '">مثال محلول</li><li>تحدٍّ</li></ol></div>';
+    var body;
+    if (step === 0) {
+      body = '<section class="card summary"><h2>بطاقة الملخص</h2><ul class="points">' + st.summary.points.map(function (p) { return '<li>' + p + '</li>'; }).join('') + '</ul>' +
+        (st.summary.rule ? '<div class="rule"><span class="rule-t">' + ic('book') + 'القاعدة</span><div>' + st.summary.rule + '</div></div>' : '') + '</section>' +
+        '<div class="actions"><button type="button" class="btn btn-primary btn-xl" data-act="intro-next">شاهدي المثال' + ic('arrow', 'flip') + '</button></div>';
+    } else {
+      var ex = st.example;
+      body = '<section class="card example"><h2>مثال محلول</h2><p class="ex-q">' + ex.prompt + '</p>' + (ex.figure ? '<div class="figure">' + ex.figure + '</div>' : '') +
+        '<ol class="ex-steps">' + ex.steps.map(function (s, i) { return '<li><span class="sn">' + (i + 1) + '</span><div>' + s + '</div></li>'; }).join('') + '</ol>' +
+        (ex.answer ? '<p class="ex-a">' + ic('check') + '<span>' + ex.answer + '</span></p>' : '') + '</section>' +
+        '<div class="actions"><button type="button" class="btn btn-ghost" data-act="intro-back">' + 'رجوع إلى الملخص</button>' +
+        '<button type="button" class="btn btn-primary btn-xl" data-act="start-challenge" data-i="' + idx + '">' + (review ? 'أعيدي التحدي' : 'ابدئي التحدي') + ic('arrow', 'flip') + '</button></div>';
+    }
+    setScreen(topbar({ back: true }) + '<main class="intro">' + head + body + '</main>', 'is-intro w-' + st.w.key);
+    root.dataset.w = st.w.key;
+  }
+
+  /* ---------- التحدي ---------- */
+  var R = null; // جولة التحدي الحالية
+  function startRun(idx) {
+    R = { idx: idx, qi: 0, earned: 0, res: [], attempt: 0, cur: null };
+    screenQuestion();
+  }
+  function dots() {
+    var st = STAGES[R.idx];
+    return '<ol class="qdots" aria-label="تقدم التحدي">' + st.questions.map(function (q, i) {
+      var r = R.res[i], cls = r === undefined ? (i === R.qi ? 'cur' : '') : r ? 'good' : 'miss';
+      var inner = r === undefined ? (i + 1) : r ? IC.star : IC.check;
+      return '<li class="' + cls + '"><span class="dot">' + inner + '</span><span class="vh">السؤال ' + (i + 1) + (r === undefined ? '' : r ? ' بنجمة' : ' دون نجمة') + '</span></li>';
+    }).join('') + '</ol>';
+  }
+  function screenQuestion() {
+    var st = STAGES[R.idx], q = st.questions[R.qi];
+    view = { name: 'question', idx: R.idx };
+    R.attempt = 0;
+    var typeLabel = { mcq: 'اختيار من متعدد', match: 'وصّلي', point: 'حدّدي على الرسم', order: 'رتّبي الخطوات' }[q.type];
+    setScreen(topbar({ back: true }) +
+      '<main class="quiz" data-w="' + st.w.key + '">' +
+      '<div class="quiz-head"><span class="pill pill-w">' + st.title + '</span>' + dots() + '</div>' +
+      '<section class="card q-card"><div class="q-meta"><span class="qtype">' + typeLabel + '</span><span class="qn">السؤال ' + (R.qi + 1) + ' من ' + QN + '</span></div>' +
+      '<h2 class="q-prompt">' + q.prompt + '</h2>' +
+      (q.figure ? '<div class="figure">' + q.figure + '</div>' : '') +
+      '<div class="q-body" id="qbody"></div>' +
+      '<div class="q-fb" id="qfb" role="status" aria-live="polite"></div>' +
+      '<div class="q-actions" id="qact"></div></section>' +
+      '<div class="q-side"><button type="button" class="btn btn-quiet" data-act="rule">' + ic('book') + 'راجعي القاعدة</button></div>' +
+      '</main>', 'is-quiz w-' + st.w.key);
+    root.dataset.w = st.w.key;
+    R.cur = makeInteraction(q, document.getElementById('qbody'));
+    renderQActions();
+  }
+  function renderQActions() {
+    var box = document.getElementById('qact');
+    box.innerHTML = '<button type="button" class="btn btn-primary btn-xl" id="checkBtn" data-act="check" ' + (R.cur.ready() ? '' : 'disabled') + '>تحقّقي من الإجابة' + ic('check') + '</button>';
+  }
+  function refreshCheck() { var b = document.getElementById('checkBtn'); if (b) b.disabled = !R.cur.ready(); }
+
+  var OKMSG = ['أحسنتِ!', 'إجابة صحيحة!', 'ممتاز!', 'عمل رائع!'];
+  function doCheck(originEl) {
+    var st = STAGES[R.idx], q = st.questions[R.qi];
+    var ok = R.cur.check();
+    var fb = document.getElementById('qfb'), act = document.getElementById('qact');
+    if (ok) {
+      var star = R.attempt === 0;
+      R.res[R.qi] = star; if (star) R.earned++;
+      R.cur.mark(true); R.cur.lock();
+      sfx(star ? 'star' : 'ok');
+      fb.className = 'q-fb good show';
+      fb.innerHTML = '<div class="fb-t">' + ic('check', 'fb-i') + '<b>' + OKMSG[Math.floor(Math.random() * OKMSG.length)] + '</b>' + (star ? '<span class="got-star">' + ic('star', 'gold') + 'نجمة جديدة</span>' : '<span class="no-star">أُنجز السؤال دون نجمة</span>') + '</div><div class="fb-x">' + q.explain + '</div>';
+      celebrate(fb, star);
+      act.innerHTML = nextBtn();
+      updateDots();
+    } else if (R.attempt === 0) {
+      R.attempt = 1;
+      R.cur.mark(false);
+      sfx('no');
+      fb.className = 'q-fb bad show';
+      fb.innerHTML = '<div class="fb-t">' + ic('x', 'fb-i') + '<b>ليست الإجابة الصحيحة بعد</b></div><div class="fb-x"><span class="tip-l">تلميح:</span> ' + q.hint + '</div>';
+      act.innerHTML = '<button type="button" class="btn btn-primary btn-xl" data-act="retry">حاولي مرة أخرى' + ic('redo') + '</button>';
+    } else {
+      R.res[R.qi] = false;
+      R.cur.reveal(); R.cur.lock();
+      sfx('no');
+      fb.className = 'q-fb reveal show';
+      fb.innerHTML = '<div class="fb-t">' + ic('book', 'fb-i') + '<b>هذا هو الحل</b></div><div class="fb-x">' + q.explain + '</div>';
+      act.innerHTML = nextBtn();
+      updateDots();
+    }
+    var f = act.querySelector('.btn'); if (f) f.focus();
+  }
+  function nextBtn() {
+    return '<button type="button" class="btn btn-primary btn-xl" data-act="next-q">' + (R.qi === QN - 1 ? 'اعرضي النتيجة' : 'السؤال التالي') + ic('arrow', 'flip') + '</button>';
+  }
+  function updateDots() { var d = document.querySelector('.qdots'); if (d) d.outerHTML = dots(); }
+  function celebrate(near, star) {
+    if (RM.matches) return;
+    var box = h('<div class="burst" aria-hidden="true"></div>');
+    var n = star ? 9 : 5;
+    for (var i = 0; i < n; i++) {
+      var s = h('<span class="b">' + IC.star + '</span>');
+      var a = (Math.PI * 2 * i) / n, d = 46 + Math.random() * 28;
+      s.style.setProperty('--dx', Math.cos(a) * d + 'px'); s.style.setProperty('--dy', Math.sin(a) * d - 12 + 'px');
+      box.appendChild(s);
+    }
+    near.appendChild(box); setTimeout(function () { box.remove(); }, 1000);
+  }
+
+  function finishRun() {
+    var st = STAGES[R.idx];
+    var firstTime = !S.done[st.id];
+    S.done[st.id] = true;
+    S.stars[st.id] = Math.max(S.stars[st.id] || 0, R.earned);
+    save();
+    screenResult(R.idx, R.earned, firstTime);
+  }
+
+  /* ---------- نتيجة المرحلة ---------- */
+  function doPrint(btn) {
+    var f = btn.getAttribute('data-f'), m = /^w(\d)-(review|exam)$/.exec(f), msg = btn.parentNode.querySelector('.dl-msg');
+    if (!m || !window.chRev) return;
+    var w = D.worlds[+m[1] - 1], body = m[2] === 'review' ? window.chRev(w) : window.chWS(w);
+    var css = [].map.call(document.querySelectorAll('style'), function (x) { return x.textContent; }).join('\n');
+    var doc = '<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>رحلة الرياضيات - ' + w.name + (m[2] === 'review' ? ' - مراجعة الفصل' : ' - أسئلة الفصل') + '</title>' +
+      '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=STIX+Two+Text:ital,wght@0,500;0,700;1,500&display=swap">' +
+      '<style>' + css + '\n' + window.PRINT_CSS + '</style></head><body data-w="' + w.key + '">' + body + '</body></html>';
+    var old = document.getElementById('printFrame'); if (old) old.remove();
+    var fr = document.createElement('iframe'); fr.id = 'printFrame'; fr.setAttribute('aria-hidden', 'true');
+    fr.style.cssText = 'position:fixed;inset-inline-start:-9999px;top:0;width:210mm;height:297mm;border:0;opacity:0;pointer-events:none';
+    fr.onload = function () {
+      var cw = fr.contentWindow, go = function () { try { cw.focus(); cw.print(); if (msg) msg.textContent = 'اختاري «حفظ كـ PDF» من نافذة الطباعة.'; } catch (e) { if (msg) msg.textContent = 'تعذّر فتح نافذة الطباعة.'; } };
+      var ready = cw.document.fonts && cw.document.fonts.ready; if (ready) { Promise.race([ready, new Promise(function (r) { setTimeout(r, 2500); })]).then(go); } else { go(); }
+    };
+    fr.srcdoc = doc; document.body.appendChild(fr);
+  }
+  function doDownload(btn) {
+    var f = btn.getAttribute('data-f'), m = /^w(\d)(?:s(\d))?-(sum|ws|review|exam)$/.exec(f), msg = btn.parentNode.querySelector('.dl-msg');
+    function say(t) { if (msg) msg.textContent = t; }
+    var kinds = { sum: '-ملخص', ws: '-أسئلة', review: '-مراجعة-الفصل', exam: '-أسئلة-الفصل' };
+    var name = 'رحلة-الرياضيات-' + m[1] + (m[2] ? '-' + m[2] : '') + kinds[m[3]] + '.pdf';
+    var raw = (window.PDF_B64 || {})[f]; if (!raw) { say('الملف غير متاح.'); return; }
+    var bin = atob(raw), arr = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+    var cl = window.claude && window.claude.use;
+    if (!cl) { say('التنزيل غير متاح في هذا العرض.'); return; }
+    window.claude.use('downloads').then(function (d) {
+      if (!d) { say('التنزيل غير متاح في هذا العرض.'); return; }
+      return d.save({ filename: name, data: arr }).then(function () { say('تم حفظ الملف.'); }, function (e) { say(e && e.code === 'declined' ? 'أُلغي التنزيل.' : 'تعذّر التنزيل.'); });
+    });
+  }
+  function screenResult(idx, earned, firstTime) {
+    var st = STAGES[idx];
+    view = { name: 'result', idx: idx };
+    var best = S.stars[st.id] || 0;
+    var msg = earned === QN ? 'إتقان تام! أجبتِ عن الأسئلة كلها من المحاولة الأولى.' : earned >= 2 ? 'عمل جميل! راجعي الحل الذي أخطأتِ فيه لتصلي إلى النجوم الثلاث.' : earned === 1 ? 'بداية جيدة. أعيدي المرحلة بعد مراجعة القاعدة لتحسين نجومك.' : 'لا بأس، المراحل لا تُقفل. اقرئي الحلول ثم أعيدي المحاولة لتكسبي النجوم.';
+    var nxt = STAGES[idx + 1];
+    var worldJust = firstTime && worldDone(st.w);
+    var allJust = firstTime && doneCount() === TOTAL_STAGES;
+    var primary;
+    if (allJust && !S.seenFinal) primary = '<button type="button" class="btn btn-primary btn-xl" data-act="after-result" data-i="' + idx + '">' + 'نتيجة الرحلة' + ic('trophy') + '</button>';
+    else if (worldJust && !S.seenWorld[st.w.id]) primary = '<button type="button" class="btn btn-primary btn-xl" data-act="after-result" data-i="' + idx + '">' + ic('trophy') + 'إنجاز العالم</button>';
+    else if (nxt && unlocked(nxt)) primary = '<button type="button" class="btn btn-primary btn-xl" data-act="stage" data-i="' + nxt.idx + '">المرحلة التالية' + ic('arrow', 'flip') + '</button>';
+    else primary = '<button type="button" class="btn btn-primary btn-xl" data-act="map">' + 'الخريطة' + ic('map') + '</button>';
+    setScreen(topbar({ back: true }) +
+      '<main class="result" data-w="' + st.w.key + '"><section class="card result-card"><p class="kicker">أنهيتِ المرحلة ' + (st.si + 1) + ' · ' + st.w.name + '</p>' +
+      '<h1>' + st.title + '</h1>' +
+      '<div class="big-stars" role="img" aria-label="' + earned + ' من ' + QN + ' نجوم في هذه المحاولة">' + [0, 1, 2].map(function (i) { return '<span class="bs ' + (i < earned ? 'on' : 'off') + '" style="--d:' + i * 0.18 + 's">' + (i < earned ? IC.star : IC.starO) + '</span>'; }).join('') + '</div>' +
+      '<p class="score" dir="auto">نجوم هذه المحاولة: <b dir="ltr">' + earned + ' / ' + QN + '</b> · أفضل نتيجة: <b dir="ltr">' + best + ' / ' + QN + '</b></p>' +
+      '<p class="msg">' + msg + '</p>' +
+      '<section class="recap"><h2>ملخص ما تعلمتِه</h2><ul>' + st.summary.points.map(function (p) { return '<li>' + p + '</li>'; }).join('') + '</ul>' +
+      (st.summary.rule ? '<div class="rule"><span class="rule-t">' + ic('book') + 'القاعدة</span><div>' + st.summary.rule + '</div></div>' : '') + '</section>' +
+      '<div class="actions">' + primary +
+      '<button type="button" class="btn btn-ghost" data-act="replay" data-i="' + idx + '">' + 'أعيدي المرحلة' + ic('redo') + '</button>' +
+      '<button type="button" class="btn btn-quiet" data-act="map">' + 'الخريطة' + ic('map') + '</button></div></section></main>', 'is-result w-' + st.w.key);
+    root.dataset.w = st.w.key;
+    sfx('win');
+  }
+
+  /* ---------- إنجاز العالم ---------- */
+  function dlFile(id, label, icon) {
+    if (window.PRINT_MODE) return '<button type="button" class="btn btn-ghost" data-act="print" data-f="' + id + '">' + ic(icon) + label + '</button>';
+    return window.PDF_B64
+      ? '<button type="button" class="btn btn-ghost" data-act="dl" data-f="' + id + '">' + ic(icon) + label + '</button>'
+      : '<a class="btn btn-ghost" href="pdf/' + id + '.pdf" target="_blank" rel="noopener">' + ic(icon) + label + '</a>';
+  }
+  function screenWorld(wi) {
+    var w = D.worlds[wi];
+    view = { name: 'world', wi: wi };
+    S.seenWorld[w.id] = true; save();
+    var nextW = D.worlds[wi + 1];
+    setScreen(topbar({ back: true }) +
+      '<main class="achieve" data-w="' + w.key + '"><section class="card achieve-card">' +
+      '<div class="medal">' + ic('trophy') + '</div>' +
+      '<p class="kicker">أنجزتِ العالم ' + (wi + 1) + ' من 4</p><h1>' + w.name + '</h1>' +
+      '<p class="score">نجوم هذا العالم: <b dir="ltr">' + worldStars(w) + ' / ' + (w.stages.length * QN) + '</b></p>' +
+      '<ul class="stage-list">' + w.stages.map(function (s) { return '<li><span>' + s.title + '</span>' + starsRow(S.stars[s.id] || 0, QN) + '</li>'; }).join('') + '</ul>' +
+      '<nav class="dl" aria-label="ملفات نهاية الفصل"><span class="dl-t">نهاية الفصل (PDF)</span>' + dlFile('w' + (wi + 1) + '-review', 'مراجعة الفصل', 'book') + dlFile('w' + (wi + 1) + '-exam', 'أسئلة نهاية الفصل', 'check') + '<span class="dl-msg" role="status"></span></nav>' +
+      '<div class="actions">' + (doneCount() === TOTAL_STAGES ? '<button type="button" class="btn btn-primary btn-xl" data-act="final">' + 'نتيجة الرحلة' + ic('trophy') + '</button>' :
+        '<button type="button" class="btn btn-primary btn-xl" data-act="map">' + (nextW ? 'إلى عالم ' + nextW.name : 'الخريطة') + ic('arrow', 'flip') + '</button>') + '</div>' +
+      '</section></main>', 'is-achieve w-' + w.key);
+    root.dataset.w = w.key;
+    sfx('win');
+  }
+
+  /* ---------- النتيجة النهائية ---------- */
+  function screenFinal() {
+    view = { name: 'final' };
+    S.seenFinal = true; save();
+    var total = starCount(), pct = Math.round(total / TOTAL_STARS * 100);
+    var msg = pct >= 90 ? 'رحلة مذهلة! أتقنتِ أغلب المراحل من المحاولة الأولى.' : pct >= 60 ? 'رحلة موفقة! أعيدي المراحل التي تنقصها نجوم لتكملي الإتقان.' : 'أكملتِ الرحلة كلها. راجعي المراحل وأعيدي التحدي لتحسين نجومك.';
+    setScreen(topbar({ back: true }) +
+      '<main class="final"><section class="card final-card"><div class="medal big">' + ic('trophy') + '</div>' +
+      '<p class="kicker">اكتملت الرحلة</p><h1>' + D.meta.title + '</h1>' +
+      '<div class="final-stats"><div><b dir="ltr">' + doneCount() + ' / ' + TOTAL_STAGES + '</b><span>مرحلة مكتملة</span></div><div><b dir="ltr">' + total + ' / ' + TOTAL_STARS + '</b><span>نجمة</span></div></div>' +
+      '<p class="msg">' + msg + '</p></section>' +
+      '<section class="review"><h2>راجعي المراحل</h2><div class="review-grid">' + D.worlds.map(function (w) {
+        return '<div class="rv-world" data-w="' + w.key + '"><h3>' + w.name + '</h3>' + w.stages.map(function (s) {
+          return '<button type="button" class="rv-stage" data-act="review" data-i="' + s.idx + '"><span class="rt">' + s.title + '</span>' + starsRow(S.stars[s.id] || 0, QN) + '</button>';
+        }).join('') + '</div>';
+      }).join('') + '</div></section>' +
+      '<div class="actions center"><button type="button" class="btn btn-primary btn-xl" data-act="map">' + 'الخريطة' + ic('map') + '</button><button type="button" class="btn btn-quiet" data-act="reset">' + 'ابدئي من جديد' + ic('redo') + '</button></div></main>', 'is-final');
+    sfx('win');
+  }
+
+  /* ---------- أنواع الأسئلة ---------- */
+  function makeInteraction(q, el) {
+    return ({ mcq: mcq, match: match, point: point, order: order })[q.type](q, el);
+  }
+
+  function mcq(q, el) {
+    var opts = q.options.map(function (t, i) { return { t: t, c: i === q.answer }; });
+    if (!q.fixed) opts = shuffle(opts);
+    var sel = -1, locked = false;
+    el.innerHTML = '<div class="opts" role="radiogroup" aria-label="الخيارات">' + opts.map(function (o, i) {
+      return '<button type="button" class="opt" role="radio" aria-checked="false" data-i="' + i + '"><span class="ol">' + LETTERS[i] + '</span><span class="ot">' + o.t + '</span><span class="oi" aria-hidden="true"></span><span class="vh ostate"></span></button>';
+    }).join('') + '</div>';
+    var btns = el.querySelectorAll('.opt');
+    el.addEventListener('click', function (e) {
+      var b = e.target.closest('.opt'); if (!b || locked) return;
+      sel = +b.dataset.i; sfx('tap');
+      btns.forEach(function (x, i) { x.classList.toggle('sel', i === sel); x.setAttribute('aria-checked', i === sel ? 'true' : 'false'); });
+      refreshCheck();
+    });
+    function setState(i, cls, icon, txt) { var b = btns[i]; b.classList.add(cls); b.querySelector('.oi').innerHTML = icon; b.querySelector('.ostate').textContent = txt; }
+    return {
+      ready: function () { return sel >= 0; },
+      check: function () { return opts[sel].c; },
+      mark: function (ok) { if (ok) setState(sel, 'ok', IC.check, ' — إجابة صحيحة'); else { setState(sel, 'no', IC.x, ' — إجابة غير صحيحة'); } },
+      reveal: function () { btns.forEach(function (b) { b.classList.remove('no'); b.querySelector('.oi').innerHTML = ''; b.querySelector('.ostate').textContent = ''; }); opts.forEach(function (o, i) { if (o.c) setState(i, 'ok', IC.check, ' — الإجابة الصحيحة'); }); },
+      lock: function () { locked = true; btns.forEach(function (b) { b.disabled = true; }); },
+      retry: function () { btns.forEach(function (b, i) { b.classList.remove('no', 'sel'); b.setAttribute('aria-checked', 'false'); b.querySelector('.oi').innerHTML = ''; b.querySelector('.ostate').textContent = ''; }); sel = -1; }
+    };
+  }
+
+  function match(q, el) {
+    var L = q.pairs.map(function (p, i) { return { t: p[0], i: i }; });
+    var Rr = shuffle(q.pairs.map(function (p, i) { return { t: p[1], i: i }; }), true);
+    var pairs = {}; // يسار -> يمين (فهرس في Rr)
+    var selL = -1, locked = false, shown = false;
+    el.innerHTML = '<p class="hintline">اختاري عنصرًا من العمود الأول ثم ما يقابله من العمود الثاني. اضغطي على عنصر موصول لفكّه.</p><div class="match"><div class="col colL" role="list"></div><div class="col colR" role="list"></div></div>';
+    var cl = el.querySelector('.colL'), cr = el.querySelector('.colR');
+    function pairNo(li) { var ks = Object.keys(pairs).map(Number).sort(function (a, b) { return a - b; }); return ks.indexOf(li) + 1; }
+    function draw() {
+      var used = {}; Object.keys(pairs).forEach(function (k) { used[pairs[k]] = +k; });
+      cl.innerHTML = L.map(function (o, i) {
+        var p = pairs[i] !== undefined;
+        return '<button type="button" role="listitem" class="mi ' + (selL === i ? 'sel ' : '') + (p ? 'paired ' : '') + (o.cls || '') + '" data-s="L" data-i="' + i + '"><span class="mt">' + o.t + '</span>' + (p ? '<span class="pn">' + (i + 1) + '</span>' : '') + '<span class="oi" aria-hidden="true">' + (o.icon || '') + '</span></button>';
+      }).join('');
+      cr.innerHTML = Rr.map(function (o, j) {
+        var li = used[j], p = li !== undefined;
+        return '<button type="button" role="listitem" class="mi ' + (p ? 'paired ' : '') + (o.cls || '') + '" data-s="R" data-j="' + j + '"><span class="mt">' + o.t + '</span>' + (p ? '<span class="pn">' + (li + 1) + '</span>' : '') + '<span class="oi" aria-hidden="true">' + (o.icon || '') + '</span></button>';
+      }).join('');
+    }
+    draw();
+    el.addEventListener('click', function (e) {
+      var b = e.target.closest('.mi'); if (!b || locked) return;
+      sfx('tap');
+      if (b.dataset.s === 'L') {
+        var i = +b.dataset.i;
+        if (pairs[i] !== undefined) { delete pairs[i]; selL = -1; L.forEach(function (o) { o.cls = ''; o.icon = ''; }); Rr.forEach(function (o) { o.cls = ''; o.icon = ''; }); }
+        else selL = (selL === i ? -1 : i);
+      } else {
+        var j = +b.dataset.j, owner = null;
+        Object.keys(pairs).forEach(function (k) { if (pairs[k] === j) owner = +k; });
+        if (owner !== null) { delete pairs[owner]; L.forEach(function (o) { o.cls = ''; o.icon = ''; }); Rr.forEach(function (o) { o.cls = ''; o.icon = ''; }); }
+        else if (selL >= 0) { pairs[selL] = j; selL = -1; }
+      }
+      draw(); refreshCheck();
+    });
+    function eachPair(fn) { Object.keys(pairs).forEach(function (k) { fn(+k, pairs[k]); }); }
+    return {
+      ready: function () { return Object.keys(pairs).length === L.length; },
+      check: function () { var ok = true; eachPair(function (l, j) { if (Rr[j].i !== L[l].i) ok = false; }); return ok; },
+      mark: function (ok) {
+        eachPair(function (l, j) { var good = Rr[j].i === L[l].i; L[l].cls = good ? 'ok' : 'no'; L[l].icon = good ? IC.check : IC.x; Rr[j].cls = good ? 'ok' : 'no'; Rr[j].icon = good ? IC.check : IC.x; });
+        draw();
+      },
+      reveal: function () {
+        pairs = {}; Rr.forEach(function (o, j) { pairs[o.i] = j; });
+        L.forEach(function (o) { o.cls = 'ok'; o.icon = IC.check; }); Rr.forEach(function (o) { o.cls = 'ok'; o.icon = IC.check; }); draw();
+      },
+      lock: function () { locked = true; el.querySelectorAll('.mi').forEach(function (b) { b.disabled = true; }); },
+      retry: function () { L.forEach(function (o) { o.cls = ''; o.icon = ''; }); Rr.forEach(function (o) { o.cls = ''; o.icon = ''; }); pairs = {}; selL = -1; draw(); }
+    };
+  }
+
+  function point(q, el) {
+    var sel = null, locked = false;
+    el.innerHTML = '<p class="hintline">اضغطي على الجزء المطلوب في الرسم' + (q.targets ? ' أو اختاريه من القائمة تحت الرسم' : '') + '.</p><div class="figure fig-hot">' + q.svg + '</div>' +
+      (q.targets ? '<div class="targets" role="radiogroup" aria-label="عناصر الرسم">' + q.targets.map(function (t) { return '<button type="button" class="tgt" role="radio" aria-checked="false" data-id="' + t.id + '">' + t.label + '<span class="oi" aria-hidden="true"></span></button>'; }).join('') + '</div>' : '');
+    var hots = el.querySelectorAll('[data-hot]');
+    hots.forEach(function (n) { n.setAttribute('tabindex', '0'); n.setAttribute('role', 'button'); n.setAttribute('aria-label', n.getAttribute('data-label') || n.getAttribute('data-hot')); });
+    function choose(id) {
+      if (locked) return; sel = id; sfx('tap');
+      hots.forEach(function (n) { n.classList.toggle('sel', n.getAttribute('data-hot') === id); });
+      el.querySelectorAll('.tgt').forEach(function (t) { t.classList.toggle('sel', t.dataset.id === id); t.setAttribute('aria-checked', t.dataset.id === id ? 'true' : 'false'); });
+      refreshCheck();
+    }
+    el.addEventListener('click', function (e) {
+      var n = e.target.closest('[data-hot]'); if (n) { choose(n.getAttribute('data-hot')); return; }
+      var t = e.target.closest('.tgt'); if (t) choose(t.dataset.id);
+    });
+    el.addEventListener('keydown', function (e) {
+      if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('[data-hot]')) { e.preventDefault(); choose(e.target.getAttribute('data-hot')); }
+    });
+    function paint(id, cls, icon) {
+      hots.forEach(function (n) { if (n.getAttribute('data-hot') === id) n.classList.add(cls); });
+      el.querySelectorAll('.tgt').forEach(function (t) { if (t.dataset.id === id) { t.classList.add(cls); t.querySelector('.oi').innerHTML = icon; } });
+    }
+    function clear() { hots.forEach(function (n) { n.classList.remove('ok', 'no', 'sel'); }); el.querySelectorAll('.tgt').forEach(function (t) { t.classList.remove('ok', 'no', 'sel'); t.querySelector('.oi').innerHTML = ''; t.setAttribute('aria-checked', 'false'); }); }
+    return {
+      ready: function () { return sel !== null; },
+      check: function () { return sel === q.answer; },
+      mark: function (ok) { paint(sel, ok ? 'ok' : 'no', ok ? IC.check : IC.x); },
+      reveal: function () { clear(); paint(q.answer, 'ok', IC.check); },
+      lock: function () { locked = true; el.querySelectorAll('.tgt').forEach(function (t) { t.disabled = true; }); },
+      retry: function () { clear(); sel = null; }
+    };
+  }
+
+  function order(q, el) {
+    var items = shuffle(q.steps.map(function (s, i) { return { t: s, i: i }; }), true);
+    var locked = false, marks = null, dragI = -1;
+    function draw() {
+      el.innerHTML = '<p class="hintline">رتّبي الخطوات من الأولى إلى الأخيرة: اسحبي البطاقة أو استعملي السهمين.</p><ol class="ord">' + items.map(function (o, p) {
+        var m = marks ? (marks[p] ? 'ok' : 'no') : '';
+        return '<li class="oi-row ' + m + '" draggable="' + (!locked) + '" data-p="' + p + '"><span class="pos">' + (p + 1) + '</span><span class="otxt">' + o.t + '</span>' +
+          '<span class="oi" aria-hidden="true">' + (m === 'ok' ? IC.check : m === 'no' ? IC.x : '') + '</span>' +
+          '<span class="mv"><button type="button" class="mvb" data-mv="-1" data-p="' + p + '" aria-label="تحريك للأعلى" ' + (locked || p === 0 ? 'disabled' : '') + '>' + IC.up + '</button><button type="button" class="mvb" data-mv="1" data-p="' + p + '" aria-label="تحريك للأسفل" ' + (locked || p === items.length - 1 ? 'disabled' : '') + '>' + IC.down + '</button></span></li>';
+      }).join('') + '</ol>';
+    }
+    draw();
+    function move(a, b) { if (b < 0 || b >= items.length || a === b) return; var t = items.splice(a, 1)[0]; items.splice(b, 0, t); marks = null; draw(); }
+    el.addEventListener('click', function (e) {
+      var b = e.target.closest('.mvb'); if (!b || locked) return;
+      sfx('tap'); var p = +b.dataset.p; move(p, p + (+b.dataset.mv));
+      var nb = el.querySelector('.mvb[data-p="' + (p + (+b.dataset.mv)) + '"][data-mv="' + b.dataset.mv + '"]') || el.querySelector('.mvb[data-p="' + (p + (+b.dataset.mv)) + '"]'); if (nb) nb.focus();
+    });
+    el.addEventListener('dragstart', function (e) { var r = e.target.closest('.oi-row'); if (!r || locked) return; dragI = +r.dataset.p; r.classList.add('drag'); try { e.dataTransfer.setData('text/plain', String(dragI)); e.dataTransfer.effectAllowed = 'move'; } catch (x) {} });
+    el.addEventListener('dragover', function (e) { if (dragI >= 0) e.preventDefault(); });
+    el.addEventListener('drop', function (e) { var r = e.target.closest('.oi-row'); if (!r || dragI < 0) return; e.preventDefault(); var to = +r.dataset.p, from = dragI; dragI = -1; move(from, to); });
+    el.addEventListener('dragend', function () { dragI = -1; var r = el.querySelector('.drag'); if (r) r.classList.remove('drag'); });
+    return {
+      ready: function () { return true; },
+      check: function () { return items.every(function (o, p) { return o.i === p; }); },
+      mark: function () { marks = items.map(function (o, p) { return o.i === p; }); draw(); },
+      reveal: function () { items = items.slice().sort(function (a, b) { return a.i - b.i; }); marks = items.map(function () { return true; }); locked = true; draw(); },
+      lock: function () { locked = true; draw(); },
+      retry: function () { marks = null; draw(); }
+    };
+  }
+
+  /* ---------- نوافذ المساعدة ---------- */
+  function showHowTo() {
+    openModal('كيف ألعب؟',
+      '<ol class="howto"><li>اختاري مرحلة مفتوحة من الخريطة. تُفتح المرحلة التالية بعد إنهاء السابقة.</li>' +
+      '<li>اقرئي بطاقة الملخص ثم المثال المحلول، ثم اضغطي «ابدئي التحدي».</li>' +
+      '<li>في كل تحدٍّ ثلاثة أسئلة. تنالين نجمة عن كل سؤال تجيبين عنه صحيحًا من المحاولة الأولى.</li>' +
+      '<li>عند الخطأ يظهر تلميح وتُعطين فرصة ثانية. بعد الخطأ الثاني يظهر الحل مع الشرح.</li>' +
+      '<li>زر «راجعي القاعدة» يعرض الملخص دون أن تخسري تقدمك. يمكنك إعادة أي مرحلة لتحسين نجومك، وتبقى أفضل نتيجة.</li>' +
+      '<li>العدّاد الأول يحسب المراحل من ١٦، والثاني يحسب النجوم من ٤٨. يُحفظ تقدمك على هذا الجهاز تلقائيًا.</li></ol>');
+  }
+  function showRule() {
+    var st = STAGES[R ? R.idx : (view.idx || 0)];
+    openModal('راجعي القاعدة: ' + st.title,
+      '<ul class="points">' + st.summary.points.map(function (p) { return '<li>' + p + '</li>'; }).join('') + '</ul>' + (st.summary.rule ? '<div class="rule"><span class="rule-t">' + ic('book') + 'القاعدة</span><div>' + st.summary.rule + '</div></div>' : ''),
+      [{ label: 'العودة إلى السؤال', cls: 'btn-primary' }]);
+  }
+  function confirmReset() {
+    openModal('البدء من جديد', '<p>سيُمسح كل تقدمك ونجومك المحفوظة على هذا الجهاز، وتعود المرحلة الأولى وحدها مفتوحة. لا يمكن التراجع عن ذلك.</p>',
+      [{ label: 'نعم، امسحي التقدم', cls: 'btn-danger', fn: function () { var m = S.muted; S = defState(); S.muted = m; save(); R = null; screenMap(); } }, { label: 'إلغاء', cls: 'btn-ghost' }]);
+  }
+
+  /* ---------- التوجيه عبر الأحداث ---------- */
+  function goStage(idx, el) {
+    var st = STAGES[idx];
+    if (!unlocked(st)) {
+      openModal('المرحلة مقفلة', '<p>أنهي المرحلة «' + STAGES[idx - 1].title + '» أولًا لتُفتح هذه المرحلة.</p>');
+      return;
+    }
+    gate(el, function () { screenIntro(idx, 0, false); });
+  }
+  root.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-act]'); if (!b) return;
+    var a = b.dataset.act, i = +b.dataset.i;
+    if (a !== 'check' && a !== 'next-q') sfx('tap');
+    switch (a) {
+      case 'begin': gate(b, screenMap); break;
+      case 'map': closeModal(); screenMap(); break;
+      case 'howto': showHowTo(); break;
+      case 'dl': doDownload(b); break;
+      case 'print': doPrint(b); break;
+      case 'sound': S.muted = !S.muted; save(); sfx('tap'); rerenderBar(); break;
+      case 'reset': confirmReset(); break;
+      case 'stage': case 'continue': goStage(i, b); break;
+      case 'intro-next': screenIntro(view.idx, 1, view.review); break;
+      case 'intro-back': screenIntro(view.idx, 0, view.review); break;
+      case 'start-challenge': gate(b, function () { startRun(i); }); break;
+      case 'rule': showRule(); break;
+      case 'check': doCheck(b); break;
+      case 'retry':
+        R.cur.retry(); document.getElementById('qfb').className = 'q-fb'; document.getElementById('qfb').innerHTML = ''; renderQActions(); break;
+      case 'next-q':
+        if (R.qi < QN - 1) { R.qi++; screenQuestion(); } else finishRun(); break;
+      case 'replay': gate(b, function () { startRun(i); }); break;
+      case 'after-result': {
+        var st = STAGES[i];
+        if (doneCount() === TOTAL_STAGES && !S.seenFinal) screenFinal(); else screenWorld(st.wi);
+        break; }
+      case 'final': screenFinal(); break;
+      case 'review': screenIntro(i, 0, true); break;
+    }
+  });
+  function rerenderBar() {
+    var tb = root.querySelector('.topbar'); if (!tb) return;
+    var hasBack = !!tb.querySelector('[data-act="map"]');
+    tb.outerHTML = topbar({ back: hasBack });
+  }
+
+  /* ---------- البداية ---------- */
+  screenStart();
+
+  /* واجهة اختبار */
+  window.__game = { S: function () { return S; }, STAGES: STAGES, show: { map: screenMap, world: screenWorld, result: screenResult }, doneCount: doneCount, starCount: starCount };
+})();
+
+</script>
+</body>
+</html>
